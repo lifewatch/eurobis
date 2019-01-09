@@ -11,5 +11,5 @@ RoxygenNote: 6.1.1
 
 
 Imports:
-dplyr,
-data.table
+    dplyr,
+    data.table
