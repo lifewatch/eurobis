@@ -1,10 +1,15 @@
 Package: REMODBio
-Title: What the Package Does (one line, title case)
+Title: EMODnet Biology data download package
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: person("Daphnis", "De Pooter", email = "daphnisd@vliz.be", role = c("aut", "cre"))
+Description: Downloads data using the EMODnet Biology WFS
 Depends: R (>= 3.4.4)
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+
+
+Imports:
+dplyr,
+data.table

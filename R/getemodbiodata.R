@@ -3,8 +3,8 @@
 #'
 #' This function allows you to download data using aphiaID, dasid or using an geoserverURL you get from the EMODnet Biology toolbox
 #' @param geourl optional parameter, in case you use the geoserverURL obtained through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox/en/download/occurrence/explore
-#' @param dasid optional parameter, in case you want to dowload a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url)
-#' @param aphiaid optional parameter, in case you want to dowload data from a single taxon. uses the id obtained throug ww.marinespecies.org
+#' @param dasid optional parameter, in case you want to download a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url)
+#' @param aphiaid optional parameter, in case you want to download data from a single taxon. uses the id obtained throug ww.marinespecies.org
 #' @keywords 
 #' @export
 #' @examples
