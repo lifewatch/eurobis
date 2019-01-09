@@ -2,7 +2,8 @@
 
 
 An R function to get from the EMODnet Biology WFS. This function allows you to download data using aphiaID, dasid or using an geoserverURL you get from the EMODnet Biology toolbox
-Usage:
+
+## Usage:
 
 devtools::install_github("Daphnisd/REMODBio")
 library("REMODBio")
