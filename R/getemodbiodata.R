@@ -15,7 +15,9 @@
 
 
 getemodbiodata <- function(geourl = "NO", dasid = "NO", aphiaid = "NO"){
-
+  require("dplyr")
+  require("data.table")
+  
     if (geourl != "NO") {
     emodnetbiodata <- geourl
     } else  if (aphiaid != "NO") {
@@ -25,8 +27,6 @@ getemodbiodata <- function(geourl = "NO", dasid = "NO", aphiaid = "NO"){
   } else {print ("please provide valid input")}
   
   
-  require("dplyr")
-  require("data.table")
   
   downloaddata <- list()
   

@@ -9,9 +9,9 @@ getemodbiodata(geourl = "NO", dasid = "NO", aphiaid = "NO")
 \arguments{
 \item{geourl}{optional parameter, in case you use the geoserverURL obtained through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox/en/download/occurrence/explore}
 
-\item{dasid}{optional parameter, in case you want to dowload a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url)}
+\item{dasid}{optional parameter, in case you want to download a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url)}
 
-\item{aphiaid}{optional parameter, in case you want to dowload data from a single taxon. uses the id obtained throug ww.marinespecies.org}
+\item{aphiaid}{optional parameter, in case you want to download data from a single taxon. uses the id obtained throug ww.marinespecies.org}
 }
 \description{
 This function allows you to download data using aphiaID, dasid or using an geoserverURL you get from the EMODnet Biology toolbox
