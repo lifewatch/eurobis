@@ -13,7 +13,7 @@ install.packages("devtools")
 devtools::install_github("Daphnisd/REMODBio")
 library("REMODBio")
 ```
-## download data:
+## Download data:
 
 `getemodbiodata(dasid = "4662")` download data for the dataset http://www.emodnet-biology.eu/data-catalog?dasid=4662. Get datasetid through http://www.emodnet-biology.eu/data-catalog
 
