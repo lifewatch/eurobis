@@ -9,5 +9,8 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     dplyr,
-    data.table
+    data.table,
+    stringr,
+    imis,
+    rlang
 RoxygenNote: 6.1.1
