@@ -51,7 +51,8 @@ if (any(wfsurls != "please provide geourl dasid or aphiaid")){
       rm(emoddata)
     }
     
-if (type == "full"){
+if (exists("comemoddata") == FALSE) {print("no data in selection")} else {
+  if (type == "full"){
     fulloccurrence <- comemoddata %>% select (FID:samplingprotocol, qc) %>% distinct()
     
     toflattenpara <- comemoddata %>% select (1, parameter, parameter_value) %>% distinct()
@@ -110,5 +111,5 @@ if (type == "full"){
     
     return(out)
 
-}}
+}}}
 
