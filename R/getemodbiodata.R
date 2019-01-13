@@ -6,7 +6,7 @@
 #' @param aphiaid optional parameter, in case you want to download data from a single taxon. uses the id obtained throug ww.marinespecies.org
 #' @param startyear optional parameter, the earliest year the collected specimen might have been collected
 #' @param endyear optional parameter, the latest year the collected specimen might have been collected
-#' @param type indicates which fields you want returned from the WFS (to be implemented)
+#' @param type indicates if you want a basic download "basic" (only date, coordinates and taxon) or you want all data "full" returned from the WFS
 #' @import dplyr 
 #' @export
 #' @examples
@@ -18,59 +18,13 @@
 
 
 
-getemodbiodata <- function(geourl = NA, dasid = NA, aphiaid = NA, startyear = NA, endyear = NA, type ="para"){
+getemodbiodata <- function(geourl = NA, dasid = NA, aphiaid = NA, startyear = NA, endyear = NA, type ="full"){
   
-  if (type == "para") {
-    geolayer = "eurobis-obisenv"
-  } else if (type == "full") {
-    geolayer = "eurobis-full"  
-  } else if (type == "basic") {
-    geolayer = "basic"
-  }
-  
-  if(any(is.na(geourl)) & any(is.na(dasid)) & any(is.na(aphiaid))) {print("please provide geourl dasid or aphiaid")
-  } else {
-    
-    if(!is.na(geourl)) {
-      wfsprefix <-"http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv&viewParams=where:"
-      wfssuffix <- paste0("+AND+",richtfrom(geourl, 'Params=where',3))
-    } else {
-      wfsprefix <-"http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv&viewParams=where:"
-      wfssuffix <-"&outputformat=csv"
-    }
-    
-    if (any(!is.na(dasid)))  { datasetpart <- paste0("datasetid=", dasid, "+AND+")  
-    } else {datasetpart <-"" }
-    
-    if (any(!is.na(aphiaid))) { aphiapart <- paste0("(aphiaid=",aphiaid,"+OR+aphiaidaccepted=",aphiaid,")+AND+")
-    } else {aphiapart <-"" } 
-    
-    if (!is.na(startyear) & is.na(endyear)) {endyear = format(Sys.Date(), "%Y")}
-    if (is.na(startyear) & !is.na(endyear)) {startyear = "1850" }
-    
-    if (is.na(startyear)) {
-      wfsurls <- paste0(wfsprefix, datasetpart, aphiapart, "yearcollected=NULL", wfssuffix)
-      
-      for (i in 1850:format(Sys.Date(), "%Y")){
-        yearcollectedpart <- paste0("yearcollected=",i)
-        wfsurl <-  paste0(wfsprefix, datasetpart, aphiapart, yearcollectedpart, wfssuffix)
-        wfsurls <-  c(wfsurls,wfsurl)
-      }
-    }
-    
-    if (!is.na(startyear)) {
 
-       for (i in startyear:endyear){
-        yearcollectedpart <- paste0("yearcollected=",i)
-       
-        wfsurl <-  paste0(wfsprefix, datasetpart, aphiapart, yearcollectedpart, wfssuffix)
-        if (exists("wfsurls")) {
-       wfsurls <-  c(wfsurls,wfsurl) } else { 
-         wfsurls <-wfsurl   }
-      }
-    }
-    
-    
+wfsurls <-  createwfsurls(geourl, dasid, aphiaid, startyear, endyear, type)
+
+if (any(wfsurls != "please provide geourl dasid or aphiaid")){
+
     for (j in wfsurls) {
       print(j)
       
@@ -86,58 +40,75 @@ getemodbiodata <- function(geourl = NA, dasid = NA, aphiaid = NA, startyear = NA
         
         emoddata <- data.frame(lapply(emoddata, as.character), stringsAsFactors=FALSE)
         
-        fulloccurrence <- emoddata %>% select (FID:samplingprotocol, qc) %>% distinct()
-        fulloccurrence[fulloccurrence =='NA' | fulloccurrence =='' | fulloccurrence ==' '] <- NA
-        fulloccurrence <- fulloccurrence[,colSums(is.na(fulloccurrence))<nrow(fulloccurrence)]
-        
-        
-        toflattenpara <- emoddata %>% select (1, parameter, parameter_value) %>% distinct()
-        toflattenev <- emoddata %>% select (1, event, event_type) %>% filter (!is.na(event_type) & event_type != "") %>% distinct()
-        
-        parameters <- toflattenpara %>% data.table::dcast(FID ~ parameter, value.var=c("parameter_value"))
-        if (nrow(toflattenev)>0){
-          suppressWarnings(events <- toflattenev %>% data.table::dcast(FID ~ event_type, value.var=c("event")) %>% select(FID, one_of(c("cruise","stationVisit", "sample", "subsample"))))
-        } else {events <- toflattenev %>% select (FID)}
-        occurrenceflat <-  events %>% full_join(fulloccurrence, by ="FID") %>% full_join(parameters, by ="FID")
-        
-        if (exists("alloccurrenceflat")){
-          alloccurrenceflat <- bind_rows(alloccurrenceflat, occurrenceflat)
+        if (exists("comemoddata")){
+          comemoddata <- bind_rows(comemoddata, emoddata)
         } else { 
-          alloccurrenceflat<-occurrenceflat
+          comemoddata<-emoddata
         }
-        
-        paradescriptions <-  emoddata %>% select (datasetid, parameter, parameter_measurementtypeid:parameter_conversion_factor_to_standard_unit) %>% distinct()
-        
-        
-        if (exists("allparadescriptions")){
-          allparadescriptions <- bind_rows(allparadescriptions, paradescriptions) %>% distinct()
-        } else { 
-          allparadescriptions<-paradescriptions
-        }
-        
-        rm(fulloccurrence,occurrenceflat,events,parameters,toflattenev,toflattenpara, paradescriptions)
         
       }
+      
       rm(emoddata)
     }
     
-    meta <- alloccurrenceflat %>% group_by(datasetid) %>% summarise(numberofrecords = n()) %>%  mutate(freq = numberofrecords / sum(numberofrecords))%>% ungroup() %>%
+if (type == "full"){
+    fulloccurrence <- comemoddata %>% select (FID:samplingprotocol, qc) %>% distinct()
+    
+    toflattenpara <- comemoddata %>% select (1, parameter, parameter_value) %>% distinct()
+    toflattenev <- comemoddata %>% select (1, event, event_type) %>% filter (!is.na(event_type) & event_type != "") %>% distinct()
+    
+    parameters <- toflattenpara %>% data.table::dcast(FID ~ parameter, value.var=c("parameter_value"))
+    if (nrow(toflattenev)>0){
+      suppressWarnings(events <- toflattenev %>% data.table::dcast(FID ~ event_type, value.var=c("event")) %>% select(FID, one_of(c("cruise","stationVisit", "sample", "subsample"))))
+    } else {events <- toflattenev %>% select (FID)}
+    occurrenceflat <-  events %>% full_join(fulloccurrence, by ="FID") %>% full_join(parameters, by ="FID")
+    
+    
+    occurrenceflat[occurrenceflat =='NA' | occurrenceflat =='' | occurrenceflat ==' '] <- NA
+    occurrenceflat <- occurrenceflat[,colSums(is.na(occurrenceflat))<nrow(occurrenceflat)]
+    
+    parainclude <- names(occurrenceflat)
+   
+    paradescriptions <-  comemoddata %>% select (datasetid, parameter, parameter_measurementtypeid:parameter_conversion_factor_to_standard_unit) %>% filter (!is.na(parameter)) %>% distinct()
+    
+    paradescriptions <- fulldata %>%  mutate (parameterPreferredLabel = Term) %>% select ( parameterName = Term, parameterID = DarwinCore.URI, 
+                                              parameterPreferredLabel, parameterDefinition = Definition) %>% 
+                                  filter (parameterName %in% parainclude) %>%
+      bind_rows(paradescriptions %>% select (parameterName=parameter, parameterID=parameter_measurementtypeid, 
+                                        parameterPreferredLabel=parameter_bodcterm,  parameterDefinition=parameter_bodcterm_definition,
+                                        parameterUnit=parameter_standardunit, parameterUnitID=parameter_standardunitid,
+                                        originalMeasurementType =parameter_original_measurement_type	,originalMeasurementUnit =parameter_original_measurement_unit,
+                                        conversionFactor=parameter_conversion_factor_to_standard_unit, datasetID =datasetid ,
+                                        datasetIPTurl =parameter_ipturl)) 
+                
+
+    
+    rm(fulloccurrence,events,parameters,toflattenev,toflattenpara)
+    } else if (type == "basic") {
+      occurrenceflat  <- comemoddata 
+      paradescriptions <- basicdata %>%  mutate (parameterPreferredLabel = Term) %>% select( parameterName = Term, parameterID = DarwinCore.URI, 
+                                                parameterPreferredLabel, parameterDefinition = Definition)
+    }
+    
+    meta <- occurrenceflat %>% group_by(datasetid) %>% summarise(numberofrecords = n()) %>%  mutate(proportionofdataset = numberofrecords/ sum(numberofrecords))%>% ungroup() %>%
       mutate(dasid =  richtfrom(datasetid, 'dasid=', 5))
+    
     
     print("getting imis data")
     datasets<-getcitations(meta$dasid)
     
     datasets <- datasets %>% left_join(meta, by ="dasid") %>%
-        select (dasid, numberofrecords, freq, title, citation, licence)
+        select (dasid, numberofrecords, proportionofdataset, title, citation, licence, accessconstraint) %>% arrange(desc(proportionofdataset)) %>%
+        mutate(dasid = paste0("http://www.emodnet-biology.eu/data-catalog?dasid=",dasid))
     
     
     out<-list()      
-    out$meta <- allparadescriptions 
-    out$data <- alloccurrenceflat
+    out$meta <- paradescriptions 
+    out$data <- occurrenceflat
     out$datasets <- datasets
     
     
-    
     return(out)
-  }
-}
+
+}}
+

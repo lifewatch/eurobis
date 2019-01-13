@@ -11,5 +11,3 @@ substrRight <- function(x, n){
 richtfrom <- function(x, y, n = 0) {
   substrRight(x, nchar(x)-stringr::str_locate(x, y)[1] - n)
   }
-
-

@@ -13,7 +13,6 @@ getcitations <- function (dasid) {
 
 datasetrecords <- datasets(dasid)
   
-  
 for (i in 1:length(datasetrecords)){
   for (j in 1:length(datasetrecords[[i]]$urls)){
     for (k in 1:length(datasetrecords[[i]]$dois)){
@@ -28,7 +27,10 @@ for (i in 1:length(datasetrecords)){
           DOI = unlist(datasetrecords[[i]]$dois[[k]]$DOIID),
           doicitation = unlist(datasetrecords[[i]]$dois[[k]]$Citation),
           imiscitation = unlist(datasetrecords[[i]]$datasetrec$Citation),
-          licence = unlist(datasetrecords[[i]]$datasetrec$AccConstrEN)
+          licence = unlist(datasetrecords[[i]]$datasetrec$AccConstrEN),
+          accessconstraint = unlist(datasetrecords[[i]]$datasetrec$AccessConstraints),
+          abstract = unlist(datasetrecords[[i]]$datasetrec$EngAbstract),
+          description = unlist(datasetrecords[[i]]$datasetrec$EngDescr)
         ))})
     }
     r1 <-bind_rows(unlist(l))
@@ -42,17 +44,19 @@ for (i in 1:length(datasetrecords)){
   } else { 
     returndatasets<-r2} }
 
-returndatasets <- returndatasets %>% fncols(c("dasid","title","url","urltype","DOI","doicitation","imiscitation","licence"))
+returndatasets <- returndatasets %>% fncols(c("dasid","title","url","urltype","DOI","doicitation","imiscitation","licence","accessconstraint","abstract", "description"))
 
-c1 <- returndatasets %>% select (dasid, title, licence,imiscitation) %>% distinct()
+c1 <- returndatasets %>% select (dasid, title, licence,imiscitation,accessconstraint,abstract, description) %>% distinct()
 c2 <- returndatasets %>% filter (urltype == "DOI" ) %>% select (dasid, url) %>% distinct()
 c3 <- returndatasets %>% filter (!is.na(DOI)) %>% group_by(dasid) %>% summarise (selectdoi = max(DOI)) %>% ungroup()
 c4 <- returndatasets %>% select (dasid, DOI, doicitation) %>% filter (DOI %in% c3$selectdoi) %>% distinct_()
 
 datasets <- c1  %>% left_join(c2, by="dasid") %>% left_join(c4, by="dasid") %>% 
-  mutate(citation = if_else(!is.na(doicitation),paste0(doicitation, " dx.doi.org/",DOI),
-                            if_else(!is.na(url), paste0(imiscitation, " ",url), imiscitation))) %>%
-  select (dasid, title, citation, licence)
+  mutate(citation = if_else(!is.na(doicitation),paste0(doicitation, " https://doi.org/10.14284/",DOI),
+                            if_else(!is.na(url), paste0(imiscitation, " ",url), imiscitation)),
+         DOI = if_else(!is.na(DOI),paste0(" https://doi.org/10.14284/",DOI),
+                        if_else(!is.na(url), url, ""))) %>%
+  select (dasid, title, citation, DOI, licence, accessconstraint,abstract, description)
 
 return(datasets)
 }
