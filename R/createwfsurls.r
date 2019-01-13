@@ -1,4 +1,4 @@
-#' Helpfunction to create the wfsul
+#' Helpfunction to create the wfsurl
 #'
 #' @export
 

@@ -2,11 +2,11 @@
 % Please edit documentation in R/createwfsurls.r
 \name{createwfsurls}
 \alias{createwfsurls}
-\title{Helpfunction to create the wfsul}
+\title{Helpfunction to create the wfsurl}
 \usage{
 createwfsurls(geourl = NA, dasid = NA, aphiaid = NA,
   startyear = NA, endyear = NA, type = "full")
 }
 \description{
-Helpfunction to create the wfsul
+Helpfunction to create the wfsurl
 }
