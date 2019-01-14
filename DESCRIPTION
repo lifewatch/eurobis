@@ -3,7 +3,6 @@ Title: EMODnet Biology data download package
 Version: 0.0.0.9000
 Authors@R: person("Daphnis", "De Pooter", email = "daphnisd@vliz.be", role = c("aut", "cre"))
 Description: Downloads data using the EMODnet Biology WFS
-Depends: R (>= 3.4.4)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -11,7 +10,6 @@ Imports:
     dplyr,
     data.table,
     stringr,
-    imis,
     finch,
     rlang
 RoxygenNote: 6.1.1

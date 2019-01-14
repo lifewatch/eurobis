@@ -14,11 +14,12 @@ getcitations <- function (dasid) {
   dasid <- dasid[(dasid != "")]
   
 datasetrecords <- datasets(dasid)
-  
+
+
 for (i in 1:length(datasetrecords)){
   for (j in 1:length(datasetrecords[[i]]$urls)){
     for (k in 1:length(datasetrecords[[i]]$dois)){
-      
+
       l <- lapply(datasetrecords, function(term) {
         element <- rlang::as_list(term)
         return(list(
@@ -34,7 +35,8 @@ for (i in 1:length(datasetrecords)){
           abstract = unlist(datasetrecords[[i]]$datasetrec$EngAbstract),
           description = unlist(datasetrecords[[i]]$datasetrec$EngDescr)
         ))})
-    }
+      }
+    
     r1 <-bind_rows(unlist(l))
     if (exists("r2")){
       r2 <- bind_rows(r2, r1)
