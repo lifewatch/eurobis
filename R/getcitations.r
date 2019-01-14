@@ -10,7 +10,9 @@
 
 
 getcitations <- function (dasid) {
-
+  dasid <- unique(dasid[!is.na(dasid)])
+  dasid <- dasid[(dasid != "")]
+  
 datasetrecords <- datasets(dasid)
   
 for (i in 1:length(datasetrecords)){
