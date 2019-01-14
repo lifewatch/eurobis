@@ -12,5 +12,6 @@ Imports:
     data.table,
     stringr,
     imis,
+    finch,
     rlang
 RoxygenNote: 6.1.1

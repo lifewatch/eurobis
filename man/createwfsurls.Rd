@@ -5,7 +5,7 @@
 \title{Helpfunction to create the wfsurl}
 \usage{
 createwfsurls(geourl = NA, dasid = NA, aphiaid = NA,
-  startyear = NA, endyear = NA, type = "full")
+  startyear = "1850", endyear = NA, type = "full")
 }
 \description{
 Helpfunction to create the wfsurl

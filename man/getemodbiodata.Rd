@@ -5,7 +5,7 @@
 \title{Get data from the EMODnet Biology WFS}
 \usage{
 getemodbiodata(geourl = NA, dasid = NA, aphiaid = NA,
-  startyear = NA, endyear = NA, type = "full")
+  startyear = "1850", endyear = NA, type = "full")
 }
 \arguments{
 \item{geourl}{optional parameter, in case you use the geoserverURL obtained through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox/en/download/occurrence/explore}

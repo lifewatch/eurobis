@@ -3,5 +3,8 @@
 export(createwfsurls)
 export(getcitations)
 export(getemodbiodata)
+export(getoriginaldata)
+import(RCurl)
 import(dplyr)
+import(finch)
 import(imis)

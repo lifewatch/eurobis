@@ -18,7 +18,7 @@
 
 
 
-getemodbiodata <- function(geourl = NA, dasid = NA, aphiaid = NA, startyear = NA, endyear = NA, type ="full"){
+getemodbiodata <- function(geourl = NA, dasid = NA, aphiaid = NA, startyear = "1850", endyear = NA, type ="full"){
   
 
 wfsurls <-  createwfsurls(geourl, dasid, aphiaid, startyear, endyear, type)
@@ -90,8 +90,7 @@ if (exists("comemoddata") == FALSE) {print("no data in selection")} else {
       paradescriptions <- basicdata %>%  mutate (parameterPreferredLabel = Term) %>% select( parameterName = Term, parameterID = DarwinCore.URI, 
                                                 parameterPreferredLabel, parameterDefinition = Definition)
     }
-    
-    meta <- occurrenceflat %>% group_by(datasetid) %>% summarise(numberofrecords = n()) %>%  mutate(proportionofdataset = numberofrecords/ sum(numberofrecords))%>% ungroup() %>%
+  meta <- occurrenceflat %>% group_by(datasetid) %>% summarise(numberofrecords = n()) %>% mutate(proportionofdataset = numberofrecords/ sum(numberofrecords))%>% ungroup() %>%
       mutate(dasid =  richtfrom(datasetid, 'dasid=', 5))
     
     

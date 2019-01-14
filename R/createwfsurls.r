@@ -3,7 +3,7 @@
 #' @export
 
 
-createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, startyear = NA, endyear = NA, type="full") {
+createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, startyear = "1850", endyear = NA, type="full") {
   
   
   if (type == "full") {
@@ -28,11 +28,10 @@ createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, startyear = NA
     if (any(!is.na(aphiaid))) { aphiapart <- paste0("(aphiaid=",aphiaid,"+OR+aphiaidaccepted=",aphiaid,")+AND+")
     } else {aphiapart <-"" } 
     
-    if (!is.na(startyear) & is.na(endyear)) {endyear = format(Sys.Date(), "%Y")}
-    if (is.na(startyear) & !is.na(endyear)) {startyear = "1850" }
-    
-    if (is.na(startyear)) {
-      wfsurls <- paste0(wfsprefix, datasetpart, aphiapart, "yearcollected=NULL", wfssuffix)
+    if (is.na(endyear)) {endyear = format(Sys.Date(), "%Y")}
+
+    if (startyear == "1850") {
+      wfsurls <- paste0(wfsprefix, datasetpart, aphiapart, "yearcollected is null", wfssuffix)
       
       for (i in 1850:format(Sys.Date(), "%Y")){
         yearcollectedpart <- paste0("yearcollected=",i)
@@ -41,7 +40,7 @@ createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, startyear = NA
       }
     }
     
-    if (!is.na(startyear)) {
+    if (startyear != "1850") {
       
       for (i in startyear:endyear){
         yearcollectedpart <- paste0("yearcollected=",i)
