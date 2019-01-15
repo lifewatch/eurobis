@@ -36,7 +36,7 @@ if (any(wfsurls != "please provide geourl dasid or aphiaid")){
         file.remove(file)  
         rm(file)
       })
-      if ( nrow(emoddata) > 0 ){
+      if ( nrow(emoddata) > 0 & length(emoddata) > 2 ){
         
         emoddata <- data.frame(lapply(emoddata, as.character), stringsAsFactors=FALSE)
         
