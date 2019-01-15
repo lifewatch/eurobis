@@ -3,7 +3,6 @@
 export(cleandataframe)
 export(createwfsurls)
 export(fncols)
-export(getcitations)
 export(getemodbiodata)
 export(getoriginaldata)
 export(richtfrom)
