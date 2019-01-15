@@ -12,5 +12,5 @@ Imports:
     stringr,
     finch,
     rlang
-Remotes: EMODNET/imis
+Remotes: EMODnet/imis
 RoxygenNote: 6.1.1

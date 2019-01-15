@@ -9,7 +9,6 @@ fncols <- function(data, cname) {
 }
 
 
-
 substrRight <- function(x, n){
   substr(x, nchar(x)-n+1, nchar(x))
 }
@@ -21,6 +20,14 @@ richtfrom <- function(x, y, n = 0) {
   substrRight(x, nchar(x)-stringr::str_locate(x, y)[1] - n)
   }
 
+#' get the mid characters from a string
+#' @export
+
+sectioninstring <- function(text, starchar, n, endchar, m) {
+  substr(text, stringr::str_locate(text, starchar)[1] - n, stringr::str_locate(text, endchar)[1] - m) }
+
+
+#'
 eventhierarchy <- c("cruise", "stationVisit", "sample", "subsample", "eventID")
 
 
