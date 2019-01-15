@@ -1,7 +1,7 @@
 # REMODBio
 
 
-An R function to get from the EMODnet Biology WFS. This function allows you to download data using aphiaID, dasID or an geoserverURL you get from the EMODnet Biology toolbox
+An R function to get data from the EMODnet Biology WFS. This function allows you to download data using aphiaID, dasID or an geoserverURL you get from the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox
 
 
 ## Installation
