@@ -18,7 +18,7 @@ library("REMODBio")
 
 - `getemodbiodata(dasid = "4662")`   - download data from a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url)
 
-- `getemodbiodata(aphiaid = "141433")` - download data from a single taxon. Use the id obtained through ww.marinespecies.org
+- `getemodbiodata(aphiaid = "141433")` - download data from a single taxon. Use the id obtained through www.marinespecies.org
 
 - `getemodbiodata(dasid = "1884", type ="basic")`
 
