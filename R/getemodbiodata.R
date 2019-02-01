@@ -95,7 +95,7 @@ if (exists("comemoddata") == FALSE) {print("no data in selection")} else {
     
     
     print("getting imis data")
-    datasets<-getcitations(meta$dasid)
+    datasets<-getdascitations(meta$dasid)
     
     datasets <- datasets %>% left_join(meta, by ="dasid") %>%
         select (dasid, numberofrecords, proportionofdataset, title, citation, licence, accessconstraint) %>% arrange(desc(proportionofdataset)) %>%
