@@ -17,7 +17,7 @@ createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, startyear = "1
   
       wfsprefix <-paste0("http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Dataportal%3A",geolayer,"&viewParams=where:")
     if(!is.na(geourl)) {
-      if (any(grepl(geourl, "propertyName"))) {
+      if (any(grepl("propertyName", geourl))) {
       wfssuffix <- paste0("+AND+",sectioninstring (geourl, starchar="Params=where", n=-15, endchar = "propertyName=", m=2 ),"&outputformat=csv")} else {
       wfssuffix <- paste0("+AND+",richtfrom(geourl, 'Params=where',14)) 
       }   } else {
