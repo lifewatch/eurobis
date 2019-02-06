@@ -41,7 +41,7 @@ List with 3 data frames
 
 If data are extracted from the EMODnet Data Portal for secondary analysis resulting in a publication, the appropriate source should be cited.
 
-The downloaded data should be cited as: EMODnet Biology (yyyy) Basic Occurrence Data downloaded from the EMODnet Biology Project (www.emodnet-biology.eu). Available online at www.emodnet-biology.eu/toolbox, consulted on yyyy-mm-dd.
+The downloaded data should be cited as: EMODnet Biology (yyyy) Fulll Occurrence Data and parameters downloaded from the EMODnet Biology Project (www.emodnet-biology.eu). Available online at www.emodnet-biology.eu/toolbox, consulted on yyyy-mm-dd.
 
 Regarding the citation of the individual datasets, the following guidelines should be taken into account:
 
