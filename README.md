@@ -33,3 +33,19 @@ List with 3 data frames
 - data - downloaded records
 - meta - the descriptions of the terms
 - datasets - the titles, citations and licences of the datasets used in the download
+
+
+
+
+## Disclaimer
+
+If data are extracted from the EMODnet Data Portal for secondary analysis resulting in a publication, the appropriate source should be cited.
+
+The downloaded data should be cited as: EMODnet Biology (2019) Basic Occurrence Data downloaded from the EMODnet Biology Project (www.emodnet-biology.eu). Available online at www.emodnet-biology.eu/toolbox, consulted on yyyy-mm-dd.
+
+Regarding the citation of the individual datasets, the following guidelines should be taken into account:
+
+- If any individual data source of EurOBIS constitutes a significant proportion of the downloaded and used records (e.g. more than 10% of the data is derived from a single source), the individual data source should also be cited.
+- If any individual data source of EurOBIS constitutes a substantial proportion of the downloaded and used records (e.g. more than 25% of the data is derived from a single source or the data is essential to arrive at the conclusion of the analysis), the manager or custodian of this data set should be contacted.
+- In any case, it may be useful to contact the data custodian directly. The data custodian might have additional data available that may strengthen the analysis or he/she might be able to provide additional helpful information that may not be apparent from the provided metadata.
+- The data may not be redistributed without the permission of the appropriate data owners. If data are extracted from the EMODnet Data Portal for redistribution, please contact us at bio@emodnet.eu.
