@@ -21,11 +21,11 @@ library("REMODBio")
 
 - `getemodbiodata(aphiaid = "141433")` - download data from a single taxon. Use the id obtained through www.marinespecies.org
 
-- `getemodbiodata(dasid = "1884", type ="basic")`
+- `getemodbiodata(dasid = "1884", type ="basic")` - download data only for 8 essential collumns (see http://www.emodnet-biology.eu/node/172#Basic) 
 
 - `getemodbiodata(dasid = c("1884","618", "5780" ), aphiaid = "2036", startyear = "1980", endyear = "2010")`
 
-- `getemodbiodata(geourl = "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv&resultType=results&viewParams=where%3Adatasetid+IN+%285885%29%3Bcontext%3A0100&outputFormat=csv")` download data using the WFS urls optained through the EMODnet toolbox at http://www.emodnet-biology.eu/toolbox/en/download/occurrence/explore 
+- `getemodbiodata(geourl = "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv&resultType=results&viewParams=where%3Adatasetid+IN+%285885%29%3Bcontext%3A0100&outputFormat=csv")` download data using the WFS urls optained through the EMODnet toolbox at http://www.emodnet-biology.eu/toolbox/en/download/occurrence/explore (- you make your selection and copi-paste the url behind the "get webservice url" button)
 
 ## Output:
 
