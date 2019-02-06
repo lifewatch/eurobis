@@ -33,7 +33,7 @@ createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, startyear = "1
     if (is.na(endyear)) {endyear = format(Sys.Date(), "%Y")}
 
     if (startyear == "1850") {
-      wfsurls <- paste0(wfsprefix, datasetpart, aphiapart, "yearcollected is null", wfssuffix)
+      wfsurls <- paste0(wfsprefix, datasetpart, aphiapart, "yearcollected%20is%20null", wfssuffix)
       
       for (i in 1850:format(Sys.Date(), "%Y")){
         yearcollectedpart <- paste0("yearcollected=",i)
