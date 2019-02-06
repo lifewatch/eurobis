@@ -39,7 +39,7 @@ List with 3 data frames
 
 ## Disclaimer
 
-If data are extracted from the EMODnet Data Portal for secondary analysis resulting in a publication, the appropriate source should be cited.
+If data are extracted from the EMODnet Biology for secondary analysis resulting in a publication, the appropriate source should be cited.
 
 The downloaded data should be cited as: EMODnet Biology (yyyy) Fulll Occurrence Data and parameters downloaded from the EMODnet Biology Project (www.emodnet-biology.eu). Available online at www.emodnet-biology.eu/toolbox, consulted on yyyy-mm-dd.
 
