@@ -1,8 +1,7 @@
 # REMODBio
 
 
-An R function to get data from the EMODnet Biology WFS. This function allows you to download data using aphiaID, dasID or an geoserverURL you obtain through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox
-
+An R package to get download from the EMODnet Biology WFS. This function allows you to download data using aphiaID, dasID or an geoserverURL you obtain through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox.
 
 ## Installation
 
@@ -17,11 +16,11 @@ library("REMODBio")
 
 ## Usage:
 
-- `getemodbiodata(dasid = "4662")`   - download data from a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url)
+- `getemodbiodata(dasid = "4662")`   - download data from a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url) 
 
 - `getemodbiodata(aphiaid = "141433")` - download data from a single taxon. Use the id obtained through www.marinespecies.org
 
-- `getemodbiodata(dasid = "1884", type ="basic")` - download data only for 8 essential collumns (see http://www.emodnet-biology.eu/node/172#Basic) 
+- `getemodbiodata(dasid = "1884", type ="basic")` - download data only for 8 essential columns (see http://www.emodnet-biology.eu/node/172#Basic) 
 
 - `getemodbiodata(dasid = c("1884","618", "5780" ), aphiaid = "2036", startyear = "1980", endyear = "2010")`
 
