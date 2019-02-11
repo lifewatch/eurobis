@@ -17,7 +17,7 @@ createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, startyear = NA
   if(any(is.na(geourl)) & any(is.na(dasid)) & any(is.na(aphiaid))) {print("please provide geourl dasid or aphiaid")
   } else {
     # http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal:eurobis-obisenv&resultType=results&viewParams= order: ORDER BY obs.id LIMIT 20000 OFFSET 0 ;where:datasetid IN (5885);context:0100&outputFormat=csv
-      wfsprefix <-paste0("http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Dataportal%3A",geolayer,"&viewParams=%20order:%20ORDER%20BY%20obs.id%20LIMIT%20", offset[2] ,"%20OFFSET%20", offset ,"%20;where:")
+      wfsprefix <-paste0("http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Dataportal%3A",geolayer,"&viewParams=%20order:%20ORDER%20BY%20obs.id%20LIMIT%20", offset[2] ,"%20OFFSET%20", trimws(format(offset,digits=9)) ,"%20;where:")
     if(!is.na(geourl)) {
       if (any(grepl("propertyName", geourl))) {
       wfssuffix <- paste0("+AND+",sectioninstring (geourl, starchar="Params=where", n=-15, endchar = "propertyName=", m=2 ),"&outputformat=csv")} else {
@@ -26,19 +26,16 @@ createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, startyear = NA
       wfssuffix <-"&outputformat=csv"
     }
     
-    if (any(!is.na(dasid)))  { datasetpart <- paste0("datasetid=", dasid)  
-    } 
+    if (any(!is.na(dasid)))  { datasetpart <- paste0("datasetid=", dasid)  } 
     
-    if (any(!is.na(aphiaid))) { aphiapart <- paste0("(aphiaid=",aphiaid,"+OR+aphiaidaccepted=",aphiaid,")")
-    } 
+    if (any(!is.na(aphiaid))) { aphiapart <- paste0("(aphiaid=",aphiaid,"+OR+aphiaidaccepted=",aphiaid,")") } 
     
      
     if (!is.na(endyear) & is.na(startyear)) { startyear = 1850}
     if (is.na(endyear)& !is.na(startyear)) { endyear = format(Sys.Date(), "%Y")}
     
       if (!is.na(startyear) & !is.na(endyear)) {
-      yearcollectedpart <- paste0("%28%28yearcollected+BETWEEN+%27+",startyear, "%27+AND+%27" , endyear,"%27%29%29")
-      } 
+      yearcollectedpart <- paste0("%28%28yearcollected+BETWEEN+%27+",startyear, "%27+AND+%27" , endyear,"%27%29%29") } 
       
       
       middlepart <- paste0(
