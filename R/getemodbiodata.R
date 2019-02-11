@@ -25,10 +25,10 @@ wfsurls <-  createwfsurls(geourl, dasid, aphiaid, startyear, endyear, type)
 
 if (any(wfsurls != "please provide geourl dasid or aphiaid")){
 
-    for (j in wfsurls) {
-      print(j)
+    for  (j in 1:length(wfsurls)) {
+      print(paste0("downloading records ", (j-1)*20000, "-", j*20000))
       
-      tryCatch({emoddata <- read.csv(j)}, error = function(e) { 
+      tryCatch({emoddata <- read.csv(wfsurls[j])}, error = function(e) { 
         file <-  paste0("emodnetbiodata",Sys.Date(),".csv")
         options(timeout=10000)
         download.file(j, file, method="internal", cacheOK = FALSE)
@@ -36,20 +36,22 @@ if (any(wfsurls != "please provide geourl dasid or aphiaid")){
         file.remove(file)  
         rm(file)
       })
+      
       if ( nrow(emoddata) > 0 & length(emoddata) > 2 ){
-        
+      
         emoddata <- data.frame(lapply(emoddata, as.character), stringsAsFactors=FALSE)
         
         if (exists("comemoddata")){
           comemoddata <- bind_rows(comemoddata, emoddata)
+          rm(emoddata)
         } else { 
-          comemoddata<-emoddata
-        }
-        
-      }
-      
-      rm(emoddata)
+          comemoddata <-  emoddata  
+          rm(emoddata)}
+       
+      } else {break}
     }
+  
+  
     
 if (exists("comemoddata") == FALSE) {print("no data in selection")} else {
   if (type == "full"){
