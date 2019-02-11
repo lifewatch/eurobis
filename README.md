@@ -1,7 +1,7 @@
 # REMODBio
 
 
-An R function to get data from the EMODnet Biology WFS. This function allows you to download data using aphiaID, dasID or an geoserverURL you get from the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox
+An R function to get data from the EMODnet Biology WFS. This function allows you to download data using aphiaID, dasID or an geoserverURL you obtain through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox
 
 
 ## Installation
@@ -25,7 +25,7 @@ library("REMODBio")
 
 - `getemodbiodata(dasid = c("1884","618", "5780" ), aphiaid = "2036", startyear = "1980", endyear = "2010")`
 
-- `getemodbiodata(geourl = "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv&resultType=results&viewParams=where%3Adatasetid+IN+%285885%29%3Bcontext%3A0100&outputFormat=csv")` download data using the WFS urls optained through the EMODnet toolbox at http://www.emodnet-biology.eu/toolbox/en/download/occurrence/explore (- you make your selection and copi-paste the url behind the "get webservice url" button)
+- `getemodbiodata(geourl = "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv&resultType=results&viewParams=where%3Adatasetid+IN+%285885%29%3Bcontext%3A0100&outputFormat=csv")` download data using the WFS urls optained through the EMODnet toolbox at http://www.emodnet-biology.eu/toolbox/en/download/occurrence/preview (- you make your selection and copi-paste the url behind the "get webservice url" button)
 
 ## Output:
 
@@ -33,3 +33,19 @@ List with 3 data frames
 - data - downloaded records
 - meta - the descriptions of the terms
 - datasets - the titles, citations and licences of the datasets used in the download
+
+
+
+
+## Disclaimer
+
+If data are extracted from the EMODnet Biology for secondary analysis resulting in a publication, the appropriate source should be cited.
+
+The downloaded data should be cited as: EMODnet Biology (yyyy) Fulll Occurrence Data and parameters downloaded from the EMODnet Biology Project (www.emodnet-biology.eu). Available online at www.emodnet-biology.eu/toolbox, consulted on yyyy-mm-dd.
+
+Regarding the citation of the individual datasets, the following guidelines should be taken into account:
+
+- If any individual data source of EurOBIS constitutes a significant proportion of the downloaded and used records (e.g. more than 10% of the data is derived from a single source), the individual data source should also be cited.
+- If any individual data source of EurOBIS constitutes a substantial proportion of the downloaded and used records (e.g. more than 25% of the data is derived from a single source or the data is essential to arrive at the conclusion of the analysis), the manager or custodian of this data set should be contacted.
+- In any case, it may be useful to contact the data custodian directly. The data custodian might have additional data available that may strengthen the analysis or he/she might be able to provide additional helpful information that may not be apparent from the provided metadata.
+- The data may not be redistributed without the permission of the appropriate data owners. If data are extracted from the EMODnet Data Portal for redistribution, please contact us at bio@emodnet.eu.
