@@ -26,7 +26,7 @@ wfsurls <-  createwfsurls(geourl, dasid, aphiaid, startyear, endyear, type)
 if (any(wfsurls != "please provide geourl dasid or aphiaid")){
 
     for  (j in 1:length(wfsurls)) {
-      print(paste0("downloading records ", (j-1)*20000, "-", j*20000))
+      print(paste0("downloading records ", trimws(format(((j-1)*20000)+1,digits=9)) , "-", trimws(format(j*20000),digits=9)))
       
       tryCatch({emoddata <- read.csv(wfsurls[j])}, error = function(e) { 
         file <-  paste0("emodnetbiodata",Sys.Date(),".csv")
@@ -48,7 +48,10 @@ if (any(wfsurls != "please provide geourl dasid or aphiaid")){
           comemoddata <-  emoddata  
           rm(emoddata)}
        
-      } else {break}
+      } else {
+        print("no more records found")
+        break
+        }
     }
   
   
@@ -96,7 +99,7 @@ if (exists("comemoddata") == FALSE) {print("no data in selection")} else {
       mutate(dasid =  richtfrom(datasetid, 'dasid=', 5))
     
     
-    print("getting imis data")
+    print("getting EMODnet catolog metadata")
     datasets<-getdascitations(datasets(meta$dasid))
     
     datasets <- datasets %>% left_join(meta, by ="dasid") %>%
