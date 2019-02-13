@@ -26,7 +26,7 @@ wfsurls <-  createwfsurls(geourl, dasid, aphiaid, startyear, endyear, type)
 if (any(wfsurls != "please provide geourl dasid or aphiaid")){
 
     for  (j in 1:length(wfsurls)) {
-      print(paste0("downloading records ", trimws(format(((j-1)*20000)+1,digits=9)) , "-", trimws(format((j*20000),digits=9))))
+      print(paste0("downloading records ", trimws(format(((j-1)*20000)+1,digits=9)) , "-", trimws(format((j*20000), digits=9))))
       
       tryCatch({emoddata <- read.csv(wfsurls[j])}, error = function(e) { 
         file <-  paste0("emodnetbiodata",Sys.Date(),".csv")
