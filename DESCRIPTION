@@ -9,6 +9,7 @@ LazyData: true
 Imports:
     dplyr,
     data.table,
+    reshape2,
     stringr,
     finch,
     rlang
