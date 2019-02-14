@@ -26,10 +26,19 @@ createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, startyear = NA
       wfssuffix <-"&outputformat=csv"
     }
     
-    if (any(!is.na(dasid)))  { datasetpart <- paste0("datasetid=", dasid)  } 
+    if (any(!is.na(dasid)))  { datasetpart <- paste0('datasetid+IN+%28', 
+                             paste0(dasid, collapse="%5C%2C"), '%29')  } 
     
-    if (any(!is.na(aphiaid))) { aphiapart <- paste0("(aphiaid=",aphiaid,"+OR+aphiaidaccepted=",aphiaid,")") } 
-    
+    if (any(!is.na(aphiaid))) { 
+      
+            aphiapart1 <- paste0('aphiaid+IN+%28', 
+                                  paste0(aphiaid, collapse="%5C%2C"), '%29')
+            aphiapart2 <- paste0('aphiaidaccepted+IN+%28', 
+                                 paste0(aphiaid, collapse="%5C%2C"), '%29')
+      
+      aphiapart <- paste0("(",aphiapart1, "+OR+",aphiapart2, ")")
+            } 
+                                                  
      
     if (!is.na(endyear) & is.na(startyear)) { startyear = 1850}
     if (is.na(endyear)& !is.na(startyear)) { endyear = format(Sys.Date(), "%Y")}
