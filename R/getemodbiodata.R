@@ -7,7 +7,7 @@
 #' @param startyear optional parameter, the earliest year the collected specimen might have been collected
 #' @param endyear optional parameter, the latest year the collected specimen might have been collected
 #' @param type indicates if you want a basic download "basic" (only date, coordinates and taxon) or you want all data "full" returned from the WFS
-#' @import dplyr imis
+#' @import dplyr imis reshape2
 #' @export
 #' @examples
 #' getemodbiodata(dasid = "4662")
