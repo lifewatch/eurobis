@@ -4,7 +4,7 @@
 \alias{createwfsurls}
 \title{Helpfunction to create the wfsurl}
 \usage{
-createwfsurls(geourl = NA, dasid = NA, aphiaid = NA,
+createwfsurls(geourl = NA, dasid = NA, aphiaid = NA, mrgid = NA,
   startyear = NA, endyear = NA, type = "full")
 }
 \description{

@@ -3,7 +3,8 @@
 #' This function allows you to download data using aphiaID, dasid or using an geoserverURL you get from the EMODnet Biology toolbox
 #' @param geourl optional parameter, in case you use the geoserverURL obtained through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox/en/download/occurrence/explore
 #' @param dasid optional parameter, in case you want to download a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url)
-#' @param aphiaid optional parameter, in case you want to download data from a single taxon. uses the id obtained throug ww.marinespecies.org
+#' @param aphiaid optional parameter, in case you want to download data from a single taxon. Uses the id obtained throug ww.marinespecies.org
+#' @param mrgid optional parameter, in case you want to download data for a specific region. Use mrgid from marineregions.org or type View(IHOareas) to get an overview of the available IHO areas.
 #' @param startyear optional parameter, the earliest year the collected specimen might have been collected
 #' @param endyear optional parameter, the latest year the collected specimen might have been collected
 #' @param type indicates if you want a basic download "basic" (only date, coordinates and taxon) or you want all data "full" returned from the WFS
@@ -14,14 +15,15 @@
 #' getemodbiodata(aphiaid = "141433")
 #' getemodbiodata(dasid = c("1884","618", "5780" ), aphiaid = "2036")
 #' getemodbiodata(dasid = "1884", type ="basic")
+#' getemodbiodata(mrgid=c("5670","3315"))
 #' getemodbiodata(geourl = "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv&resultType=results&viewParams=where%3Adatasetid+IN+%285885%29%3Bcontext%3A0100&outputFormat=csv")
 
 
 
-getemodbiodata <- function(geourl = NA, dasid = NA, aphiaid = NA, startyear = "1850", endyear = NA, type ="full"){
+getemodbiodata <- function(geourl = NA, dasid = NA, aphiaid = NA, mrgid = NA, startyear = "1850", endyear = NA, type ="full"){
   
 
-wfsurls <-  createwfsurls(geourl, dasid, aphiaid, startyear, endyear, type)
+wfsurls <-  createwfsurls(geourl, dasid, aphiaid, mrgid, startyear, endyear, type)
 
 if (any(wfsurls != "please provide geourl dasid or aphiaid")){
 

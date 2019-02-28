@@ -4,7 +4,7 @@
 \alias{getemodbiodata}
 \title{Get data from the EMODnet Biology WFS}
 \usage{
-getemodbiodata(geourl = NA, dasid = NA, aphiaid = NA,
+getemodbiodata(geourl = NA, dasid = NA, aphiaid = NA, mrgid = NA,
   startyear = "1850", endyear = NA, type = "full")
 }
 \arguments{
@@ -12,7 +12,9 @@ getemodbiodata(geourl = NA, dasid = NA, aphiaid = NA,
 
 \item{dasid}{optional parameter, in case you want to download a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url)}
 
-\item{aphiaid}{optional parameter, in case you want to download data from a single taxon. uses the id obtained throug ww.marinespecies.org}
+\item{aphiaid}{optional parameter, in case you want to download data from a single taxon. Uses the id obtained throug ww.marinespecies.org}
+
+\item{mrgid}{optional parameter, in case you want to download data for a specific region. Use mrgid from marineregions.org or type View(IHOareas) to get an overview of the available IHO areas.}
 
 \item{startyear}{optional parameter, the earliest year the collected specimen might have been collected}
 
@@ -28,5 +30,6 @@ getemodbiodata(dasid = "4662")
 getemodbiodata(aphiaid = "141433")
 getemodbiodata(dasid = c("1884","618", "5780" ), aphiaid = "2036")
 getemodbiodata(dasid = "1884", type ="basic")
+getemodbiodata(mrgid=c("5670","3315"))
 getemodbiodata(geourl = "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal\%3Aeurobis-obisenv&resultType=results&viewParams=where\%3Adatasetid+IN+\%285885\%29\%3Bcontext\%3A0100&outputFormat=csv")
 }

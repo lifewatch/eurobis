@@ -3,7 +3,7 @@
 #' @export
 
 
-createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, startyear = NA, endyear = NA, type="full") {
+createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, mrgid = NA,  startyear = NA, endyear = NA, type="full") {
   
   
   if (type == "full") {
@@ -14,7 +14,7 @@ createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, startyear = NA
   
   offset <-seq(from = 0, to =  100000000, by = 20000)
   
-  if(any(is.na(geourl)) & any(is.na(dasid)) & any(is.na(aphiaid))) {print("please provide geourl dasid or aphiaid")
+  if(any(is.na(geourl)) & any(is.na(dasid)) & any(is.na(aphiaid)) &  any(is.na(mrgid))) {print("please provide geourl dasid or aphiaid")
   } else {
     # http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal:eurobis-obisenv&resultType=results&viewParams= order: ORDER BY obs.id LIMIT 20000 OFFSET 0 ;where:datasetid IN (5885);context:0100&outputFormat=csv
       wfsprefix <-paste0("http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=Dataportal%3A",geolayer,"&viewParams=%20order:%20ORDER%20BY%20obs.id%20LIMIT%20", offset[2] ,"%20OFFSET%20", trimws(format(offset,digits=9)) ,"%20;where:")
@@ -38,24 +38,32 @@ createwfsurls <- function (geourl = NA, dasid = NA, aphiaid = NA, startyear = NA
       
       aphiapart <- paste0("(",aphiapart1, "+OR+",aphiapart2, ")")
             } 
-                                                  
-     
+       
+      if (any(!is.na(mrgid))) { 
+        
+        mrgpart <- paste0('%28%28up.geoobjectsids+%26%26+ARRAY%5B', 
+                             paste0(mrgid, collapse="%5C%2C"), '%5D%29%29')
+
+      }                                           
+      
+  
     if (!is.na(endyear) & is.na(startyear)) { startyear = 1850}
     if (is.na(endyear)& !is.na(startyear)) { endyear = format(Sys.Date(), "%Y")}
     
       if (!is.na(startyear) & !is.na(endyear)) {
       yearcollectedpart <- paste0("%28%28yearcollected+BETWEEN+%27+",startyear, "%27+AND+%27" , endyear,"%27%29%29") } 
       
+      parts<- c(if(exists("datasetpart"))datasetpart , if(exists("aphiapart"))aphiapart,
+                if(exists("mrgpart"))mrgpart,if(exists("yearcollectedpart"))yearcollectedpart )
+    
+#### insert a paste collapse function!!!      
+    
+      if(!is.null(parts)){
+      middlepart <- paste0(parts, collapse="+AND+")} else {
+        middlepart <- NA
+      }
+        
       
-      middlepart <- paste0(
-        if (exists("datasetpart")) {datasetpart} ,
-        if (exists("datasetpart") & exists("aphiapart")) {paste0("+AND+", aphiapart)} else {
-           if ( !exists("datasetpart") & exists("aphiapart")) {aphiapart}} , 
-        if ( exists("aphiapart") & exists("yearcollectedpart")) {paste0("+AND+",yearcollectedpart)} else {
-          if (!exists("datasetpart") & !exists("aphiapart") & exists("yearcollectedpart")) {yearcollectedpart}}
-      )
-
-
       wfsurl <-  paste0(wfsprefix, middlepart, wfssuffix)
 
       }
