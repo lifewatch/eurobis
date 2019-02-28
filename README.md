@@ -22,7 +22,7 @@ library("REMODBio")
 
 - `getemodbiodata(dasid = "1884", type ="basic")` - download data only for 8 essential columns (see http://www.emodnet-biology.eu/node/172#Basic) 
 
-- `getemodbiodata(mrgid=c("5670","3315")` - download data from a specific region using the mrgid from marineregions, or type `View(IHOareas)` to get an overview of the available IHO areas.
+- `getemodbiodata(mrgid=c("5670","3315")` - download data from a specific region using the mrgid from marineregions, or type `View(IHOareas)`, `View(EEZs)`, `View(FAOareas)` to get an overview.
 
 - `getemodbiodata(dasid = c("1884","618", "5780" ), aphiaid = "2036", startyear = "1980", endyear = "2010")`
 

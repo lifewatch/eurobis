@@ -1,6 +1,6 @@
 #' add collunms to data frame
 #' @export
-
+#'
 
 fncols <- function(data, cname) {
   add <-cname[!cname%in%names(data)]
@@ -27,7 +27,6 @@ sectioninstring <- function(text, starchar, n, endchar, m) {
   substr(text, stringr::str_locate(text, starchar)[1] - n, stringr::str_locate(text, endchar)[1] - m) }
 
 
-#'
 eventhierarchy <- c("cruise", "stationVisit", "sample", "subsample", "eventID")
 
 
