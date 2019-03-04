@@ -24,7 +24,7 @@ library("REMODBio")
 
 - `getemodbiodata(mrgid=c("5670","3315")` - download data from a specific region using the mrgid from marineregions, or type `View(IHOareas)`, `View(EEZs)`, `View(FAOareas)` to get an overview.
 
-- `getemodbiodata(speciesgroup = "Angiosperms")` - download data from a functional group. Values are Values are "Algae" , "Angiosperms", "Benthos", "Birds", "Fish", "Mammals", "phytoplankton", Reptiles", "zooplankton" (!case sensitive - note phytoplankton and zooplankton are lower case)
+- `getemodbiodata(speciesgroup = "Angiosperms")` - download data from a functional group. Values are "Algae" , "Angiosperms", "Benthos", "Birds", "Fish", "Mammals", "phytoplankton", Reptiles", "zooplankton" (!case sensitive - note phytoplankton and zooplankton are lower case)
 
 - `getemodbiodata(dasid = c("1884","618", "5780" ), aphiaid = "2036", startyear = "1980", endyear = "2010")`
 
