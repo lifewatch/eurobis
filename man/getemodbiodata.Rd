@@ -5,7 +5,8 @@
 \title{Get data from the EMODnet Biology WFS}
 \usage{
 getemodbiodata(geourl = NA, dasid = NA, aphiaid = NA, mrgid = NA,
-  startyear = "1850", endyear = NA, type = "full")
+  speciesgroup = NA, startyear = "1850", endyear = NA,
+  type = "full")
 }
 \arguments{
 \item{geourl}{optional parameter, in case you use the geoserverURL obtained through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox/en/download/occurrence/explore}
@@ -15,6 +16,8 @@ getemodbiodata(geourl = NA, dasid = NA, aphiaid = NA, mrgid = NA,
 \item{aphiaid}{optional parameter, in case you want to download data from a single taxon. Uses the id obtained throug ww.marinespecies.org}
 
 \item{mrgid}{optional parameter, in case you want to download data for a specific region. Use mrgid from marineregions.org or type View(IHOareas) to get an overview of the available IHO areas.}
+
+\item{speciesgroup}{optional parameter, in case you want to download data for a functional group. Values are "Algae" , "Angiosperms", "Benthos", "Birds", "Fish", "Mammals", "phytoplankton", Reptiles", "zooplankton" (Case sensitive)}
 
 \item{startyear}{optional parameter, the earliest year the collected specimen might have been collected}
 
@@ -28,6 +31,7 @@ This function allows you to download data using aphiaID, dasid or using an geose
 \examples{
 getemodbiodata(dasid = "4662")
 getemodbiodata(aphiaid = "141433")
+getemodbiodata(speciesgroup = "Angiosperms")
 getemodbiodata(dasid = c("1884","618", "5780" ), aphiaid = "2036")
 getemodbiodata(dasid = "1884", type ="basic")
 getemodbiodata(mrgid=c("5670","3315"))

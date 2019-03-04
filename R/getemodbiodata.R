@@ -4,6 +4,7 @@
 #' @param geourl optional parameter, in case you use the geoserverURL obtained through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox/en/download/occurrence/explore
 #' @param dasid optional parameter, in case you want to download a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url)
 #' @param aphiaid optional parameter, in case you want to download data from a single taxon. Uses the id obtained throug ww.marinespecies.org
+#' @param speciesgroup optional parameter, in case you want to download data for a functional group. Values are "Algae" , "Angiosperms", "Benthos", "Birds", "Fish", "Mammals", "phytoplankton", Reptiles", "zooplankton" (Case sensitive)
 #' @param mrgid optional parameter, in case you want to download data for a specific region. Use mrgid from marineregions.org or type View(IHOareas) to get an overview of the available IHO areas.
 #' @param startyear optional parameter, the earliest year the collected specimen might have been collected
 #' @param endyear optional parameter, the latest year the collected specimen might have been collected
@@ -13,6 +14,7 @@
 #' @examples
 #' getemodbiodata(dasid = "4662")
 #' getemodbiodata(aphiaid = "141433")
+#' getemodbiodata(speciesgroup = "Angiosperms")
 #' getemodbiodata(dasid = c("1884","618", "5780" ), aphiaid = "2036")
 #' getemodbiodata(dasid = "1884", type ="basic")
 #' getemodbiodata(mrgid=c("5670","3315"))
@@ -20,7 +22,7 @@
 
 
 
-getemodbiodata <- function(geourl = NA, dasid = NA, aphiaid = NA, mrgid = NA, startyear = "1850", endyear = NA, type ="full"){
+getemodbiodata <- function(geourl = NA, dasid = NA, aphiaid = NA, mrgid = NA, speciesgroup = NA, startyear = "1850", endyear = NA, type ="full"){
   
 
 wfsurls <-  createwfsurls(geourl, dasid, aphiaid, mrgid, startyear, endyear, type)
@@ -77,7 +79,7 @@ if (exists("comemoddata") == FALSE) {print("no data in selection")} else {
     
     parainclude <- names(occurrenceflat)
    
-    paradescriptions <-  comemoddata %>% select (datasetid, parameter, parameter_measurementtypeid:parameter_conversion_factor_to_standard_unit) %>% filter (!is.na(parameter)) %>% distinct()
+    paradescriptions <-  comemoddata %>% select (datasetid, parameter, parameter_measurementtypeid:parameter_conversion_factor_to_standard_unit) %>% filter (!is.na(parameter) & parameter != "") %>% distinct()
     
     paradescriptions <- fulldata %>%  mutate (parameterPreferredLabel = Term) %>% select ( parameterName = Term, parameterID = DarwinCore.URI, 
                                               parameterPreferredLabel, parameterDefinition = Definition) %>% 
