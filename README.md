@@ -10,7 +10,7 @@ Installing `REMODBio` requires the `devtools` and 'imis' packages:
 ```R
 install.packages("devtools")
 devtools::install_github("EMODnet/imis")
-devtools::install_github("Daphnisd/REMODBio")
+devtools::install_github("EMODnet/REMODBio")
 library("REMODBio")
 ```
 
