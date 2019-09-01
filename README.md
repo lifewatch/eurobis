@@ -3,7 +3,7 @@
 [![EMODnet Biology](https://raw.githubusercontent.com/EMODnet/REMODBio/master/fig/EMODnet_logo_BIOLOGY_greenLS.png)](http://www.emodnet-biology.eu/)
 
 
-An R package to get download from the EMODnet Biology WFS. This function allows you to download data using aphiaID, dasID or an geoserverURL you obtain through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox.
+An R package to get download from the EMODnet Biology WFS. This function allows you to download data using AphiaID, IMIS DasID or a geoserver URL you obtain through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox
 
 ## Installation
 
@@ -20,11 +20,11 @@ library("REMODBio")
 
 - `getemodbiodata(dasid = "4662")`   - download data from a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url) or use the function `listemodnetdatasets()` to get an overview
 
-- `getemodbiodata(aphiaid = "141433")` - download data from a single taxon (the child taxa will be included also). Use the id obtained through www.marinespecies.org
+- `getemodbiodata(aphiaid = "141433")` - download data from a single taxon (the child taxa will be included also). Use the AphiaID obtained through http://www.marinespecies.org
 
 - `getemodbiodata(dasid = "1884", type ="basic")` - download data only for 8 essential columns (see http://www.emodnet-biology.eu/node/172#Basic) 
 
-- `getemodbiodata(mrgid=c("5670","3315"))` - download data from a specific region using the mrgid from marineregions, or type `View(IHOareas)`, `View(EEZs)`, `View(FAOareas)` to get an overview.
+- `getemodbiodata(mrgid=c("5670","3315"))` - download data from a specific region using the MRGID from marineregions, or type `View(IHOareas)`, `View(EEZs)`, `View(FAOareas)` to get an overview.
 
 - `getemodbiodata(speciesgroup = "Angiosperms")` - download data from a functional group. Values are "Algae" , "Angiosperms", "Benthos", "Birds", "Fish", "Mammals", "phytoplankton", Reptiles", "zooplankton" (case sensitive - note phytoplankton and zooplankton are lower case)
 
