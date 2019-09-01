@@ -32,13 +32,16 @@ if (any(wfsurls != "please provide geourl dasid or aphiaid")){
     for  (j in 1:length(wfsurls)) {
       print(paste0("downloading records ", trimws(format(((j-1)*20000)+1,digits=9)) , "-", trimws(format((j*20000), digits=9))))
       
-      tryCatch({emoddata <- read.csv(wfsurls[j])}, error = function(e) { 
+      emoddata <- tryCatch({emoddata <- read.csv(wfsurls[j])}, error = function(e) { 
+        message("error read.csv: ", e)
+        message("trying download.file: ")
         file <-  paste0("emodnetbiodata",Sys.Date(),".csv")
         options(timeout=10000)
-        download.file(j, file, method="internal", cacheOK = FALSE)
+        download.file(wfsurls[j], file, method="internal", cacheOK = FALSE)
         emoddata <-read.csv(file, stringsAsFactors = FALSE)
-        file.remove(file)  
+        file.remove(file)
         rm(file)
+        return(emoddata)
       })
       
       if ( nrow(emoddata) > 0 & length(emoddata) > 2 ){
