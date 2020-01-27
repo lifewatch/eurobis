@@ -2,7 +2,7 @@
 eurobis
 ========
 
-[![funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&link=http://lifewatch.be&color=blue)]
+[![funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&link=http://lifewatch.be&color=blue)](https://www.lifewatch.be)
 
 [![EurOBIS](https://www.eurobis.org/images/web_resolution_logo_Eurobis.png)](https://www.eurobis.org/)
 
