@@ -1,9 +1,14 @@
-# REMODBio
 
-[![EMODnet Biology](https://raw.githubusercontent.com/EMODnet/REMODBio/master/fig/EMODnet_logo_BIOLOGY_greenLS.png)](http://www.emodnet-biology.eu/)
+eurobis
+========
 
+[![funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&link=http://lifewatch.be&color=blue)]
 
-An R package to get download from the EMODnet Biology WFS. This function allows you to download data using AphiaID, IMIS DasID or a geoserver URL you obtain through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox
+[![EurOBIS](https://www.eurobis.org/images/web_resolution_logo_Eurobis.png)](https://www.eurobis.org/)
+
+An R package to get downloads from the EurOBIS database. 
+
+This package builds further on EurOBIS/EMODnet Biology WFS services. The functions allows you to download data using AphiaID, IMIS DasID or a geoserver URL you obtain through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox
 
 ## Installation
 
