@@ -12,7 +12,7 @@ This package builds further on EurOBIS/EMODnet Biology WFS services. The functio
 
 ## Installation
 
-Installing `REMODBio` requires the `devtools` and 'imis' packages:
+Installing `eurobis` requires the `devtools` and 'imis' packages:
 
 ```R
 install.packages("devtools")
