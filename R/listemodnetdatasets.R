@@ -1,6 +1,6 @@
 #' REMODnet BIO datasets
 #'
-#' This function lists all datasets you can download using REMODnet BIO package
+#' This function lists all datasets you can download using the eurobis package
 #' @import dplyr imis
 #' @export
 #' @examples

@@ -60,4 +60,4 @@ Regarding the citation of the individual datasets, the following guidelines shou
 - In any case, it may be useful to contact the data custodian directly. The data custodian might have additional data available that may strengthen the analysis or he/she might be able to provide additional helpful information that may not be apparent from the provided metadata.
 - The data may not be redistributed without the permission of the appropriate data owners. If data are extracted from the EMODnet Data Portal for redistribution, please contact us at bio@emodnet.eu.
 
-[![LifeWatch.be](https://raw.githubusercontent.com/EMODnet/REMODBio/master/fig/LifeWatch_banner_test.PNG)](http://www.lifewatch.be/)
+[![LifeWatch.be](https://raw.githubusercontent.com/lifewatch/eurobis/master/fig/LifeWatch_banner_test.PNG)](http://www.lifewatch.be/)
