@@ -35,7 +35,7 @@ if (any(wfsurls != "please provide geourl dasid or aphiaid")){
       eurobisdata <- tryCatch({eurobisdata <- read.csv(wfsurls[j])}, error = function(e) { 
         message("error read.csv: ", e)
         message("trying download.file: ")
-        file <-  paste0("emodnetbiodata",Sys.Date(),".csv")
+        file <-  paste0("eurobisdata",Sys.Date(),".csv")
         options(timeout=10000)
         download.file(wfsurls[j], file, method="internal", cacheOK = FALSE)
         eurobisdata <-read.csv(file, stringsAsFactors = FALSE)

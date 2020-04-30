@@ -6,7 +6,9 @@
 #' @export
 #' @examples
 #' getEurobisPoints(aphiaid = "141433")
+#' 
 #' test_points <- getEurobisPoints()
+#' library(mapview)
 #' mapview(test_points, cex = 1)
 
 getEurobisPoints <- function(aphiaid = 126436){

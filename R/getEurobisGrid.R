@@ -7,7 +7,9 @@
 #' @export
 #' @examples
 #' getEurobisGrid(aphiaid = "141433")
+#' 
 #' test <- getEurobisGrid(gridsize = '15m')
+#' library(mapview)
 #' mapview(test,
 #'         zcol = 'RecordCount',
 #'         lwd = 0)
