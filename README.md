@@ -48,9 +48,9 @@ List with 3 data frames
 
 Two functions were added to directly view the spatial distribution of the occurrences of a species:
 
-- 'getEurobisGrid(aphiaid = "126436", gridsize = "1d") - get the number of occurrences of a WoRMS taxon (aphiaid) in a grid with size: '6m', '15m', '30m', '1d' (6 minutes, 15 minutes, 30 minutes, 1 degree).
+- `getEurobisGrid(aphiaid = "126436", gridsize = "1d")` - get the number of occurrences of a WoRMS taxon (aphiaid) in a grid with size: '6m', '15m', '30m', '1d' (6 minutes, 15 minutes, 30 minutes, 1 degree).
 
-- 'getEurobisPoints(aphiaid = "126436") - get the point occurrences of a WoRMS taxon (aphiaid)
+- `getEurobisPoints(aphiaid = "126436")` - get the point occurrences of a WoRMS taxon (aphiaid)
 
 for example, see the two examples below:
 ```R
