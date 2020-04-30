@@ -1,7 +1,8 @@
 Package: eurobis
 Title: EurOBIS data download package
 Version: 0.0.0.9000
-Authors@R: person("Daphnis", "De Pooter", email = "daphnisd@vliz.be", role = c("aut", "cre"))
+Authors@R: c(person("Daphnis", "De Pooter", email = "daphnisd@vliz.be", role = c("aut", "cre")),
+             person("Lennert", "Schepers", email = "lennert.schepers@vliz.be", role = "ctb"))
 Description: Downloads EurOBIS data using the EMODnet Biology WFS
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -12,6 +13,9 @@ Imports:
     reshape2,
     stringr,
     finch,
-    rlang
+    rlang,
+    sf
+Suggests:
+    mapview
 Remotes: EMODnet/imis
 RoxygenNote: 6.1.1
