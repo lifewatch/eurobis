@@ -8,7 +8,7 @@
 #' getoriginaldata(ipturls = meta$datasetIPTurl)
 
 
-getoriginaldata <- function (ipturls, emodnetdata = NA) {
+getoriginaldata <- function (ipturls, eurobisdata = NA) {
   
   ipturls <- unique(ipturls[!is.na(ipturls)])
   ipturls <- ipturls[(ipturls != "")]
@@ -29,7 +29,7 @@ getoriginaldata <- function (ipturls, emodnetdata = NA) {
     
     
     #-----------------------------------------------------------------------#
-    ####                    Inport data                                  ####
+    ####                    Import data                                  ####
     #-----------------------------------------------------------------------#
     
     dwca_cache$delete_all()
@@ -85,7 +85,7 @@ getoriginaldata <- function (ipturls, emodnetdata = NA) {
     
   }
     
-if (is.data.frame(emodnetdata) == FALSE) {
+if (is.data.frame(eurobisdata) == FALSE) {
 export <- list()
 if (exists("events")) {export$Event <- events}
 if (exists("occurrences")) {export$Occurrence <- occurrences}
@@ -94,13 +94,13 @@ if (exists("emofs")) {export$eMoF <- emofs }
 } else {
 export <- list()
   
-emodnetdata <- emodnetdata %>% fncols (c(eventhierarchy, "occurrenceID")) %>% 
+eurobisdata <- eurobisdata %>% fncols (c(eventhierarchy, "occurrenceID")) %>% 
     select (eventhierarchy, occurrenceid)
 
 #for (i in eventhierarchy) {
 # if (exists("eventids")) {
-#   eventids <- c(eventids, emodnetdata$eventhierarchy) } else {
-#   eventids <- emodnetdata$eventhierarchy  }
+#   eventids <- c(eventids, eurobisdata$eventhierarchy) } else {
+#   eventids <- eurobisdata$eventhierarchy  }
 #}
   if (exists("events")) {
     s1 <- events %>% filter (eventID %in% eventids)
@@ -111,12 +111,12 @@ emodnetdata <- emodnetdata %>% fncols (c(eventhierarchy, "occurrenceID")) %>%
   }
   
   if (exists("occurrences")) {
-    export$Occurrence <- occurrences %>% filter (occurrenceID %in% emodnetdata$occurrenceid)
+    export$Occurrence <- occurrences %>% filter (occurrenceID %in% eurobisdata$occurrenceid)
   }
   
   if (exists("emofs")) {
- #    e1 <- emofs %>% filter (occurrenceID %in% emodnetdata$occurrenceID)
- #   e2 <- emofs %>% filter (is.na(occurrenceID) & id emodnetdata$occurrenceID)
+ #    e1 <- emofs %>% filter (occurrenceID %in% eurobisdata$occurrenceID)
+ #   e2 <- emofs %>% filter (is.na(occurrenceID) & id eurobisdata$occurrenceID)
  #    export$eMoF
   }
   

@@ -1,4 +1,4 @@
-#' Get data from the EMODnet Biology WFS
+#' Get data from the EurOBIS through the EMODnet Biology WFS
 #'
 #' This function allows you to download data using aphiaID, dasid or using an geoserverURL you get from the EMODnet Biology toolbox
 #' @param geourl optional parameter, in case you use the geoserverURL obtained through the EMODnet Biology toolbox http://www.emodnet-biology.eu/toolbox/en/download/occurrence/explore
@@ -12,17 +12,17 @@
 #' @import dplyr imis reshape2
 #' @export
 #' @examples
-#' getemodbiodata(dasid = "4662")
-#' getemodbiodata(aphiaid = "141433")
-#' getemodbiodata(speciesgroup = "Angiosperms")
-#' getemodbiodata(dasid = c("1884","618", "5780" ), aphiaid = "2036")
-#' getemodbiodata(dasid = "1884", type ="basic")
-#' getemodbiodata(mrgid=c("5670","3315"))
-#' getemodbiodata(geourl = "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv&resultType=results&viewParams=where%3Adatasetid+IN+%285885%29%3Bcontext%3A0100&outputFormat=csv")
+#' getEurobisData(dasid = "4662")
+#' getEurobisData(aphiaid = "141433")
+#' getEurobisData(speciesgroup = "Angiosperms")
+#' getEurobisData(dasid = c("1884","618", "5780" ), aphiaid = "2036")
+#' getEurobisData(dasid = "1884", type ="basic")
+#' getEurobisData(mrgid=c("5670","3315"))
+#' getEurobisData(geourl = "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv&resultType=results&viewParams=where%3Adatasetid+IN+%285885%29%3Bcontext%3A0100&outputFormat=csv")
 
 
 
-getemodbiodata <- function(geourl = NA, dasid = NA, aphiaid = NA, mrgid = NA, speciesgroup = NA, startyear = "1850", endyear = NA, type ="full"){
+getEurobisData <- function(geourl = NA, dasid = NA, aphiaid = NA, mrgid = NA, speciesgroup = NA, startyear = "1850", endyear = NA, type ="full"){
   
 
 wfsurls <-  createwfsurls(geourl, dasid, aphiaid, mrgid, startyear, endyear, type)
@@ -32,28 +32,28 @@ if (any(wfsurls != "please provide geourl dasid or aphiaid")){
     for  (j in 1:length(wfsurls)) {
       print(paste0("downloading records ", trimws(format(((j-1)*20000)+1,digits=9)) , "-", trimws(format((j*20000), digits=9))))
       
-      emoddata <- tryCatch({emoddata <- read.csv(wfsurls[j])}, error = function(e) { 
+      eurobisdata <- tryCatch({eurobisdata <- read.csv(wfsurls[j])}, error = function(e) { 
         message("error read.csv: ", e)
         message("trying download.file: ")
         file <-  paste0("emodnetbiodata",Sys.Date(),".csv")
         options(timeout=10000)
         download.file(wfsurls[j], file, method="internal", cacheOK = FALSE)
-        emoddata <-read.csv(file, stringsAsFactors = FALSE)
+        eurobisdata <-read.csv(file, stringsAsFactors = FALSE)
         file.remove(file)
         rm(file)
-        return(emoddata)
+        return(eurobisdata)
       })
       
-      if ( nrow(emoddata) > 0 & length(emoddata) > 2 ){
+      if ( nrow(eurobisdata) > 0 & length(eurobisdata) > 2 ){
       
-        emoddata <- data.frame(lapply(emoddata, as.character), stringsAsFactors=FALSE)
+        eurobisdata <- data.frame(lapply(eurobisdata, as.character), stringsAsFactors=FALSE)
         
-        if (exists("comemoddata")){
-          comemoddata <- bind_rows(comemoddata, emoddata)
-          rm(emoddata)
+        if (exists("comeurobisdata")){
+          comeurobisdata <- bind_rows(comeurobisdata, eurobisdata)
+          rm(eurobisdata)
         } else { 
-          comemoddata <-  emoddata  
-          rm(emoddata)}
+          comeurobisdata <-  eurobisdata  
+          rm(eurobisdata)}
        
       } else {
         print("no more records found")
@@ -63,12 +63,12 @@ if (any(wfsurls != "please provide geourl dasid or aphiaid")){
   
   
     
-if (exists("comemoddata") == FALSE) {print("no data in selection")} else {
+if (exists("comeurobisdata") == FALSE) {print("no data in selection")} else {
   if (type == "full"){
-    fulloccurrence <- comemoddata %>% select (FID:samplingprotocol, qc) %>% distinct()
+    fulloccurrence <- comeurobisdata %>% select (FID:samplingprotocol, qc) %>% distinct()
     
-    toflattenpara <- comemoddata %>% select (1, parameter, parameter_value) %>% distinct()
-    toflattenev <- comemoddata %>% select (1, event, event_type) %>% filter (!is.na(event_type) & event_type != "") %>% distinct()
+    toflattenpara <- comeurobisdata %>% select (1, parameter, parameter_value) %>% distinct()
+    toflattenev <- comeurobisdata %>% select (1, event, event_type) %>% filter (!is.na(event_type) & event_type != "") %>% distinct()
     
     parameters <- toflattenpara %>% data.table::dcast(FID ~ parameter, value.var=c("parameter_value"))
     if (nrow(toflattenev)>0){
@@ -82,7 +82,7 @@ if (exists("comemoddata") == FALSE) {print("no data in selection")} else {
     
     parainclude <- names(occurrenceflat)
    
-    paradescriptions <-  comemoddata %>% select (datasetid, parameter, parameter_measurementtypeid:parameter_conversion_factor_to_standard_unit) %>% filter (!is.na(parameter) & parameter != "") %>% distinct()
+    paradescriptions <-  comeurobisdata %>% select (datasetid, parameter, parameter_measurementtypeid:parameter_conversion_factor_to_standard_unit) %>% filter (!is.na(parameter) & parameter != "") %>% distinct()
     
     paradescriptions <- fulldata %>%  mutate (parameterPreferredLabel = Term) %>% select ( parameterName = Term, parameterID = DarwinCore.URI, 
                                               parameterPreferredLabel, parameterDefinition = Definition) %>% 
@@ -98,7 +98,7 @@ if (exists("comemoddata") == FALSE) {print("no data in selection")} else {
     
     rm(fulloccurrence,events,parameters,toflattenev,toflattenpara)
     } else if (type == "basic") {
-      occurrenceflat  <- comemoddata 
+      occurrenceflat  <- comeurobisdata 
       paradescriptions <- basicdata %>%  mutate (parameterPreferredLabel = Term) %>% select( parameterName = Term, parameterID = DarwinCore.URI, 
                                                 parameterPreferredLabel, parameterDefinition = Definition)
     }

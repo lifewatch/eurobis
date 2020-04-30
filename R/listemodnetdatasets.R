@@ -1,14 +1,14 @@
-#' REMODnet BIO datasets
+#' Eurobis datasets
 #'
 #' This function lists all datasets you can download using the eurobis package
 #' @import dplyr imis
 #' @export
 #' @examples
-#' listemodnetdatasets()
+#' listeurobisdatasets()
 
 
 
-listemodnetdatasets <- function() {
+listeurobisdatasets <- function() {
   
   dasids<-datasetsSpecialCollection(619) %>% select(DasID,StandardTitle,EngAbstract)
   

@@ -1,8 +1,8 @@
 
 eurobis
 ========
+[![Funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&labelColor=1a4e8a&color=f15922)](http://lifewatch.be)
 
-[![funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&link=http://lifewatch.be&color=blue)](https://www.lifewatch.be)
 
 [![EurOBIS](https://www.eurobis.org/images/web_resolution_logo_Eurobis.png)](https://www.eurobis.org/)
 
@@ -23,19 +23,19 @@ library("eurobis")
 
 ## Usage:
 
-- `getemodbiodata(dasid = "4662")`   - download data from a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url) or use the function `listemodnetdatasets()` to get an overview
+- `getEurobisData(dasid = "4662")`   - download data from a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url) or use the function `listemodnetdatasets()` to get an overview
 
-- `getemodbiodata(aphiaid = "141433")` - download data from a single taxon (the child taxa will be included also). Use the AphiaID obtained through http://www.marinespecies.org
+- `getEurobisData(aphiaid = "141433")` - download data from a single taxon (the child taxa will be included also). Use the AphiaID obtained through http://www.marinespecies.org
 
-- `getemodbiodata(dasid = "1884", type ="basic")` - download data only for 8 essential columns (see http://www.emodnet-biology.eu/node/172#Basic) 
+- `getEurobisData(dasid = "1884", type ="basic")` - download data only for 8 essential columns (see http://www.emodnet-biology.eu/node/172#Basic) 
 
-- `getemodbiodata(mrgid=c("5670","3315"))` - download data from a specific region using the MRGID from marineregions, or type `View(IHOareas)`, `View(EEZs)`, `View(FAOareas)` to get an overview.
+- `getEurobisData(mrgid=c("5670","3315"))` - download data from a specific region using the MRGID from marineregions, or type `View(IHOareas)`, `View(EEZs)`, `View(FAOareas)` to get an overview.
 
-- `getemodbiodata(speciesgroup = "Angiosperms")` - download data from a functional group. Values are "Algae" , "Angiosperms", "Benthos", "Birds", "Fish", "Mammals", "phytoplankton", Reptiles", "zooplankton" (case sensitive - note phytoplankton and zooplankton are lower case)
+- `getEurobisData(speciesgroup = "Angiosperms")` - download data from a functional group. Values are "Algae" , "Angiosperms", "Benthos", "Birds", "Fish", "Mammals", "phytoplankton", Reptiles", "zooplankton" (case sensitive - note phytoplankton and zooplankton are lower case)
 
-- `getemodbiodata(dasid = c("1884","618", "5780" ), aphiaid = "2036", startyear = "1980", endyear = "2010")`
+- `getEurobisData(dasid = c("1884","618", "5780" ), aphiaid = "2036", startyear = "1980", endyear = "2010")`
 
-- `getemodbiodata(geourl = "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv&resultType=results&viewParams=where%3Adatasetid+IN+%285885%29%3Bcontext%3A0100&outputFormat=csv")` download data using the WFS urls optained through the EMODnet toolbox at http://www.emodnet-biology.eu/toolbox/en/download/occurrence/preview (- you make your selection and copi-paste the url behind the "get webservice url" button)
+- `getEurobisData(geourl = "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv&resultType=results&viewParams=where%3Adatasetid+IN+%285885%29%3Bcontext%3A0100&outputFormat=csv")` download data using the WFS urls optained through the EMODnet toolbox at http://www.emodnet-biology.eu/toolbox/en/download/occurrence/preview (- you make your selection and copi-paste the url behind the "get webservice url" button)
 
 ## Output:
 
