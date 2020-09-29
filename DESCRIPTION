@@ -1,7 +1,7 @@
 Package: eurobis
 Title: EurOBIS data download package
 Version: 0.0.0.9000
-Authors@R: c(person("Daphnis", "De Pooter", email = "daphnisd@vliz.be", role = "aut",
+Authors@R: c(person("Daphnis", "De Pooter", email = "daphnisd@vliz.be", role = "aut"),
              person("Lennert", "Schepers", email = "lennert.schepers@vliz.be", role = c("ctb", "cre")),
              person("Ruben", "Perez", email = "ruben.perez@vliz.be", role = "ctb"))
 Description: Downloads EurOBIS data using the EMODnet Biology WFS
