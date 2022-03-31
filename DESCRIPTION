@@ -17,8 +17,11 @@ Imports:
     stringr,
     finch,
     rlang,
-    sf
+    sf,
+    ows4R
 Suggests:
+    testthat (>= 3.0.0),
     mapview
 Remotes: EMODnet/imis
 RoxygenNote: 6.1.1
+Config/testthat/edition: 3
