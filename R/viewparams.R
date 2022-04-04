@@ -87,6 +87,26 @@ build_filter_geo <- function(mrgid = NULL, bbox = NULL){
   }
   
   if(!is.null(bbox)){
+    is_sf <- "sf" %in% class(bbox)
+    if(is_sf){
+      no_crs <- is.na(sf::st_crs(bbox)$input)
+      if(no_crs) stop(paste0("bbox: no coordinate projection system found - set with `sf::st_crs(bbox) <- 'EPGS:<code>'`"))
+      
+      is_4326 <- sf::st_crs(bbox)$input == "EPGS:4326" 
+      if(!is_4326){
+        message("bbox: sf object projection is not 4326 - transforming coordinates to 4326")
+        bbox <- sf::st_transform(bbox, 4326)
+      }
+      
+      bbox <- sf::st_bbox(bbox)
+    }
+    
+    is_bbox <- "bbox" %in% class(bbox)
+    if(is_bbox){
+      bbox <- wellknown::bounding_wkt(values = as.vector(bbox))
+    }
+    
+    stopifnot(is.character(bbox))
     stopifnot(wellknown::validate_wkt(bbox)$is_valid)
   
     bbox <- gsub(",", "\\,", bbox, fixed = TRUE)
@@ -106,7 +126,6 @@ build_filter_geo <- function(mrgid = NULL, bbox = NULL){
   
 }
 
-
 # Creates a filter given an start and end date that can be used in viewParams in a WFS request
 # build_filter_time()
 # build_filter_time(as.Date("2000-01-01"), "2022-01-31")
@@ -120,18 +139,21 @@ build_filter_time <- function(startdate = NULL, enddate = NULL){
   if(all(dates_are_null)) return(NULL)
   if(any(dates_are_null)) stop("Both startdate and enddate must be provided or ignored")
   
-  dates_asserted <- lapply(lapply(dates, as.Date), as.character)
+  dates_as_date <- lapply(dates, as.Date) 
+  
+  if(dates_as_date[[1]] > dates_as_date[[2]]) stop("startdate cannot be smaller than enddate")
+  
+  dates_as_char <- lapply(dates_as_date, as.character)
   
   query <- paste0(
     "((observationdate+BETWEEN+'",
-    dates_asserted[[1]],
+    dates_as_char[[1]],
     "'+AND+'",
-    dates_asserted[[2]],
+    dates_as_char[[2]],
     "'))"
   )
   return(query)
 }
-
 
 # Creates a filter given an aphiaid that can be used in viewParams in a WFS request
 # build_filter_aphia()
