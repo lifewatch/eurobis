@@ -19,10 +19,23 @@
 #' test <- eurobis_occurrences("basic", dasid = 8045)
 #' test <- eurobis_occurrences("full", dasid = 8045)
 #' test <- eurobis_occurrences("full_and_parameters", dasid = 8045)
+#' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina")
+#' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = c("Zostera marina", "foo"))
+#' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "foo")
+#' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina", aphiaid = 145795)
 eurobis_occurrences <- function(type, 
                                 mrgid = NULL, bbox = NULL, dasid = NULL, 
-                                startdate = NULL, enddate = NULL, aphiaid = NULL, 
+                                startdate = NULL, enddate = NULL, 
+                                aphiaid = NULL, 
+                                scientificname = NULL,
                                 paging = FALSE, paging_length = 50000, ...){
+  # Handle Scientific name
+  if(!is.null(aphiaid) & !is.null(scientificname)){
+    warning("Both aphiaid and scientificname provided: Ignoring scientificname")
+  }else if(!is.null(scientificname)){
+    aphiaid <- eurobis_name2id(scientificname)
+  }
+  
   # WFS
   wfs_client <- eurobis_wfs_client_init()
   info_layer <- eurobis_wfs_find_layer(wfs_client, type)
@@ -42,8 +55,6 @@ eurobis_occurrences <- function(type,
 }
 
 
-# test <- eurobis_occurrences("basic", dasid = 8045)
-
 
 # Base url - change if ever data changes of place
 eurobis_wfs_url <- function(){
@@ -55,7 +66,6 @@ eurobis_wfs_url <- function(){
 # eurobis_type_handler("full")
 # eurobis_type_handler("full_and_parameters")
 eurobis_type_handler <- function(type){
-  # Dict - layer names in geoserver
   possible_types <- c(basic = "Dataportal:eurobis-obisenv_basic", 
                       full = "Dataportal:eurobis-obisenv_full", 
                       full_and_parameters = "Dataportal:eurobis-obisenv")
@@ -67,7 +77,8 @@ eurobis_type_handler <- function(type){
     possible_types_collapsed <- paste0(names(possible_types), collapse = ", ")
     stop(paste0("type must be one of: ", possible_types_collapsed))
   }
-
+  
+  # Perform
   layer_name <- subset(possible_types, names(possible_types) == type)
   return(layer_name)
 }
@@ -88,7 +99,6 @@ eurobis_wfs_client_init <- function(logger = "INFO"){
   wfs_client
 }
 
-
 # Get layer info
 eurobis_wfs_find_layer <- function(wfs_client, type){
   type <- eurobis_type_handler(type)
@@ -101,16 +111,6 @@ eurobis_wfs_find_layer <- function(wfs_client, type){
 }
 
 
-# wfs_client <- eurobis_wfs_client_init()
-# 
-# obisenv_basic <- eurobis_obisenv_basic()
-# 
-# info_layer <- eurobis_wfs_find_layer(wfs_client, obisenv_basic)
-# 
-# info_layer$getTitle()
-# info_layer$getAbstract()
-# 
-# crs <- info_layer$getDefaultCRS()
 
 
 
