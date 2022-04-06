@@ -7,7 +7,7 @@ test_that("Maps work", {
   expect_true(base_is_leaflet)
   
   for(mr in c("eez", "iho", "eez_iho")){
-    mr_map <- eurobis_mr_map(mr)
+    mr_map <- eurobis_map_mr(mr)
     mr_is_leaflet <- "leaflet" %in% class(mr_map)
     expect_true(mr_is_leaflet)
   }

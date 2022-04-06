@@ -5,8 +5,18 @@ test_that("viewParams are build correctly", {
   
   # Geo
   wkt <- 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))'
+  wkt_collection <- 'GEOMETRYCOLLECTION (POLYGON ((-2 52, -2 58, 9 58, 9 52, -2 52)), POLYGON ((-2 52, -2 58, 9 58, 9 52, -2 52)))'
+  wkt_wrong_geom <- 'GEOMETRYCOLLECTION (POINT (-2 52), POLYGON ((-2 52, -2 58, 9 58, 9 52, -2 52)))'
+  
+  polygon_fine <- sf::st_as_sfc(wkt)
+  polygon_collection <- sf::st_geometrycollection(
+    list(
+      sf::st_point(c(1, 0)),
+      sf::st_polygon(list(matrix(c(5.5, 7, 7, 6, 5.5, 0, 0, -0.5, -0.5, 0), ncol = 2)))
+    )
+  )
 
-  geo_ok_both <- is.character(build_filter_geo(mrgid = 8364, bbox = wkt))
+  geo_ok_both <- is.character(build_filter_geo(mrgid = 8364, polygon = wkt))
   expect_true(geo_ok_both)
   
   geo_ok_mrgid <- is.character(build_filter_geo(mrgid = 8364))
@@ -15,19 +25,21 @@ test_that("viewParams are build correctly", {
   geo_ok_mrgids <- is.character(build_filter_geo(mrgid = c(8364, 8365)))
   expect_true(geo_ok_mrgids)
   
-  geo_ok_wkt <- is.character(build_filter_geo(bbox = wkt))
+  geo_ok_wkt <- is.character(build_filter_geo(polygon = wkt))
   expect_true(geo_ok_wkt)
-  expect_error(build_filter_geo(bbox = "This is not WKT"))
+  expect_error(build_filter_geo(polygon = "This is not WKT"))
+  
+  geo_ok_polygon <- is.character(build_filter_geo(polygon = polygon_fine))
+  expect_true(geo_ok_polygon)
+  
+  geo_ok_polygon_collection <- is.character(build_filter_geo(polygon = polygon_collection))
+  expect_true(geo_ok_polygon_collection)
   
   test_df <- sf::st_as_sf(data.frame(wkt = wkt), wkt = "wkt")
-  expect_error(build_filter_geo(bbox = test_df))
+  expect_error(build_filter_geo(polygon = test_df))
   sf::st_crs(test_df) <- 4326
-  geo_ok_sf <- is.character(build_filter_geo(bbox = test_df))
+  geo_ok_sf <- is.character(build_filter_geo(polygon = test_df))
   expect_true(geo_ok_sf)
-  
-  test_bbox <- sf::st_bbox(test_df)
-  geo_ok_bbox <- is.character(build_filter_geo(test_bbox))
-  expect_true(geo_ok_bbox)
   
   # Dates
   date_ok_char <- is.character(build_filter_time("1990-01-01", "2020-01-01"))
@@ -53,7 +65,7 @@ test_that("viewParams are build correctly", {
   
   # All together
   is_character <- is.character(
-    build_viewparams(mrgid = 8364, bbox = wkt, 
+    build_viewparams(mrgid = 8364, polygon = wkt, 
                      dasid = 216, startdate = "2000-01-01", enddate = "2022-01-31", 
                      aphiaid = c(104108, 148947))
   )

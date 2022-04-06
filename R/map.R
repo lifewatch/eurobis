@@ -11,10 +11,10 @@
 #' - eez_iho = Intersection of the EEZ and IHO areas
 #' 
 #' @examples 
-#' eurobis_mr_map('eez')
-#' eurobis_mr_map('iho')
-#' eurobis_mr_map('eez_iho')
-eurobis_mr_map <- function(layer = 'eez'){
+#' eurobis_map_mr('eez')
+#' eurobis_map_mr('iho')
+#' eurobis_map_mr('eez_iho')
+eurobis_map_mr <- function(layer = 'eez'){
   mr_wms <- "http://geo.vliz.be/geoserver/MarineRegions/wms?"
   
   # Assertions
@@ -44,28 +44,30 @@ eurobis_mr_map <- function(layer = 'eez'){
 #' @return
 #' @export
 #'
-#' @examples wkt <- eurobis_draw_bbox()
-eurobis_draw_bbox <- function(){
+#' @examples wkt <- eurobis_map_draw()
+eurobis_map_draw <- function(){
   if(!interactive()) NULL
   
   base_map <- eurobis_base_map() %>% add_labels()
   
-  rectangle <- mapedit::editMap(
+  polygon <- mapedit::editMap(
     base_map, 
     editorOptions = list(
       polylineOptions = FALSE, markerOptions = FALSE, circleOptions = FALSE, 
-      circleMarkerOptions = FALSE, polygonOptions = FALSE,
+      circleMarkerOptions = FALSE,
       singleFeature = TRUE
     ), 
-    title = "Draw a rectangle",
+    title = "Click on the toolbar on the left to start drawing your area of interest. Click Done when you have finished.",
     crs = 4326
   )$all
   
   # Assertions
-  if(is.null(rectangle)) stop("No bounding box was created")
-  if(nrow(rectangle) > 1) stop("Only one bounding box supported")
+  if(is.null(polygon)) stop("No polygon was created")
+  if(nrow(polygon) > 1){
+    polygon <- sf::st_combine(polygon)
+  }
   
-  wkt <- sf::st_as_text(sf::st_geometry(rectangle))
+  wkt <- sf::st_as_text(sf::st_geometry(polygon))
   
   message(wkt)
   return(wkt)
@@ -96,7 +98,7 @@ add_labels <- function(map){
   emodnet_labels <- "https://tiles.emodnet-bathymetry.eu/osm/labels/inspire_quad/{z}/{x}/{y}.png"
   map %>%
     leaflet::addTiles(urlTemplate = emodnet_labels,
-                      options = tileOptions(tms = FALSE)
+                      options = leaflet::tileOptions(tms = FALSE)
     ) %>%
     leaflet::setView(15, 45, zoom = 2)
 }

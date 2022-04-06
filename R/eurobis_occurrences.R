@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @examples 
-#' test <- eurobis_occurrences("basic", dasid = 8045)
+#' test <- eurobis_occurrences("basic", dasid = 8045, mrgid = c(5688, 5686))
 #' test <- eurobis_occurrences("full", dasid = 8045)
 #' test <- eurobis_occurrences("full_and_parameters", dasid = 8045)
 #' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina")
@@ -50,6 +50,8 @@ eurobis_occurrences <- function(type,
   eurobis_data <- info_layer$getFeatures(viewParams = viewparams, resultType="results",
                                          paging = paging, paging_length = paging_length, 
                                          ...)
+  
+  eurobis_data <- eurobis_sf_df_handler(eurobis_data)
   
   return(eurobis_data)
 }
@@ -111,6 +113,23 @@ eurobis_wfs_find_layer <- function(wfs_client, type){
 }
 
 
-
-
-
+# Handle sf and data.frame objects
+eurobis_sf_df_handler <- function(sf_df){
+  stopifnot(is(sf_df, c("sf", "data.frame")))
+  
+  names(sf_df) <- tolower(names(sf_df))
+  
+  is_not_sf <- !is(sf_df, c("sf"))
+  
+  if(is.data.frame(sf_df) & is_not_sf){
+    coords_exists <- "decimallatitude" %in% names(sf_df) & "decimallatitude" %in% names(sf_df)
+    stopifnot(coords_exists)
+    
+    if(coords_exists){
+      sf_df <- sf::st_as_sf(sf_df, coords = c("decimallongitude", "decimallatitude"), crs = 4326)
+    }
+    
+  }
+  
+  return(sf_df)
+}
