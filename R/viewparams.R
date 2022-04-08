@@ -110,12 +110,12 @@ build_filter_geo <- function(mrgid = NULL, polygon = NULL){
     
     is_bbox <- "bbox" %in% class(polygon)
     if(is_bbox){
-      polygon <- wellknown::bounding_wkt(values = as.vector(polygon))
+      polygon <- sf::st_as_text(sf::st_as_sfc(polygon))
     }
     
     if(is.character(polygon)){
-      is_valid_wkt <- wellknown::validate_wkt(polygon)$is_valid
-      stopifnot(is_valid_wkt)
+      is_valid_wkt <- wk::wk_problems(wk::new_wk_wkt(polygon))
+      if(!is.na(is_valid_wkt)) stop(glue::glue("Invalid WKT string: {is_valid_wkt}"))
       
       polygon <- sf::st_as_sfc(polygon)
     }
@@ -139,10 +139,6 @@ build_filter_geo <- function(mrgid = NULL, polygon = NULL){
     }
     
     polygon <- sf::st_as_text(sf::st_geometry(polygon))
-    
-    # Extra assertions
-    stopifnot(is.character(polygon))
-    stopifnot(wellknown::validate_wkt(polygon)$is_valid)
     
     # Perform
     polygon <- gsub(",", "\\,", polygon, fixed = TRUE)
