@@ -63,11 +63,28 @@ test_that("viewParams are build correctly", {
   expect_warning(build_filter_aphia(104108.5))
   expect_null(build_filter_aphia())
   
+  # Traits
+  traits_ok <- is.character(build_filter_traits(
+    functional_groups = c("algae", "zooplankton"),
+    cites = "I",
+    habitats_directive = "IV",
+    iucn_red_list = c("data deficient", "least concern"),
+    msdf_indicators = "Black Sea proposed indicators"
+  ))
+  expect_true(traits_ok)
+  expect_error(build_filter_traits("foo"))
+  
+  
   # All together
   is_character <- is.character(
-    build_viewparams(mrgid = 8364, polygon = wkt, 
+    build_viewparams(mrgid = 8364, geometry = wkt, 
                      dasid = 216, startdate = "2000-01-01", enddate = "2022-01-31", 
-                     aphiaid = c(104108, 148947))
+                     aphiaid = c(104108, 148947),
+                     functional_groups = c("algae", "zooplankton"),
+                     cites = "I",
+                     habitats_directive = "IV",
+                     iucn_red_list = c("data deficient", "least concern"),
+                     msdf_indicators = "Black Sea proposed indicators")
   )
   expect_true(is_character)
   

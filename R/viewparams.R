@@ -9,7 +9,7 @@ build_encode <- function(query){
 #' String that can be passed to viewParams 
 #'
 #' @param mrgid Marine Regions Gazetteer unique identifier
-#' @param bbox Bounding box of the region of interest as WKT. If another type of feature is provided, the bounding box is calculated automatically
+#' @param polygon Polygon of the region of interest as WKT or sf object. Draw with eurobis_draw_polygon.
 #' @param dasid IMIS dataset unique identifier
 #' @param startdate Start date of occurrences
 #' @param enddate End date of occurrences
@@ -21,19 +21,24 @@ build_encode <- function(query){
 #' @examples 
 #' build_viewparams()
 #' build_viewparams(mrgid = 8364)
-#' build_viewparams(bbox = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
-#' build_viewparams(mrgid = 8364, bbox = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
+#' build_viewparams(polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
+#' build_viewparams(mrgid = 8364, polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
 #' build_viewparams(dasid = 216)
 #' build_viewparams(dasid = 216, startdate = "2000-01-01", enddate = "2022-01-31")
-#' build_viewparams(mrgid = 8364, bbox = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))', 
+#' build_viewparams(mrgid = 8364, polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))', 
 #'                  dasid = 216, startdate = "2000-01-01", enddate = "2022-01-31", aphiaid = c(104108, 148947))
-build_viewparams <- function(mrgid = NULL, bbox = NULL, dasid = NULL, 
-                             startdate = NULL, enddate = NULL, aphiaid = NULL){
+build_viewparams <- function(mrgid = NULL, geometry = NULL, dasid = NULL, 
+                             startdate = NULL, enddate = NULL, aphiaid = NULL, 
+                             functional_groups = NULL, cites = NULL, habitats_directive = NULL,
+                             iucn_red_list = NULL, msdf_indicators = NULL
+                             ){
   
   filters <- c(
-    build_filter_geo(mrgid, bbox),
+    build_filter_geo(mrgid, geometry),
     build_filter_dataset(dasid),
-    build_filter_time(startdate, enddate)
+    build_filter_time(startdate, enddate),
+    build_filter_traits(functional_groups, cites, habitats_directive, 
+                        iucn_red_list, msdf_indicators)
   )
   
   filter_aphia <- build_filter_aphia(aphiaid)
@@ -65,66 +70,101 @@ build_filter_dataset <- function(dasid = NULL){
 
 
 
-# Creates a filter by mrgid or spatial with a bbox or polygon that can be used in viewParams in a WFS request
+# Creates a filter by mrgid or spatial with a polygon or polygon that can be used in viewParams in a WFS request
 # mrgid must be a character vector with mrgids
-# bbox must be a WKT string with the bbox
+# polygon must be a WKT string or sf object
 # build_filter_geo()
 # build_filter_geo(8364)
-# build_filter_geo(bbox = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
+# build_filter_geo(polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
 # build_filter_geo(8364, 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
-build_filter_geo <- function(mrgid = NULL, bbox = NULL){
-  if(is.null(mrgid) & is.null(bbox)){
+build_filter_geo <- function(mrgid = NULL, polygon = NULL){
+  if(is.null(mrgid) & is.null(polygon)){
     return(NULL)
   }
   
   base <- URLencode("(", T)
   mrgid_query <- NULL
-  bbox_query <- NULL
-  
+  polygon_query <- NULL
+
+  # Assertions mrgid
   if(!is.null(mrgid)){
     mrgid <- paste0(mrgid, collapse = "\\,")
     mrgid_query <- paste0("(up.geoobjectsids+&&+ARRAY[", mrgid, "])")
   }
   
-  if(!is.null(bbox)){
-    is_sf <- "sf" %in% class(bbox)
+  # Assertions polygon
+  if(!is.null(polygon)){
+    is_sf <- "sf" %in% class(polygon)
     if(is_sf){
-      no_crs <- is.na(sf::st_crs(bbox)$input)
-      if(no_crs) stop(paste0("bbox: no coordinate projection system found - set with `sf::st_crs(bbox) <- 'EPGS:<code>'`"))
+      no_crs <- is.na(sf::st_crs(polygon)$input)
+      if(no_crs) stop(paste0("polygon: no coordinate projection system found - set with `sf::st_crs(polygon) <- 'EPGS:<code>'`"))
       
-      is_4326 <- sf::st_crs(bbox)$input == "EPGS:4326" 
+      is_4326 <- sf::st_crs(polygon)$input == "EPGS:4326" 
       if(!is_4326){
-        message("bbox: sf object projection is not 4326 - transforming coordinates to 4326")
-        bbox <- sf::st_transform(bbox, 4326)
+        message("polygon: sf object projection is not 4326 - transforming coordinates to EPGS:4326")
+        polygon <- sf::st_transform(polygon, 4326)
       }
       
-      bbox <- sf::st_bbox(bbox)
+      
     }
     
-    is_bbox <- "bbox" %in% class(bbox)
+    is_bbox <- "bbox" %in% class(polygon)
     if(is_bbox){
-      bbox <- wellknown::bounding_wkt(values = as.vector(bbox))
+      polygon <- wellknown::bounding_wkt(values = as.vector(polygon))
     }
     
-    stopifnot(is.character(bbox))
-    stopifnot(wellknown::validate_wkt(bbox)$is_valid)
-  
-    bbox <- gsub(",", "\\,", bbox, fixed = TRUE)
-    bbox_query <- paste0("(ST_Intersects(ST_Envelope(ST_SetSRID(ST_GeomFromText('", bbox, "')\\,4326))\\,+up.the_geom))")
+    if(is.character(polygon)){
+      is_valid_wkt <- wellknown::validate_wkt(polygon)$is_valid
+      stopifnot(is_valid_wkt)
+      
+      polygon <- sf::st_as_sfc(polygon)
+    }
+    
+    # Geometry collection check
+    geom_type <- sf::st_geometry_type(polygon, by_geometry = FALSE)
+    
+    is_collection <- any(c("GEOMETRYCOLLECTION", "GEOMETRY") %in% geom_type)
+    if(is_collection){
+      message("Geometry supplied is of type 'GEOMETRYCOLLECTION'. Extracting only features of type 'POLYGON' or 'MULTIPOLYGON")
+      
+      polygon <- sf::st_collection_extract(
+        polygon,
+        type = "POLYGON",
+        warn = TRUE
+      )
+    }
+    
+    if(length(polygon) > 1){
+      polygon <- sf::st_combine(polygon)
+    }
+    
+    polygon <- sf::st_as_text(sf::st_geometry(polygon))
+    
+    # Extra assertions
+    stopifnot(is.character(polygon))
+    stopifnot(wellknown::validate_wkt(polygon)$is_valid)
+    
+    # Perform
+    polygon <- gsub(",", "\\,", polygon, fixed = TRUE)
+    polygon_query <- paste0("(ST_Intersects(ST_SetSRID(ST_GeomFromText('", polygon, "')\\,4326)\\,+up.the_geom))")
   }
   
   if(is.null(mrgid_query)){
-    query <- paste0("(", bbox_query, ")")
-  }else if(is.null(bbox_query)){
+    query <- paste0("(", polygon_query, ")")
+  }else if(is.null(polygon_query)){
     query <- paste0("(", mrgid_query, ")")
   }else{
-    query <- paste(mrgid_query, bbox_query, sep = "+OR+")
+    query <- paste(mrgid_query, polygon_query, sep = "+OR+")
     query <- paste0("(", query, ")")
   }
-  
   return(query)
-  
 }
+
+
+
+
+
+
 
 # Creates a filter given an start and end date that can be used in viewParams in a WFS request
 # build_filter_time()
@@ -177,26 +217,84 @@ build_filter_aphia <- function(aphiaid = NULL){
   return(query)
 }
 
+# functional_groups = NULL, 
+# cites = NULL, 
+# habitats_directive = NULL, 
+# iucn_red_list = NULL, 
+# msdf_indicators = NULL
 
-## Other filter that won't be created as it will bring further confusion
-## We can get these by asking the user to parse an WFS request url from the EMODnet-Biology Download Toolbox
-## and choosing only the viewParams query
-## We can also give the option of passing cql_filters with vendor params
+## Taxon attributes
+# build_filter_traits(
+#   functional_groups = c("algae", "zooplankton"),
+#   cites = "I",
+#   habitats_directive = "IV",
+#   iucn_red_list = c("data deficient", "least concern"),
+#   msdf_indicators = "Black Sea proposed indicators"
+# )
+build_filter_traits <- function(functional_groups = NULL, cites = NULL, habitats_directive = NULL,
+                                iucn_red_list = NULL, msdf_indicators = NULL
+  ){
+  
+  traits = list(`Functional group` = functional_groups, 
+                `CITES Annex` = cites, 
+                `Habitats Directive Annex` = habitats_directive,
+                `IUCN Red List Category` = iucn_red_list,
+                `MSFD indicators` = msdf_indicators)
+  
+  traits <- purrr::compact(traits)
+  if(length(traits) == 0) return(NULL)
+  
+  # Assertions
+  traits_are_character <- all(unlist(lapply(traits, is.character)))
+  stopifnot(traits_are_character)
+  
+  # Check values passed to traits
+  for(i in 1:length(traits)){
+      trait_name <- names(traits[i])
+      accepted <- subset(species_traits$selection, species_traits$group == trait_name)
+      not_accepted <- subset(traits[[i]], !(tolower(traits[[i]]) %in% tolower(accepted)))
+      
+      if(length(not_accepted) != 0){
+        stop(glue::glue("{paste0(not_accepted, collapse = ', ')} not accepted. Values of {trait_name} must be in: {paste0(accepted, collapse = '; ')}"))
+      }
+  }
+  
+  # Perform
+  traits <- tolower(unlist(traits))
+  selectid <- subset(species_traits$selectid, tolower(species_traits$selection) %in% traits)
+  selectid <- paste0("'", selectid, "'")
+  selectid <- paste0(selectid, collapse = "\\,")
+  
+  query <- paste0(
+    "aphiaid+IN+(+SELECT+aphiaid+FROM+eurobis.taxa_attributes+WHERE+selectid+IN+(",
+    selectid,
+    "))"
+  )
+  
+  return(query)
+  
+}
 
-## season NOPE
-# +AND+((observationdate+BETWEEN+'2000-01-01'+AND+'2022-01-31'+AND+seasonID+IN+(2\\,3)))
 
-## Taxon rank - NOPE
-# +AND+taxonrank+>=+180
 
-## Time precision - NOPE
-# +AND+time_precision+>=+10
 
-## Coordinate precision - NOPE
-# +AND+(false+OR+coordinateprecision_category+=+0+OR+coordinateprecision_category+=+1)
-
-## Certain measurement types
-# +AND+measurement_type_group_ids+&&+ARRAY[19\\,46]
-
-## Taxon attributes - NOPE
-# +AND+aphiaid+IN+(+SELECT+aphiaid+FROM+eurobis.taxa_attributes+WHERE+selectid+IN+('zooplankton'\\,'Zooplankton'\\,'phytoplankton'\\,'Benthos'))
+# ## Other filter that won't be created as it will bring further confusion
+# ## We can get these by asking the user to parse an WFS request url from the EMODnet-Biology Download Toolbox
+# ## and choosing only the viewParams query
+# ## We can also give the option of passing cql_filters with vendor params
+# 
+# ## season NOPE
+# # +AND+((observationdate+BETWEEN+'2000-01-01'+AND+'2022-01-31'+AND+seasonID+IN+(2\\,3)))
+# 
+# ## Taxon rank - NOPE
+# # +AND+taxonrank+>=+180
+# 
+# ## Time precision - NOPE
+# # +AND+time_precision+>=+10
+# 
+# ## Coordinate precision - NOPE
+# # +AND+(false+OR+coordinateprecision_category+=+0+OR+coordinateprecision_category+=+1)
+# 
+# ## Certain measurement types
+# # +AND+measurement_type_group_ids+&&+ARRAY[19\\,46]
+# 

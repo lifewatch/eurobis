@@ -52,3 +52,22 @@ Meta
 # Pkgdown local files. These are ignored so they dont interfere
 # with the automatic deployment of the package website
 docs/*
+
+
+
+# Temporal: deprecate previous functions
+man/cleandataframe.Rd
+man/createwfsurls.Rd
+man/fncols.Rd
+man/getEurobisData.Rd
+man/getEurobisGrid.Rd
+man/getEurobisPoints.Rd
+man/getoriginaldata.Rd
+man/listeurobisdatasets.Rd
+man/richtfrom.Rd
+man/sectioninstring.Rd
+R/getEurobisData.R
+R/getEurobisPoints.R
+R/getoriginaldata.r
+R/helperfunctions.r
+R/listeurobisdatasets.R

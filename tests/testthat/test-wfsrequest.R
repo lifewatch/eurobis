@@ -28,9 +28,48 @@ test_that("sf handler works fine", {
   skip_on_cran()
   skip_on_ci()
   
-  test <- eurobis_occurrences("basic", dasid = 8045)
-  test_handler <- eurobis_sf_df_handler(test)
-  expect_true(is(test_handler, c("sf")))
+  
+  pol_gibraltar <- 'POLYGON ((-6.102905 36.2026, -5.064697 36.21634, -5.039978 35.67239, -6.122131 35.65591, -6.204529 35.98832, -6.102905 36.2026))'
+  
+  undebug(eurobis_occurrences)
+  
+  test <- eurobis_occurrences(
+    "basic", 
+    geometry = pol_gibraltar,
+    startdate = "1990-01-01",
+    enddate = "1995-12-31",
+    functional_groups = "mammals" # mammals cool!
+  )
+  
+  test <- eurobis_occurrences(
+    "basic", 
+    geometry = pol_gibraltar,
+    startdate = "1990-01-01",
+    enddate = "1995-12-31",
+    # scientificname = "Delphinidae",
+    # aphiaid = "136980",
+    functional_groups = "pisces" # mammals cool!
+  )
+  
+  
+  
+  build_viewparams(    geometry = pol_gibraltar,
+                       # startdate = "1993-01-01",
+                       # enddate = "1993-12-31",
+                       functional_groups = "angiosperms")
+  
+  
+  
+  
+})
+
+
+test_that("all filters perform as expected", {
+  skip_if_offline()
+  skip_on_cran()
+  skip_on_ci()
+  
+  
   
   
 })

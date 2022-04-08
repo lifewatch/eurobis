@@ -3,13 +3,13 @@
 #' @param type Type of data, one of c('basic', 'full', 'full_and_parameters'). 
 #' More info at: https://www.emodnet-biology.eu/emodnet-data-format
 #' @param mrgid Marine Regions Gazetteer unique identifier
-#' @param bbox Bounding box of the region of interest as WKT. If another type of feature is provided, the bounding box is calculated automatically
-#' @param dasid IMIS dataset unique identifier
-#' @param startdate Start date of occurrences
-#' @param enddate End date of occurrences
-#' @param aphiaid WoRMS taxon unique identifier
+#' @param geometry a WKT geometry string or sf object with the region of interest.
+#' @param dasid IMIS dataset unique identifier.
+#' @param startdate Start date of occurrences.
+#' @param enddate End date of occurrences.
+#' @param aphiaid WoRMS taxon unique identifier.
 #' @param paging If TRUE, the data will be requested on chunks. Use for large requests.
-#' @param paging_length Size of chunks in number of rows. Default 50K
+#' @param paging_length Size of chunks in number of rows. Default 50K.
 #' @param ... Any parameters to pass to ows4r getFeature() (e.g. cql_filter or parallel)
 #'
 #' @return
@@ -20,15 +20,25 @@
 #' test <- eurobis_occurrences("full", dasid = 8045)
 #' test <- eurobis_occurrences("full_and_parameters", dasid = 8045)
 #' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina")
-#' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = c("Zostera marina", "foo"))
-#' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "foo")
-#' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina", aphiaid = 145795)
+#' test <- eurobis_occurrences("full", dasid = 8045, functional_groups = "angiosperms")
 eurobis_occurrences <- function(type, 
-                                mrgid = NULL, bbox = NULL, dasid = NULL, 
+                                mrgid = NULL, 
+                                geometry = NULL, 
+                                dasid = NULL, 
                                 startdate = NULL, enddate = NULL, 
-                                aphiaid = NULL, 
-                                scientificname = NULL,
+                                aphiaid = NULL, scientificname = NULL,
+                                functional_groups = NULL, 
+                                cites = NULL, 
+                                habitats_directive = NULL,
+                                iucn_red_list = NULL, 
+                                msdf_indicators = NULL,
                                 paging = FALSE, paging_length = 50000, ...){
+  
+  # Add filters
+  viewparams <- build_viewparams(mrgid, geometry, dasid, startdate, enddate, aphiaid, 
+                                 functional_groups, cites, habitats_directive,
+                                 iucn_red_list, msdf_indicators)
+  
   # Handle Scientific name
   if(!is.null(aphiaid) & !is.null(scientificname)){
     warning("Both aphiaid and scientificname provided: Ignoring scientificname")
@@ -44,33 +54,25 @@ eurobis_occurrences <- function(type,
   info_msg <- paste0("Downloading the ", info_layer$getTitle(), ". ", info_layer$getAbstract())
   message(info_msg)
   
-  # Add filters
-  viewparams <- build_viewparams(mrgid, bbox, dasid, startdate, enddate, aphiaid)
-  
+  # Perform
   eurobis_data <- info_layer$getFeatures(viewParams = viewparams, resultType="results",
                                          paging = paging, paging_length = paging_length, 
                                          ...)
   
   eurobis_data <- eurobis_sf_df_handler(eurobis_data)
   
+  if(nrow(eurobis_data) == 0) warning("There are 0 occurrences in EurOBIS for this query at the moment")
+  
   return(eurobis_data)
 }
 
-
-
-# Base url - change if ever data changes of place
-eurobis_wfs_url <- function(){
-  "https://geo.vliz.be/geoserver/Dataportal/wfs"
-}
 
 # Returns the layer name in geoserver given one of the three types
 # eurobis_type_handler("basic")
 # eurobis_type_handler("full")
 # eurobis_type_handler("full_and_parameters")
 eurobis_type_handler <- function(type){
-  possible_types <- c(basic = "Dataportal:eurobis-obisenv_basic", 
-                      full = "Dataportal:eurobis-obisenv_full", 
-                      full_and_parameters = "Dataportal:eurobis-obisenv")
+  possible_types <- unlist(eurobis_url$datatypes)
   # Assertions
   stopifnot(length(type) == 1)
   
@@ -88,7 +90,7 @@ eurobis_type_handler <- function(type){
 
 # Starts WFS client
 eurobis_wfs_client_init <- function(logger = "INFO"){
-  service <- eurobis_wfs_url()
+  service <- eurobis_url$dataportal$wfs
   
   # Assertions
   stopifnot(curl::has_internet())
@@ -98,7 +100,7 @@ eurobis_wfs_client_init <- function(logger = "INFO"){
   # Perform
   wfs_client <- ows4R::WFSClient$new(service, "2.0.0" #, logger = logger
                                      )
-  wfs_client
+  return(wfs_client)
 }
 
 # Get layer info
@@ -109,7 +111,7 @@ eurobis_wfs_find_layer <- function(wfs_client, type){
   info_layer <- caps$
     findFeatureTypeByName(type)
   
-  info_layer
+  return(info_layer)
 }
 
 
@@ -126,10 +128,23 @@ eurobis_sf_df_handler <- function(sf_df){
     stopifnot(coords_exists)
     
     if(coords_exists){
-      sf_df <- sf::st_as_sf(sf_df, coords = c("decimallongitude", "decimallatitude"), crs = 4326)
+      
+      if(nrow(sf_df) == 0){
+        sf_df <- suppressWarnings(
+          sf::st_as_sf(sf_df, coords = c("decimallongitude", "decimallatitude"), remove = FALSE)
+        )
+      }else{
+        sf_df <- sf::st_as_sf(sf_df, coords = c("decimallongitude", "decimallatitude"), remove = FALSE)
+      }
+      
     }
     
   }
+  
+  if("geometry" %in% names(sf_df)) sf_df <- sf_df %>% rename(the_geom = geometry)
+  if("geom" %in% names(sf_df)) sf_df <- sf_df %>% rename(the_geom = geom)
+  
+  sf::st_crs(sf_df) <- 4326
   
   return(sf_df)
 }

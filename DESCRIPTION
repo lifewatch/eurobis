@@ -1,8 +1,9 @@
 Package: eurobis
 Title: EurOBIS data download package
 Version: 0.0.0.9000
-Authors@R: c(person("Daphnis", "De Pooter", email = "daphnisd@vliz.be", role = "aut"),
-             person("Lennert", "Schepers", email = "lennert.schepers@vliz.be", role = c("ctb", "cre")),
+Authors@R: c(person("Salvador", "Fernandez", email = "salvador.fernandez@vliz.be", role = c("cre", "ctb")),
+             person("Daphnis", "De Pooter", role = "aut"),
+             person("Lennert", "Schepers", email = "lennert.schepers@vliz.be", role = "ctb"),
              person("Ruben", "Perez", email = "ruben.perez@vliz.be", role = "ctb"))
 Description: Downloads EurOBIS data using the EMODnet Biology WFS
 URL: https://github.com/lifewatch/eurobis
@@ -11,17 +12,23 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    dplyr,
-    data.table,
-    reshape2,
-    stringr,
-    finch,
-    rlang,
     sf,
-    ows4R
+    ows4R,
+    magrittr,
+    leaflet,
+    httr,
+    shiny,
+    mapedit,
+    leaflet.extras2,
+    worrms,
+    wellknown,
+    glue,
+    dplyr
 Suggests:
     testthat (>= 3.0.0),
     mapview
-Remotes: EMODnet/imis
-RoxygenNote: 6.1.1
+Remotes: EMODnet/EMODnetWFS
+RoxygenNote: 7.1.1
 Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)
