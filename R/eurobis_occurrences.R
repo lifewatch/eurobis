@@ -2,6 +2,7 @@
 #'
 #' @param type Type of data, one of c('basic', 'full', 'full_and_parameters'). 
 #' More info at: https://www.emodnet-biology.eu/emodnet-data-format
+#' @param url A WFS request copied from the LifeWatch/EMODnet-Biology Download Toolbox. Use eurobis_download_toolbox()
 #' @param mrgid Marine Regions Gazetteer unique identifier
 #' @param geometry a WKT geometry string or sf object with the region of interest.
 #' @param dasid IMIS dataset unique identifier.
@@ -22,6 +23,7 @@
 #' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina")
 #' test <- eurobis_occurrences("full", dasid = 8045, functional_groups = "angiosperms")
 eurobis_occurrences <- function(type, 
+                                url = NULL,
                                 mrgid = NULL, 
                                 geometry = NULL, 
                                 dasid = NULL, 
@@ -35,9 +37,13 @@ eurobis_occurrences <- function(type,
                                 paging = FALSE, paging_length = 50000, ...){
   
   # Add filters
-  viewparams <- build_viewparams(mrgid, geometry, dasid, startdate, enddate, aphiaid, 
-                                 functional_groups, cites, habitats_directive,
-                                 iucn_red_list, msdf_indicators)
+  if(!is.null(url)){
+    viewparams <- extract_viewparams(url)
+  }else if(is.null(url)){
+    viewparams <- build_viewparams(mrgid, geometry, dasid, startdate, enddate, aphiaid, 
+                                   functional_groups, cites, habitats_directive,
+                                   iucn_red_list, msdf_indicators)
+  }
   
   # Handle Scientific name
   if(!is.null(aphiaid) & !is.null(scientificname)){
