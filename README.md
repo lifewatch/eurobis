@@ -21,48 +21,56 @@ devtools::install_github("lifewatch/eurobis")
 library("eurobis")
 ```
 
-## Usage:
+## Get occurrences
 
-- `getEurobisData(dasid = "4662")`   - download data from a single dataset. Use the dasid obtained through the http://www.emodnet-biology.eu/data-catalog (the id from the url) or use the function `listemodnetdatasets()` to get an overview
+Use the `eurobis_occurrences()` function. You can filter on dataset, time, taxon name and AphiaID WoRMS identifier, functional group and some important classifications such as the IUCN Red List or MSDF Indicators.
 
-- `getEurobisData(aphiaid = "141433")` - download data from a single taxon (the child taxa will be included also). Use the AphiaID obtained through http://www.marinespecies.org
+Via the first argument `type` you must select the level of detail you desire to download: `basic`, `full` or `full_and_parameters`:
 
-- `getEurobisData(dasid = "1884", type ="basic")` - download data only for 8 essential columns (see http://www.emodnet-biology.eu/node/172#Basic) 
-
-- `getEurobisData(mrgid=c("5670","3315"))` - download data from a specific region using the MRGID from marineregions, or type `View(IHOareas)`, `View(EEZs)`, `View(FAOareas)` to get an overview.
-
-- `getEurobisData(speciesgroup = "Angiosperms")` - download data from a functional group. Values are "Algae" , "Angiosperms", "Benthos", "Birds", "Fish", "Mammals", "phytoplankton", Reptiles", "zooplankton" (case sensitive - note phytoplankton and zooplankton are lower case)
-
-- `getEurobisData(dasid = c("1884","618", "5780" ), aphiaid = "2036", startyear = "1980", endyear = "2010")`
-
-- `getEurobisData(geourl = "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv&resultType=results&viewParams=where%3Adatasetid+IN+%285885%29%3Bcontext%3A0100&outputFormat=csv")` download data using the WFS urls optained through the EMODnet toolbox at http://www.emodnet-biology.eu/toolbox/en/download/occurrence/preview (- you make your selection and copi-paste the url behind the "get webservice url" button)
-
-## Output:
-
-List with 3 data frames
-- data - downloaded records
-- meta - the descriptions of the terms
-- datasets - the titles, citations and licences of the datasets used in the download
-
-## Get spatial distribution
-
-Two functions were added to directly view the spatial distribution of the occurrences of a species:
-
-- `getEurobisGrid(aphiaid = "126436", gridsize = "1d")` - get the number of occurrences of a WoRMS taxon (aphiaid) in a grid with size: '6m', '15m', '30m', '1d' (6 minutes, 15 minutes, 30 minutes, 1 degree).
-
-- `getEurobisPoints(aphiaid = "126436")` - get the point occurrences of a WoRMS taxon (aphiaid)
-
-for example, see the two examples below:
-```R
-Eurobis_grid <- getEurobisGrid(aphiaid = "126436", gridsize = "1d")
-mapview(Eurobis_grid, zcol = 'RecordCount', lwd = 0)
+```r
+occ <- eurobis_occurrences("basic", dasid = 8045)
 ```
-![eurobis_grid](https://raw.githubusercontent.com/lifewatch/eurobis/master/fig/eurobis_grid.PNG)
-```R
-Eurobis_points <- getEurobisPoints(aphiaid = "126436")
-mapview(Eurobis_points, cex = 1)
+
+```r
+occ2 <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina")
 ```
-![eurobis_points](https://raw.githubusercontent.com/lifewatch/eurobis/master/fig/eurobis_points.PNG)
+
+```r
+occ3 <- eurobis_occurrences("full", dasid = 8045, functional_groups = "angiosperms")
+```
+
+```r
+occ4 <- eurobis_occurrences("full_and_parameters", dasid = 8045, iucn_red_list = "least concern")
+```
+
+
+## Query by location
+
+You can also filter by location, either using the Marine Regions Gazetteer Identifier (MRGID) or passing any polygon as Well Known Text.
+
+To help drawing the area of your interest, you can use `eurobis_map_draw()`. You can draw here a polygon interactively:
+
+```r
+selected_area <- eurobis_map_draw()
+selected_area
+#> POLYGON ((-9.625301 38.19684, -9.625301 39.7145, -8.61519 39.7145, -8.61519 38.19684, -9.625301 38.19684))
+occ5 <- eurobis_occurrences("basic", geometry = selected_area)
+```
+
+To help choosing the MRGID from Marine Regions, the function `eurobis_map_mr()`
+
+```r
+eurobis_map_mr('eez')
+```
+
+For instance, you can click on the Portuguese Exclusive Economic Zone and you will see that the MRGID is 5688. 
+
+```r
+occ6 <- eurobis_occurrences("basic", mrgid = 5688, geometry = selected_area)
+```
+Note that passing both an MRGID and a geometry does not restrict to the selected area within the MRGID record, but adds both data fetched from the selected data and the MRGID record.
+
+You can pass the different Marine Regions data products in which you can filter: one of `eez`, `iho` and `eez_iho`.
 
 
 ## Disclaimer
