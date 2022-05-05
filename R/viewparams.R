@@ -54,6 +54,14 @@ build_viewparams <- function(mrgid = NULL, geometry = NULL, dasid = NULL,
   query <- paste0("where:", query, ";context:0100", filter_aphia)
   # message(query)
   query <- build_encode(query)
+  
+  # Assert length
+  too_long <- nchar(query) < 2000
+  
+  if(too_long){
+    stop("Large queries are not yet supported. Please reduce the number of possible values.")
+  }
+  
   return(query)
 }
 
@@ -120,6 +128,8 @@ build_filter_geo <- function(mrgid = NULL, polygon = NULL){
       polygon <- sf::st_as_sfc(polygon)
     }
     
+    
+    
     # Geometry collection check
     geom_type <- sf::st_geometry_type(polygon, by_geometry = FALSE)
     
@@ -139,6 +149,12 @@ build_filter_geo <- function(mrgid = NULL, polygon = NULL){
     }
     
     polygon <- sf::st_as_text(sf::st_geometry(polygon))
+    
+    # Assert length polygon
+    too_long <- nchar(polygon) > 1500
+    if(too_long){
+      stop("Complex geometries are not yet supported. Please reduce the number of vertices.")
+    }
     
     # Perform
     polygon <- gsub(",", "\\,", polygon, fixed = TRUE)
