@@ -54,14 +54,14 @@ build_viewparams <- function(mrgid = NULL, geometry = NULL, dasid = NULL,
   query <- paste0("where:", query, ";context:0100", filter_aphia)
   # message(query)
   query <- build_encode(query)
-  
-  # Assert length
-  too_long <- nchar(query) < 2000
-  
-  if(too_long){
-    stop("Large queries are not yet supported. Please reduce the number of possible values.")
-  }
-  
+  # 
+  # # Assert length
+  # too_long <- nchar(query) < 2000
+  # 
+  # if(too_long){
+  #   stop("Large queries are not yet supported. Please reduce the number of possible values.")
+  # }
+  # 
   return(query)
 }
 
