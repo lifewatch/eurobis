@@ -22,7 +22,9 @@ These are Marine Regions products. Find more information in {https://marineregio
 - eez_iho = Intersection of the EEZ and IHO areas
 }
 \examples{
+\dontrun{
 eurobis_map_mr('eez')
 eurobis_map_mr('iho')
 eurobis_map_mr('eez_iho')
+}
 }

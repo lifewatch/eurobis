@@ -16,6 +16,7 @@ a vector of AphiaID
 Get the WoRMS AphiaID given a scientific name
 }
 \examples{
+\dontrun{
 eurobis_name2id(c("Abra alba", "Engraulis encrasicolus"))
 eurobis_name2id(c("foo"))
 eurobis_name2id(1)
@@ -23,4 +24,5 @@ eurobis_name2id("")
 eurobis_name2id(c("Abra alba", "foo", NA))
 eurobis_name2id(c("Abra alba", "Engraulis encrasicolus"))
 eurobis_name2id(c("abra alba", "foo foo2", "caballo loco"))
+}
 }

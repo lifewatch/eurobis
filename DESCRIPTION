@@ -5,7 +5,7 @@ Authors@R: c(person("Salvador", "Fernandez", email = "salvador.fernandez@vliz.be
              person("Daphnis", "De Pooter", role = "aut"),
              person("Lennert", "Schepers", email = "lennert.schepers@vliz.be", role = "ctb"),
              person("Ruben", "Perez", email = "ruben.perez@vliz.be", role = "ctb"))
-Description: Downloads EurOBIS data using the EMODnet Biology WFS
+Description: Downloads EurOBIS data using the EMODnet Biology WFS.
 URL: https://github.com/lifewatch/eurobis
 BugReports: https://github.com/lifewatch/eurobis/issues
 License: MIT + file LICENSE
@@ -13,7 +13,6 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     sf,
-    ows4R,
     magrittr,
     leaflet,
     httr,
@@ -22,11 +21,19 @@ Imports:
     leaflet.extras2,
     worrms,
     glue,
-    wk
+    wk,
+    ows4R (>= 0.3),
+    assertthat,
+    curl,
+    purrr,
+    utils,
+    methods
 Suggests:
     testthat (>= 3.0.0),
     mapview
-Remotes: EMODnet/EMODnetWFS
+Remotes: 
+    EMODnet/EMODnetWFS,
+    eblondel/ows4R
 RoxygenNote: 7.1.1
 Config/testthat/edition: 3
 Depends: 

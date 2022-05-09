@@ -5,7 +5,7 @@
 #' @return a vector of AphiaID
 #' @export
 #'
-#' @examples
+#' @examples \dontrun{
 #' eurobis_name2id(c("Abra alba", "Engraulis encrasicolus"))
 #' eurobis_name2id(c("foo"))
 #' eurobis_name2id(1)
@@ -13,6 +13,7 @@
 #' eurobis_name2id(c("Abra alba", "foo", NA))
 #' eurobis_name2id(c("Abra alba", "Engraulis encrasicolus"))
 #' eurobis_name2id(c("abra alba", "foo foo2", "caballo loco"))
+#' }
 eurobis_name2id <- function(taxa){
   stopifnot(is.character(taxa))
   taxa_are_not_empty <- !any(taxa %in% c("", NA_character_))
@@ -20,7 +21,7 @@ eurobis_name2id <- function(taxa){
   
   # Encode spaces as plus symbols
   taxa_encoded <- gsub(" ", "+", taxa, fixed = TRUE)
-  taxa_encoded <- lapply(taxa_encoded, URLencode, reserved = TRUE) %>% unlist()
+  taxa_encoded <- lapply(taxa_encoded, utils::URLencode, reserved = TRUE) %>% unlist()
   taxa_dictionary <- data.frame(taxa, taxa_encoded, stringsAsFactors = FALSE)
   
   # Perform

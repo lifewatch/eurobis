@@ -9,19 +9,26 @@
 #' @param startdate Start date of occurrences.
 #' @param enddate End date of occurrences.
 #' @param aphiaid WoRMS taxon unique identifier.
+#' @param scientificname Taxon name. It is matched with WoRMS on the fly. Ignored if aphiaid is provided.
+#' @param functional_groups Functional groups available in WoRMS: See eurobis::species_traits.
+#' @param cites CITES Annex. See eurobis::species_traits.
+#' @param habitats_directive Habitats Directive Annex. See eurobis::species_traits.
+#' @param iucn_red_list IUCN Red List Category. See eurobis::species_traits.
+#' @param msdf_indicators Marine Strategy Directive Framework indicators. See eurobis::species_traits.
 #' @param paging If TRUE, the data will be requested on chunks. Use for large requests.
 #' @param paging_length Size of chunks in number of rows. Default 50K.
 #' @param ... Any parameters to pass to ows4r getFeature() (e.g. cql_filter or parallel)
 #'
-#' @return
+#' @return a tibble or sf object with eurobis data
 #' @export
 #'
-#' @examples 
+#' @examples \dontrun{
 #' test <- eurobis_occurrences("basic", dasid = 8045, mrgid = c(5688, 5686))
 #' test <- eurobis_occurrences("full", dasid = 8045)
 #' test <- eurobis_occurrences("full_and_parameters", dasid = 8045)
 #' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina")
 #' test <- eurobis_occurrences("full", dasid = 8045, functional_groups = "angiosperms")
+#' }
 eurobis_occurrences <- function(type, 
                                 url = NULL,
                                 mrgid = NULL, 
@@ -65,9 +72,13 @@ eurobis_occurrences <- function(type,
                                          paging = paging, paging_length = paging_length, 
                                          ...)
   
-  eurobis_data <- eurobis_sf_df_handler(eurobis_data)
   
-  if(nrow(eurobis_data) == 0) warning("There are 0 occurrences in EurOBIS for this query at the moment")
+  
+  if(nrow(eurobis_data) == 0){
+    warning("There are 0 occurrences in EurOBIS for this query at the moment")
+  }else{
+    eurobis_data <- eurobis_sf_df_handler(eurobis_data)
+  }
   
   return(eurobis_data)
 }
@@ -123,11 +134,11 @@ eurobis_wfs_find_layer <- function(wfs_client, type){
 
 # Handle sf and data.frame objects
 eurobis_sf_df_handler <- function(sf_df){
-  stopifnot(is(sf_df, c("sf", "data.frame")))
+  stopifnot(methods::is(sf_df, c("sf", "data.frame")))
   
   names(sf_df) <- tolower(names(sf_df))
   
-  is_not_sf <- !is(sf_df, c("sf"))
+  is_not_sf <- !methods::is(sf_df, c("sf"))
   
   if(is.data.frame(sf_df) & is_not_sf){
     coords_exists <- "decimallatitude" %in% names(sf_df) & "decimallatitude" %in% names(sf_df)
@@ -146,10 +157,7 @@ eurobis_sf_df_handler <- function(sf_df){
     }
     
   }
-  
-  if("geometry" %in% names(sf_df)) sf_df <- sf_df %>% rename(the_geom = geometry)
-  if("geom" %in% names(sf_df)) sf_df <- sf_df %>% rename(the_geom = geom)
-  
+    
   sf::st_crs(sf_df) <- 4326
   
   return(sf_df)

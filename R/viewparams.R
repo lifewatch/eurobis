@@ -1,32 +1,22 @@
 # Encodes an URL except the plus symbol
 # This is a workaround
 build_encode <- function(query){
-  query_encoded <- URLencode(query, reserved = TRUE)
-  query_encoded_with_plus <- gsub(URLencode("+", T), "+", query_encoded, fixed = TRUE)
+  query_encoded <- utils::URLencode(query, reserved = TRUE)
+  query_encoded_with_plus <- gsub(utils::URLencode("+", T), "+", query_encoded, fixed = TRUE)
   return(query_encoded_with_plus)
 }
 
-#' String that can be passed to viewParams 
-#'
-#' @param mrgid Marine Regions Gazetteer unique identifier
-#' @param polygon Polygon of the region of interest as WKT or sf object. Draw with eurobis_draw_polygon.
-#' @param dasid IMIS dataset unique identifier
-#' @param startdate Start date of occurrences
-#' @param enddate End date of occurrences
-#' @param aphiaid WoRMS taxon unique identifier
-#'
-#' @return a string that can be passed to viewParams in a WFS request to EMODnet-Biology
-#' @export
-#'
-#' @examples 
-#' build_viewparams()
-#' build_viewparams(mrgid = 8364)
-#' build_viewparams(polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
-#' build_viewparams(mrgid = 8364, polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
-#' build_viewparams(dasid = 216)
-#' build_viewparams(dasid = 216, startdate = "2000-01-01", enddate = "2022-01-31")
-#' build_viewparams(mrgid = 8364, polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))', 
-#'                  dasid = 216, startdate = "2000-01-01", enddate = "2022-01-31", aphiaid = c(104108, 148947))
+# String that can be passed to viewParams
+# 
+# build_viewparams()
+# build_viewparams(mrgid = 8364)
+# build_viewparams(polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
+# build_viewparams(mrgid = 8364, polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
+# build_viewparams(dasid = 216)
+# build_viewparams(dasid = 216, startdate = "2000-01-01", enddate = "2022-01-31")
+# build_viewparams(mrgid = 8364, polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))',
+#                  dasid = 216, startdate = "2000-01-01", enddate = "2022-01-31",
+#                  aphiaid = c(104108, 148947))
 build_viewparams <- function(mrgid = NULL, geometry = NULL, dasid = NULL, 
                              startdate = NULL, enddate = NULL, aphiaid = NULL, 
                              functional_groups = NULL, cites = NULL, habitats_directive = NULL,
@@ -90,7 +80,7 @@ build_filter_geo <- function(mrgid = NULL, polygon = NULL){
     return(NULL)
   }
   
-  base <- URLencode("(", T)
+  base <- utils::URLencode("(", T)
   mrgid_query <- NULL
   polygon_query <- NULL
 

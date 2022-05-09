@@ -11,9 +11,11 @@
 #' - eez_iho = Intersection of the EEZ and IHO areas
 #' 
 #' @examples 
+#' \dontrun{
 #' eurobis_map_mr('eez')
 #' eurobis_map_mr('iho')
 #' eurobis_map_mr('eez_iho')
+#' }
 eurobis_map_mr <- function(layer = 'eez'){
   mr_wms <- "http://geo.vliz.be/geoserver/MarineRegions/wms?"
   
@@ -39,12 +41,13 @@ eurobis_map_mr <- function(layer = 'eez'){
   return(mr_map)
 }
 
-#' Title
+#' Draw interactively a polygon and get it as Well Known Text
 #'
-#' @return
+#' @return a string with a polygon as Well Known Text
 #' @export
 #'
-#' @examples wkt <- eurobis_map_draw()
+#' @examples 
+#' \dontrun{wkt <- eurobis_map_draw()}
 eurobis_map_draw <- function(){
   if(!interactive()) NULL
   

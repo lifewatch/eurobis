@@ -12,7 +12,7 @@ eurobis_download_toolbox <- function(){
   if(interactive()){
     message("The LifeWatch/EMODnet-Biology Download Toolbox provides a web interface to fine tune the selection of data from EurOBIS. At the end of the selection there is a button named \"Get webservice url\". Copy&Paste this URL into eurobis_occurrences(url = \"<URL>\"). Press ENTER to continue:" )
     readline("")
-    browseURL(url)
+    utils::browseURL(url)
   }
   
   NULL

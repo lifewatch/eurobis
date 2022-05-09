@@ -42,6 +42,18 @@ More info at: https://www.emodnet-biology.eu/emodnet-data-format}
 
 \item{aphiaid}{WoRMS taxon unique identifier.}
 
+\item{scientificname}{Taxon name. It is matched with WoRMS on the fly. Ignored if aphiaid is provided.}
+
+\item{functional_groups}{Functional groups available in WoRMS: See eurobis::species_traits.}
+
+\item{cites}{CITES Annex. See eurobis::species_traits.}
+
+\item{habitats_directive}{Habitats Directive Annex. See eurobis::species_traits.}
+
+\item{iucn_red_list}{IUCN Red List Category. See eurobis::species_traits.}
+
+\item{msdf_indicators}{Marine Strategy Directive Framework indicators. See eurobis::species_traits.}
+
 \item{paging}{If TRUE, the data will be requested on chunks. Use for large requests.}
 
 \item{paging_length}{Size of chunks in number of rows. Default 50K.}
@@ -49,15 +61,17 @@ More info at: https://www.emodnet-biology.eu/emodnet-data-format}
 \item{...}{Any parameters to pass to ows4r getFeature() (e.g. cql_filter or parallel)}
 }
 \value{
-
+a tibble or sf object with eurobis data
 }
 \description{
 Get EurOBIS data by using the EMODnet-Biology webservices
 }
 \examples{
+\dontrun{
 test <- eurobis_occurrences("basic", dasid = 8045, mrgid = c(5688, 5686))
 test <- eurobis_occurrences("full", dasid = 8045)
 test <- eurobis_occurrences("full_and_parameters", dasid = 8045)
 test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina")
 test <- eurobis_occurrences("full", dasid = 8045, functional_groups = "angiosperms")
+}
 }

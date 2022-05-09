@@ -2,16 +2,16 @@
 % Please edit documentation in R/map.R
 \name{eurobis_map_draw}
 \alias{eurobis_map_draw}
-\title{Title}
+\title{Draw interactively a polygon and get it as Well Known Text}
 \usage{
 eurobis_map_draw()
 }
 \value{
-
+a string with a polygon as Well Known Text
 }
 \description{
-Title
+Draw interactively a polygon and get it as Well Known Text
 }
 \examples{
-wkt <- eurobis_map_draw()
+\dontrun{wkt <- eurobis_map_draw()}
 }
