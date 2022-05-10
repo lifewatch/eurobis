@@ -13,10 +13,10 @@ eurobis_occurrences(
   mrgid = NULL,
   geometry = NULL,
   dasid = NULL,
-  startdate = NULL,
-  enddate = NULL,
+  start_date = NULL,
+  end_date = NULL,
   aphiaid = NULL,
-  scientificname = NULL,
+  scientific_name = NULL,
   functional_groups = NULL,
   cites = NULL,
   habitats_directive = NULL,
@@ -53,13 +53,13 @@ with \code{\link{eurobis_map_draw}}}
 
 \item{dasid}{IMIS dataset unique identifier. See list of available datasets with \code{\link{eurobis_list_datasets}}}
 
-\item{startdate}{Start date of occurrences. Format YYYY-MM-DD.}
+\item{start_date}{Start date of occurrences. Format YYYY-MM-DD.}
 
-\item{enddate}{End date of occurrences. Format YYYY-MM-DD.}
+\item{end_date}{End date of occurrences. Format YYYY-MM-DD.}
 
 \item{aphiaid}{WoRMS taxon unique identifier. See \url{https://www.marinespecies.org/} and \url{https://docs.ropensci.org/worrms/}}
 
-\item{scientificname}{Taxon name. It is matched with WoRMS on the fly. Ignored if aphiaid is provided.}
+\item{scientific_name}{Taxon name. It is matched with WoRMS on the fly. Ignored if aphiaid is provided.}
 
 \item{functional_groups}{Functional groups available in WoRMS: See \code{eurobis::species_traits}.}
 
@@ -100,7 +100,7 @@ test <- eurobis_occurrences_full_and_paremeters(dasid = 8045)
 
 # Get occurrences from Zostera marina in the ecoregion Alboran Sea (MRGID 21897)
 # See also ?eurobis_list_regions
-test <- eurobis_occurrences_full(mrgid = 21897, scientificname = "Zostera marina")
+test <- eurobis_occurrences_full(mrgid = 21897, scientific_name = "Zostera marina")
 
 # Get zooplankton occurrences from the region of your choice
 # See ?eurobis_map_mr and ?eurobis::species_traits
@@ -108,6 +108,6 @@ my_area <- eurobis_map_draw()
 test <- eurobis_occurrences_basic(geometry = my_area, functional_groups = "zooplankton")
 
 # Get occurrences from the Continuous Plankton Recorder (dataset id 216) in January 2016
-test <- eurobis_occurrences_basic(dasid = 216, startdate = "2016-01-01", enddate = "2016-01-31")
+test <- eurobis_occurrences_basic(dasid = 216, start_date = "2016-01-01", end_date = "2016-01-31")
 }
 }

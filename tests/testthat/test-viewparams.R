@@ -78,7 +78,7 @@ test_that("viewParams are build correctly", {
   # All together
   is_character <- is.character(
     build_viewparams(mrgid = 8364, geometry = wkt, 
-                     dasid = 216, startdate = "2000-01-01", enddate = "2022-01-31", 
+                     dasid = 216, start_date = "2000-01-01", end_date = "2022-01-31", 
                      aphiaid = c(104108, 148947),
                      functional_groups = c("algae", "zooplankton"),
                      cites = "I",

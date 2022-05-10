@@ -32,7 +32,7 @@ occ <- eurobis_occurrences("basic", dasid = 8045)
 ```
 
 ```r
-occ2 <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina")
+occ2 <- eurobis_occurrences("basic", dasid = 8045, scientific_name = "Zostera marina")
 ```
 
 ```r

@@ -14,10 +14,10 @@
 #' @param geometry a WKT geometry string or sf object with the region of interest. You can draw a polygon interactively 
 #' with \code{\link{eurobis_map_draw}}
 #' @param dasid IMIS dataset unique identifier. See list of available datasets with \code{\link{eurobis_list_datasets}}
-#' @param startdate Start date of occurrences. Format YYYY-MM-DD.
-#' @param enddate End date of occurrences. Format YYYY-MM-DD.
+#' @param start_date Start date of occurrences. Format YYYY-MM-DD.
+#' @param end_date End date of occurrences. Format YYYY-MM-DD.
 #' @param aphiaid WoRMS taxon unique identifier. See \url{https://www.marinespecies.org/} and \url{https://docs.ropensci.org/worrms/}
-#' @param scientificname Taxon name. It is matched with WoRMS on the fly. Ignored if aphiaid is provided.
+#' @param scientific_name Taxon name. It is matched with WoRMS on the fly. Ignored if aphiaid is provided.
 #' @param functional_groups Functional groups available in WoRMS: See \code{eurobis::species_traits}.
 #' @param cites CITES Annex. See \code{eurobis::species_traits}.
 #' @param habitats_directive Habitats Directive Annex. See \code{eurobis::species_traits}.
@@ -46,7 +46,7 @@
 #' 
 #' # Get occurrences from Zostera marina in the ecoregion Alboran Sea (MRGID 21897)
 #' # See also ?eurobis_list_regions
-#' test <- eurobis_occurrences_full(mrgid = 21897, scientificname = "Zostera marina")
+#' test <- eurobis_occurrences_full(mrgid = 21897, scientific_name = "Zostera marina")
 #' 
 #' # Get zooplankton occurrences from the region of your choice
 #' # See ?eurobis_map_mr and ?eurobis::species_traits
@@ -54,15 +54,15 @@
 #' test <- eurobis_occurrences_basic(geometry = my_area, functional_groups = "zooplankton")
 #' 
 #' # Get occurrences from the Continuous Plankton Recorder (dataset id 216) in January 2016
-#' test <- eurobis_occurrences_basic(dasid = 216, startdate = "2016-01-01", enddate = "2016-01-31")
+#' test <- eurobis_occurrences_basic(dasid = 216, start_date = "2016-01-01", end_date = "2016-01-31")
 #' }
 eurobis_occurrences <- function(type,
                                 url = NULL,
                                 mrgid = NULL, 
                                 geometry = NULL, 
                                 dasid = NULL, 
-                                startdate = NULL, enddate = NULL, 
-                                aphiaid = NULL, scientificname = NULL,
+                                start_date = NULL, end_date = NULL, 
+                                aphiaid = NULL, scientific_name = NULL,
                                 functional_groups = NULL, 
                                 cites = NULL, 
                                 habitats_directive = NULL,
@@ -75,16 +75,16 @@ eurobis_occurrences <- function(type,
   if(!is.null(url)){
     viewparams <- extract_viewparams(url)
   }else if(is.null(url)){
-    viewparams <- build_viewparams(mrgid, geometry, dasid, startdate, enddate, aphiaid, 
+    viewparams <- build_viewparams(mrgid, geometry, dasid, start_date, end_date, aphiaid, 
                                    functional_groups, cites, habitats_directive,
                                    iucn_red_list, msdf_indicators)
   }
   
   # Handle Scientific name
-  if(!is.null(aphiaid) & !is.null(scientificname)){
-    warning("Both aphiaid and scientificname provided: Ignoring scientificname")
-  }else if(!is.null(scientificname)){
-    aphiaid <- eurobis_name2id(scientificname)
+  if(!is.null(aphiaid) & !is.null(scientific_name)){
+    warning("Both aphiaid and scientific_name provided: Ignoring scientific_name")
+  }else if(!is.null(scientific_name)){
+    aphiaid <- eurobis_name2id(scientific_name)
   }
   
   # WFS

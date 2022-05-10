@@ -14,10 +14,10 @@ test_that("eurobis_occurrences", {
     expect_true(is_sf_df)
   }
 
-  #' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina")
-  #' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = c("Zostera marina", "foo"))
-  #' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "foo")
-  #' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina", aphiaid = 145795)
+  #' test <- eurobis_occurrences("basic", dasid = 8045, scientific_name = "Zostera marina")
+  #' test <- eurobis_occurrences("basic", dasid = 8045, scientific_name = c("Zostera marina", "foo"))
+  #' test <- eurobis_occurrences("basic", dasid = 8045, scientific_name = "foo")
+  #' test <- eurobis_occurrences("basic", dasid = 8045, scientific_name = "Zostera marina", aphiaid = 145795)
   
 })
 
@@ -33,8 +33,8 @@ test_that("sf handler works fine", {
   test_ok <- eurobis_occurrences(
     "basic", 
     geometry = pol_gibraltar,
-    startdate = "1990-01-01",
-    enddate = "1995-12-31",
+    start_date = "1990-01-01",
+    end_date = "1995-12-31",
     functional_groups = "mammals" 
   )
   expect_true(methods::is(test_ok, "sf"))
@@ -44,8 +44,8 @@ test_that("sf handler works fine", {
     eurobis_occurrences(
       "basic", 
       geometry = pol_gibraltar,
-      startdate = "1990-01-01",
-      enddate = "1995-12-31",
+      start_date = "1990-01-01",
+      end_date = "1995-12-31",
       functional_groups = "pisces" 
     )
   )

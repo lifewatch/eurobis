@@ -13,12 +13,12 @@ build_encode <- function(query){
 # build_viewparams(polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
 # build_viewparams(mrgid = 8364, polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))')
 # build_viewparams(dasid = 216)
-# build_viewparams(dasid = 216, startdate = "2000-01-01", enddate = "2022-01-31")
+# build_viewparams(dasid = 216, start_date = "2000-01-01", end_date = "2022-01-31")
 # build_viewparams(mrgid = 8364, polygon = 'POLYGON((-2 52,-2 58,9 58,9 52,-2 52))',
-#                  dasid = 216, startdate = "2000-01-01", enddate = "2022-01-31",
+#                  dasid = 216, start_date = "2000-01-01", end_date = "2022-01-31",
 #                  aphiaid = c(104108, 148947))
 build_viewparams <- function(mrgid = NULL, geometry = NULL, dasid = NULL, 
-                             startdate = NULL, enddate = NULL, aphiaid = NULL, 
+                             start_date = NULL, end_date = NULL, aphiaid = NULL, 
                              functional_groups = NULL, cites = NULL, habitats_directive = NULL,
                              iucn_red_list = NULL, msdf_indicators = NULL
                              ){
@@ -26,7 +26,7 @@ build_viewparams <- function(mrgid = NULL, geometry = NULL, dasid = NULL,
   filters <- c(
     build_filter_geo(mrgid, geometry),
     build_filter_dataset(dasid),
-    build_filter_time(startdate, enddate),
+    build_filter_time(start_date, end_date),
     build_filter_traits(functional_groups, cites, habitats_directive, 
                         iucn_red_list, msdf_indicators)
   )
@@ -173,17 +173,17 @@ build_filter_geo <- function(mrgid = NULL, polygon = NULL){
 # build_filter_time(as.Date("2000-01-01"), "2022-01-31")
 # build_filter_time(NULL, "2022-01-31")
 # build_filter_time("2000-01-01", NULL)
-build_filter_time <- function(startdate = NULL, enddate = NULL){
+build_filter_time <- function(start_date = NULL, end_date = NULL){
   
-  dates <- list(startdate, enddate)
+  dates <- list(start_date, end_date)
   
   dates_are_null <- unlist(lapply(dates, is.null))
   if(all(dates_are_null)) return(NULL)
-  if(any(dates_are_null)) stop("Both startdate and enddate must be provided or ignored")
+  if(any(dates_are_null)) stop("Both start_date and end_date must be provided or ignored")
   
   dates_as_date <- lapply(dates, as.Date) 
   
-  if(dates_as_date[[1]] > dates_as_date[[2]]) stop("startdate cannot be smaller than enddate")
+  if(dates_as_date[[1]] > dates_as_date[[2]]) stop("start_date cannot be smaller than end_date")
   
   dates_as_char <- lapply(dates_as_date, as.character)
   
