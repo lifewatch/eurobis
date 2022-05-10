@@ -1,5 +1,5 @@
 Package: eurobis
-Title: EurOBIS data download package
+Title: Download data from EurOBIS using the LifeWatch/EMODnet-Biology Web Feature Services
 Version: 0.0.0.9000
 Authors@R: c(person("Salvador", "Fernandez", email = "salvador.fernandez@vliz.be", role = c("cre", "ctb")),
              person("Daphnis", "De Pooter", role = "aut"),
@@ -33,7 +33,8 @@ Imports:
     tibble
 Suggests:
     testthat (>= 3.0.0),
-    mapview
+    mapview,
+    dplyr
 Remotes: 
     eblondel/ows4R
 RoxygenNote: 7.1.1

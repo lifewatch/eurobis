@@ -253,7 +253,7 @@ build_filter_traits <- function(functional_groups = NULL, cites = NULL, habitats
   # Check values passed to traits
   for(i in 1:length(traits)){
       trait_name <- names(traits[i])
-      accepted <- subset(species_traits$selection, species_traits$group == trait_name)
+      accepted <- subset(eurobis::species_traits$selection, eurobis::species_traits$group == trait_name)
       not_accepted <- subset(traits[[i]], !(tolower(traits[[i]]) %in% tolower(accepted)))
       
       if(length(not_accepted) != 0){
@@ -263,7 +263,7 @@ build_filter_traits <- function(functional_groups = NULL, cites = NULL, habitats
   
   # Perform
   traits <- tolower(unlist(traits))
-  selectid <- subset(species_traits$selectid, tolower(species_traits$selection) %in% traits)
+  selectid <- subset(eurobis::species_traits$selectid, tolower(eurobis::species_traits$selection) %in% traits)
   selectid <- paste0("'", selectid, "'")
   selectid <- paste0(selectid, collapse = "\\,")
   
@@ -276,27 +276,3 @@ build_filter_traits <- function(functional_groups = NULL, cites = NULL, habitats
   return(query)
   
 }
-
-
-
-
-# ## Other filter that won't be created as it will bring further confusion
-# ## We can get these by asking the user to parse an WFS request url from the EMODnet-Biology Download Toolbox
-# ## and choosing only the viewParams query
-# ## We can also give the option of passing cql_filters with vendor params
-# 
-# ## season NOPE
-# # +AND+((observationdate+BETWEEN+'2000-01-01'+AND+'2022-01-31'+AND+seasonID+IN+(2\\,3)))
-# 
-# ## Taxon rank - NOPE
-# # +AND+taxonrank+>=+180
-# 
-# ## Time precision - NOPE
-# # +AND+time_precision+>=+10
-# 
-# ## Coordinate precision - NOPE
-# # +AND+(false+OR+coordinateprecision_category+=+0+OR+coordinateprecision_category+=+1)
-# 
-# ## Certain measurement types
-# # +AND+measurement_type_group_ids+&&+ARRAY[19\\,46]
-# 

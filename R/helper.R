@@ -56,7 +56,8 @@ eurobis_list_datasets <- function(){
 #' List Marine Regions 
 #'
 #' @return a tibble with the Marine Regions names and unique identifier MRGID. See details section.
-#'
+#' @export
+#' 
 #' @details 
 #' The Marine Regions Gazetteer is the geographical backbone of EurOBIS.
 #' 

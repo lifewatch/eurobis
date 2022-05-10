@@ -3,7 +3,6 @@
 #' @param layer The region or place type to be displayed. See details.
 #'
 #' @return A leaflet map with the regions that retrieves info by clicking
-#' @export
 #'
 #' @details 
 #' To select a specific layer you have to provide the code for the layer. These are:
@@ -71,26 +70,31 @@ eurobis_map_regions <- function(layer = 'eez'){
 }
 
 #' @rdname eurobis_map_regions
+#' @export
 eurobis_map_regions_ecoregions <- function(){
   eurobis_map_regions('ecoregions')
 }
 
 #' @rdname eurobis_map_regions
+#' @export
 eurobis_map_regions_eez <- function(){
   eurobis_map_regions('eez')
 }
 
 #' @rdname eurobis_map_regions
+#' @export
 eurobis_map_regions_iho <- function(){
   eurobis_map_regions('iho')
 }
 
 #' @rdname eurobis_map_regions
+#' @export
 eurobis_map_regions_eez_iho <- function(){
   eurobis_map_regions('eez_iho')
 }
 
 #' @rdname eurobis_map_regions
+#' @export
 eurobis_map_regions_reportingareas <- function(){
   eurobis_map_regions('reportingareas')
 }

@@ -28,7 +28,6 @@
 #' @param ... Any parameters to pass to  \code{ows4R} get feature request (e.g. cql_filter or parallel)
 #'
 #' @return a tibble or sf object with eurobis data
-#' @export
 #'
 #' @details 
 #' Set \code{options(verbose = TRUE)} to display more information
@@ -116,16 +115,19 @@ eurobis_occurrences <- function(type,
 }
 
 #' @rdname eurobis_occurrences
+#' @export
 eurobis_occurrences_basic <- function(...){
   eurobis_occurrences(type = "basic", ...)
 }
 
 #' @rdname eurobis_occurrences
+#' @export
 eurobis_occurrences_full <- function(...){
   eurobis_occurrences(type = "full", ...)
 }
 
 #' @rdname eurobis_occurrences
+#' @export
 eurobis_occurrences_full_and_parameters <- function(...){
   eurobis_occurrences(type = "full_and_parameters", ...)
 }
