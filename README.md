@@ -57,10 +57,10 @@ selected_area
 occ5 <- eurobis_occurrences("basic", geometry = selected_area)
 ```
 
-To help choosing the MRGID from Marine Regions, the function `eurobis_map_mr()`
+To help choosing the MRGID from Marine Regions, the function `eurobis_map_regions()`
 
 ```r
-eurobis_map_mr('eez')
+eurobis_map_regions('eez')
 ```
 
 For instance, you can click on the Portuguese Exclusive Economic Zone and you will see that the MRGID is 5688. 

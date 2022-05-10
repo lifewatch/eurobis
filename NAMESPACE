@@ -2,8 +2,9 @@
 
 export("%>%")
 export(eurobis_download_toolbox)
+export(eurobis_list_datasets)
 export(eurobis_map_draw)
-export(eurobis_map_mr)
+export(eurobis_map_regions)
 export(eurobis_name2id)
 export(eurobis_occurrences)
 importFrom(magrittr,"%>%")

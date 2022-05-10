@@ -2,10 +2,12 @@
 # extract_viewparams(url)
 extract_viewparams <- function(url = NULL){
   if(is.null(url)) return(NULL)
-  parsed_url <- httr::parse_url(url)
   
-  stopifnot("query" %in% names(parsed_url))
-  stopifnot("viewParams" %in% names(parsed_url$query))
+  parsed_url <- httr2::url_parse(url)
+  
+  # Sanity Check
+  checkmate::check_choice("query", names(parsed_url))
+  checkmate::check_choice("viewParams", names(parsed_url$query))
   
   viewparams <- parsed_url$query$viewParams
   

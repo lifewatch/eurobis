@@ -12,6 +12,9 @@ a string with a polygon as Well Known Text
 \description{
 Draw interactively a polygon and get it as Well Known Text
 }
+\details{
+Set \code{options(verbose = TRUE)} to display more information
+}
 \examples{
 \dontrun{wkt <- eurobis_map_draw()}
 }

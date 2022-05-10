@@ -2,6 +2,9 @@
 % Please edit documentation in R/eurobis_occurrences.R
 \name{eurobis_occurrences}
 \alias{eurobis_occurrences}
+\alias{eurobis_occurrences_basic}
+\alias{eurobis_occurrences_full}
+\alias{eurobis_occurrences_full_and_parameters}
 \title{Get EurOBIS data by using the EMODnet-Biology webservices}
 \usage{
 eurobis_occurrences(
@@ -23,42 +26,56 @@ eurobis_occurrences(
   paging_length = 50000,
   ...
 )
+
+eurobis_occurrences_basic(...)
+
+eurobis_occurrences_full(...)
+
+eurobis_occurrences_full_and_parameters(...)
 }
 \arguments{
-\item{type}{Type of data, one of c('basic', 'full', 'full_and_parameters'). 
-More info at: https://www.emodnet-biology.eu/emodnet-data-format}
+\item{type}{Type of data, one of c('basic', 'full', 'full_and_parameters'). Alternatively you 
+can use one of the wrappers:
 
-\item{url}{A WFS request copied from the LifeWatch/EMODnet-Biology Download Toolbox. Use eurobis_download_toolbox()}
+- \code{\link{eurobis_occurrences_basic}}
+- \code{\link{eurobis_occurrences_full}}
+- \code{\link{eurobis_occurrences_full_and_parameters}}
 
-\item{mrgid}{Marine Regions Gazetteer unique identifier}
+More info at: \url{https://www.emodnet-biology.eu/emodnet-data-format}}
 
-\item{geometry}{a WKT geometry string or sf object with the region of interest.}
+\item{url}{A WFS request copied from the LifeWatch/EMODnet-Biology Download Toolbox. Use \code{\link{eurobis_download_toolbox}}}
 
-\item{dasid}{IMIS dataset unique identifier.}
+\item{mrgid}{Marine Regions Gazetteer unique identifier. See list of available regions with \code{\link{eurobis_list_regions}} and 
+visualize with \code{\link{eurobis_map_regions}}}
 
-\item{startdate}{Start date of occurrences.}
+\item{geometry}{a WKT geometry string or sf object with the region of interest. You can draw a polygon interactively 
+with \code{\link{eurobis_map_draw}}}
 
-\item{enddate}{End date of occurrences.}
+\item{dasid}{IMIS dataset unique identifier. See list of available datasets with \code{\link{eurobis_list_datasets}}}
 
-\item{aphiaid}{WoRMS taxon unique identifier.}
+\item{startdate}{Start date of occurrences. Format YYYY-MM-DD.}
+
+\item{enddate}{End date of occurrences. Format YYYY-MM-DD.}
+
+\item{aphiaid}{WoRMS taxon unique identifier. See \url{https://www.marinespecies.org/} and \url{https://docs.ropensci.org/worrms/}}
 
 \item{scientificname}{Taxon name. It is matched with WoRMS on the fly. Ignored if aphiaid is provided.}
 
-\item{functional_groups}{Functional groups available in WoRMS: See eurobis::species_traits.}
+\item{functional_groups}{Functional groups available in WoRMS: See \code{eurobis::species_traits}.}
 
-\item{cites}{CITES Annex. See eurobis::species_traits.}
+\item{cites}{CITES Annex. See \code{eurobis::species_traits}.}
 
-\item{habitats_directive}{Habitats Directive Annex. See eurobis::species_traits.}
+\item{habitats_directive}{Habitats Directive Annex. See \code{eurobis::species_traits}.}
 
-\item{iucn_red_list}{IUCN Red List Category. See eurobis::species_traits.}
+\item{iucn_red_list}{IUCN Red List Category. See \code{eurobis::species_traits}.}
 
-\item{msdf_indicators}{Marine Strategy Directive Framework indicators. See eurobis::species_traits.}
+\item{msdf_indicators}{Marine Strategy Directive Framework indicators. See \code{eurobis::species_traits}.}
 
 \item{paging}{If TRUE, the data will be requested on chunks. Use for large requests.}
 
 \item{paging_length}{Size of chunks in number of rows. Default 50K.}
 
-\item{...}{Any parameters to pass to ows4r getFeature() (e.g. cql_filter or parallel)}
+\item{...}{Any parameters to pass to  \code{ows4R} get feature request (e.g. cql_filter or parallel)}
 }
 \value{
 a tibble or sf object with eurobis data
@@ -66,12 +83,31 @@ a tibble or sf object with eurobis data
 \description{
 Get EurOBIS data by using the EMODnet-Biology webservices
 }
+\details{
+Set \code{options(verbose = TRUE)} to display more information
+}
 \examples{
 \dontrun{
-test <- eurobis_occurrences("basic", dasid = 8045, mrgid = c(5688, 5686))
-test <- eurobis_occurrences("full", dasid = 8045)
-test <- eurobis_occurrences("full_and_parameters", dasid = 8045)
-test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina")
-test <- eurobis_occurrences("full", dasid = 8045, functional_groups = "angiosperms")
+# Get dataset with ID 8045
+# See also ?eurobis_list_datasets
+test <- eurobis_occurrences_basic(dasid = 8045)
+
+# Get full dataset with ID 8045
+test <- eurobis_occurrences_full(dasid = 8045)
+
+# Get full dataset with ID 8045 including extra measurements or facts 
+test <- eurobis_occurrences_full_and_paremeters(dasid = 8045)
+
+# Get occurrences from Zostera marina in the ecoregion Alboran Sea (MRGID 21897)
+# See also ?eurobis_list_regions
+test <- eurobis_occurrences_full(mrgid = 21897, scientificname = "Zostera marina")
+
+# Get zooplankton occurrences from the region of your choice
+# See ?eurobis_map_mr and ?eurobis::species_traits
+my_area <- eurobis_map_draw()
+test <- eurobis_occurrences_basic(geometry = my_area, functional_groups = "zooplankton")
+
+# Get occurrences from the Continuous Plankton Recorder (dataset id 216) in January 2016
+test <- eurobis_occurrences_basic(dasid = 216, startdate = "2016-01-01", enddate = "2016-01-31")
 }
 }

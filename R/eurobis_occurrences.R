@@ -1,35 +1,62 @@
 #' Get EurOBIS data by using the EMODnet-Biology webservices
 #'
-#' @param type Type of data, one of c('basic', 'full', 'full_and_parameters'). 
-#' More info at: https://www.emodnet-biology.eu/emodnet-data-format
-#' @param url A WFS request copied from the LifeWatch/EMODnet-Biology Download Toolbox. Use eurobis_download_toolbox()
-#' @param mrgid Marine Regions Gazetteer unique identifier
-#' @param geometry a WKT geometry string or sf object with the region of interest.
-#' @param dasid IMIS dataset unique identifier.
-#' @param startdate Start date of occurrences.
-#' @param enddate End date of occurrences.
-#' @param aphiaid WoRMS taxon unique identifier.
+#' @param type Type of data, one of c('basic', 'full', 'full_and_parameters'). Alternatively you 
+#' can use one of the wrappers:
+#' 
+#' - \code{\link{eurobis_occurrences_basic}}
+#' - \code{\link{eurobis_occurrences_full}}
+#' - \code{\link{eurobis_occurrences_full_and_parameters}}
+#' 
+#' More info at: \url{https://www.emodnet-biology.eu/emodnet-data-format}
+#' @param url A WFS request copied from the LifeWatch/EMODnet-Biology Download Toolbox. Use \code{\link{eurobis_download_toolbox}}
+#' @param mrgid Marine Regions Gazetteer unique identifier. See list of available regions with \code{\link{eurobis_list_regions}} and 
+#' visualize with \code{\link{eurobis_map_regions}}
+#' @param geometry a WKT geometry string or sf object with the region of interest. You can draw a polygon interactively 
+#' with \code{\link{eurobis_map_draw}}
+#' @param dasid IMIS dataset unique identifier. See list of available datasets with \code{\link{eurobis_list_datasets}}
+#' @param startdate Start date of occurrences. Format YYYY-MM-DD.
+#' @param enddate End date of occurrences. Format YYYY-MM-DD.
+#' @param aphiaid WoRMS taxon unique identifier. See \url{https://www.marinespecies.org/} and \url{https://docs.ropensci.org/worrms/}
 #' @param scientificname Taxon name. It is matched with WoRMS on the fly. Ignored if aphiaid is provided.
-#' @param functional_groups Functional groups available in WoRMS: See eurobis::species_traits.
-#' @param cites CITES Annex. See eurobis::species_traits.
-#' @param habitats_directive Habitats Directive Annex. See eurobis::species_traits.
-#' @param iucn_red_list IUCN Red List Category. See eurobis::species_traits.
-#' @param msdf_indicators Marine Strategy Directive Framework indicators. See eurobis::species_traits.
+#' @param functional_groups Functional groups available in WoRMS: See \code{eurobis::species_traits}.
+#' @param cites CITES Annex. See \code{eurobis::species_traits}.
+#' @param habitats_directive Habitats Directive Annex. See \code{eurobis::species_traits}.
+#' @param iucn_red_list IUCN Red List Category. See \code{eurobis::species_traits}.
+#' @param msdf_indicators Marine Strategy Directive Framework indicators. See \code{eurobis::species_traits}.
 #' @param paging If TRUE, the data will be requested on chunks. Use for large requests.
 #' @param paging_length Size of chunks in number of rows. Default 50K.
-#' @param ... Any parameters to pass to ows4r getFeature() (e.g. cql_filter or parallel)
+#' @param ... Any parameters to pass to  \code{ows4R} get feature request (e.g. cql_filter or parallel)
 #'
 #' @return a tibble or sf object with eurobis data
 #' @export
 #'
+#' @details 
+#' Set \code{options(verbose = TRUE)} to display more information
+#'
 #' @examples \dontrun{
-#' test <- eurobis_occurrences("basic", dasid = 8045, mrgid = c(5688, 5686))
-#' test <- eurobis_occurrences("full", dasid = 8045)
-#' test <- eurobis_occurrences("full_and_parameters", dasid = 8045)
-#' test <- eurobis_occurrences("basic", dasid = 8045, scientificname = "Zostera marina")
-#' test <- eurobis_occurrences("full", dasid = 8045, functional_groups = "angiosperms")
+#' # Get dataset with ID 8045
+#' # See also ?eurobis_list_datasets
+#' test <- eurobis_occurrences_basic(dasid = 8045)
+#' 
+#' # Get full dataset with ID 8045
+#' test <- eurobis_occurrences_full(dasid = 8045)
+#' 
+#' # Get full dataset with ID 8045 including extra measurements or facts 
+#' test <- eurobis_occurrences_full_and_paremeters(dasid = 8045)
+#' 
+#' # Get occurrences from Zostera marina in the ecoregion Alboran Sea (MRGID 21897)
+#' # See also ?eurobis_list_regions
+#' test <- eurobis_occurrences_full(mrgid = 21897, scientificname = "Zostera marina")
+#' 
+#' # Get zooplankton occurrences from the region of your choice
+#' # See ?eurobis_map_mr and ?eurobis::species_traits
+#' my_area <- eurobis_map_draw()
+#' test <- eurobis_occurrences_basic(geometry = my_area, functional_groups = "zooplankton")
+#' 
+#' # Get occurrences from the Continuous Plankton Recorder (dataset id 216) in January 2016
+#' test <- eurobis_occurrences_basic(dasid = 216, startdate = "2016-01-01", enddate = "2016-01-31")
 #' }
-eurobis_occurrences <- function(type, 
+eurobis_occurrences <- function(type,
                                 url = NULL,
                                 mrgid = NULL, 
                                 geometry = NULL, 
@@ -42,6 +69,7 @@ eurobis_occurrences <- function(type,
                                 iucn_red_list = NULL, 
                                 msdf_indicators = NULL,
                                 paging = FALSE, paging_length = 50000, ...){
+  
   
   # Add filters
   if(!is.null(url)){
@@ -64,8 +92,12 @@ eurobis_occurrences <- function(type,
   info_layer <- eurobis_wfs_find_layer(wfs_client, type)
   
   # Print info
-  info_msg <- paste0("Downloading the ", info_layer$getTitle(), ". ", info_layer$getAbstract())
-  message(info_msg)
+  if(getOption("verbose")){
+    # message(cat("\n", "\n"))
+     cli::cli_alert_success("Downloading layer: {info_layer$getTitle()}")
+     cli::cli_alert_info("{info_layer$getAbstract()}")
+  }
+
   
   # Perform
   eurobis_data <- info_layer$getFeatures(viewParams = viewparams, resultType="results",
@@ -83,6 +115,20 @@ eurobis_occurrences <- function(type,
   return(eurobis_data)
 }
 
+#' @rdname eurobis_occurrences
+eurobis_occurrences_basic <- function(...){
+  eurobis_occurrences(type = "basic", ...)
+}
+
+#' @rdname eurobis_occurrences
+eurobis_occurrences_full <- function(...){
+  eurobis_occurrences(type = "full", ...)
+}
+
+#' @rdname eurobis_occurrences
+eurobis_occurrences_full_and_parameters <- function(...){
+  eurobis_occurrences(type = "full_and_parameters", ...)
+}
 
 # Returns the layer name in geoserver given one of the three types
 # eurobis_type_handler("basic")
@@ -90,14 +136,10 @@ eurobis_occurrences <- function(type,
 # eurobis_type_handler("full_and_parameters")
 eurobis_type_handler <- function(type){
   possible_types <- unlist(eurobis_url$datatypes)
+  
   # Assertions
   stopifnot(length(type) == 1)
-  
-  is_wrong_type = !(type %in% names(possible_types))
-  if(is_wrong_type){
-    possible_types_collapsed <- paste0(names(possible_types), collapse = ", ")
-    stop(paste0("type must be one of: ", possible_types_collapsed))
-  }
+  checkmate::assert_choice(type, names(possible_types))
   
   # Perform
   layer_name <- subset(possible_types, names(possible_types) == type)
@@ -111,8 +153,13 @@ eurobis_wfs_client_init <- function(logger = "INFO"){
   
   # Assertions
   stopifnot(curl::has_internet())
-  emodnet_webservice_status <- httr::HEAD(service)
-  httr::stop_for_status(emodnet_webservice_status)
+  
+  httr2::request(service) %>%
+    httr2::req_url_path_append("request=GetCapabilities") %>%
+    httr2::req_method("HEAD") %>%
+    httr2::req_user_agent(string_user_agent) %>%
+    httr2::req_perform() %>%
+    httr2::resp_check_status()
   
   # Perform
   wfs_client <- ows4R::WFSClient$new(service, "2.0.0" #, logger = logger

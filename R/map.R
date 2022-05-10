@@ -1,34 +1,63 @@
-#' Interactive map with Marine Regions products on your viewer. Click to get the MRGID and more info
+#' Interactive map with the regions on your viewer. Click to get the MRGID and more info
 #'
-#' @param layer c('eez', 'iho', 'eez_iho'). See details.
+#' @param layer The region or place type to be displayed. See details.
 #'
-#' @return A leaflet map with Marine Regions product that retrieves info by clicking
+#' @return A leaflet map with the regions that retrieves info by clicking
 #' @export
 #'
-#' @details These are Marine Regions products. Find more information in {https://marineregions.org/}
-#' - eez = Exclusive Economic Zone
-#' - iho = International Hydrographic Office areas
-#' - eez_iho = Intersection of the EEZ and IHO areas
+#' @details 
+#' To select a specific layer you have to provide the code for the layer. These are:
+#' - Marine Ecoregion of the World (MEOW) = "ecoregions"
+#' - IHO Sea Area = "iho"
+#' - EEZ = "eez"
+#' - Marine Region = "eez_iho"
+#' - EMODnet Biology Reporting Areas = "reportingareas"
 #' 
+#' Marine Regions {https://marineregions.org/} is the geographical backbone of EurOBIS. 
+#' All the regions are included in the Marine Regions Gazetteer. You can see the full list of regions 
+#' with eurobis_list_regions(). 
+#' 
+#' You can find more info about these layers in {https://marineregions.org/sources.php}
+#' 
+#' The EMODnet Biology Reporting Areas are not described there. The EMODnet Reporting Areas are modified 
+#' from the MSDF European seas (https://www.eea.europa.eu/data-and-maps/data/europe-seas-1) to fit the 
+#' purpose of reporting in the EMODnet project. More info 
+#' in: \url{https://marineregions.org/gazetteer.php?p=details&id=63392}
+#'
 #' @examples 
 #' \dontrun{
-#' eurobis_map_mr('eez')
-#' eurobis_map_mr('iho')
-#' eurobis_map_mr('eez_iho')
+#' eurobis_map_regions_ecoregions()
+#' eurobis_map_regions_eez()
+#' eurobis_map_regions_iho()
+#' eurobis_map_regions_eez_iho()
+#' eurobis_map_regions_reportingareas()
 #' }
-eurobis_map_mr <- function(layer = 'eez'){
-  mr_wms <- "http://geo.vliz.be/geoserver/MarineRegions/wms?"
+eurobis_map_regions <- function(layer = 'eez'){
   
   # Assertions
-  stopifnot(layer %in% c('eez', 'iho', 'eez_iho'))
+  checkmate::assert_character(layer)
+  checkmate::assert_choice(layer, names(eurobis_url$mr_layers))
   stopifnot(length(layer) == 1)
-  http_status <- httr::status_code(httr::HEAD(paste0(mr_wms, "request=GetCapabilities")))
-  httr::stop_for_status(http_status)
+  
+  # Config
+  layer <- subset(eurobis_url$mr_layers, names(eurobis_url$mr_layers) == layer)
+  layer <- strsplit(layer[[1]], ":", TRUE)[[1]]
+  namespace <- layer[1]
+  layer <- layer[2]
+  wms <- glue::glue("http://geo.vliz.be/geoserver/{namespace}/wms?")
+  
+  # Server check
+  httr2::request(wms) %>%
+    httr2::req_url_path_append("request=GetCapabilities") %>%
+    httr2::req_method("HEAD") %>%
+    httr2::req_user_agent(string_user_agent) %>%
+    httr2::req_perform() %>%
+    httr2::resp_check_status()
   
   # Perform
   mr_map <- eurobis_base_map() %>%
     leaflet.extras2::addWMS(
-      baseUrl = mr_wms,
+      baseUrl = wms,
       layers = layer,
       options = leaflet::WMSTileOptions(
         transparent = TRUE,
@@ -41,15 +70,49 @@ eurobis_map_mr <- function(layer = 'eez'){
   return(mr_map)
 }
 
+#' @rdname eurobis_map_regions
+eurobis_map_regions_ecoregions <- function(){
+  eurobis_map_regions('ecoregions')
+}
+
+#' @rdname eurobis_map_regions
+eurobis_map_regions_eez <- function(){
+  eurobis_map_regions('eez')
+}
+
+#' @rdname eurobis_map_regions
+eurobis_map_regions_iho <- function(){
+  eurobis_map_regions('iho')
+}
+
+#' @rdname eurobis_map_regions
+eurobis_map_regions_eez_iho <- function(){
+  eurobis_map_regions('eez_iho')
+}
+
+#' @rdname eurobis_map_regions
+eurobis_map_regions_reportingareas <- function(){
+  eurobis_map_regions('reportingareas')
+}
+
+
 #' Draw interactively a polygon and get it as Well Known Text
 #'
 #' @return a string with a polygon as Well Known Text
 #' @export
 #'
+#' @details 
+#' Set \code{options(verbose = TRUE)} to display more information
+#' 
 #' @examples 
 #' \dontrun{wkt <- eurobis_map_draw()}
 eurobis_map_draw <- function(){
   if(!interactive()) NULL
+  
+  if(getOption("verbose")){
+    cli::cli_alert_success("Running Shiny App on localhost")
+    cli::cli_ul("Draw polygon interactively on viewer pane")
+  }
   
   base_map <- eurobis_base_map() %>% add_labels()
   
@@ -72,6 +135,8 @@ eurobis_map_draw <- function(){
   
   wkt <- sf::st_as_text(sf::st_geometry(polygon))
   
+  if(getOption("verbose")) cli::cli_alert_info(wkt)
+  
   message(wkt)
   return(wkt)
 }
@@ -81,8 +146,18 @@ eurobis_base_map <- function(){
   
   # Assertions
   z=1;x=1;y=1
-  http_status <- httr::status_code(httr::HEAD(glue::glue(emodnet_tiles)))
-  httr::stop_for_status(http_status)
+  url_test <- glue::glue(emodnet_tiles)
+  url_not_up <- httr2::request(url_test) %>%
+    httr2::req_method("HEAD") %>%
+    httr2::req_user_agent(string_user_agent) %>%
+    httr2::req_perform() %>% 
+    httr2::resp_is_error()
+  
+  if(url_not_up){
+    cli::cli_alert_danger("Connection to {url_test} failed")
+    cli::cli_alert_warning("Check status of https://portal.emodnet-bathymetry.eu/")
+    return()
+  }
   
   # Perform
   base_map <- leaflet::leaflet(

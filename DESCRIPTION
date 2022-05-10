@@ -15,7 +15,6 @@ Imports:
     sf,
     magrittr,
     leaflet,
-    httr,
     shiny,
     mapedit,
     leaflet.extras2,
@@ -27,12 +26,15 @@ Imports:
     curl,
     purrr,
     utils,
-    methods
+    methods,
+    cli,
+    checkmate,
+    httr2,
+    tibble
 Suggests:
     testthat (>= 3.0.0),
     mapview
 Remotes: 
-    EMODnet/EMODnetWFS,
     eblondel/ows4R
 RoxygenNote: 7.1.1
 Config/testthat/edition: 3
