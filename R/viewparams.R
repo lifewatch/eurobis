@@ -257,8 +257,8 @@ build_filter_traits <- function(functional_groups = NULL, cites = NULL, habitats
       not_accepted <- subset(traits[[i]], !(tolower(traits[[i]]) %in% tolower(accepted)))
       
       if(length(not_accepted) != 0){
-        stop(glue::glue("{paste0(not_accepted, collapse = ', ')} not accepted. Values of {trait_name} must be in: {paste0(accepted, collapse = '; ')}"), call. = FALSE)
-      }
+        stop(glue::glue("Assertion on '{trait_name}' failed. Must be element of set {paste0(accepted, collapse = ', ')}"), call. = FALSE)
+     }
   }
   
   # Perform
