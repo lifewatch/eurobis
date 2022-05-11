@@ -36,7 +36,7 @@ build_viewparams <- function(mrgid = NULL, geometry = NULL, dasid = NULL,
   no_filters <- is.null(filters) & is.null(filter_aphia)
   
   if(no_filters){
-    warning("No filters were applied")
+    warning("No filters were applied", call. = FALSE)
     return(NULL)
   }
   
@@ -95,7 +95,7 @@ build_filter_geo <- function(mrgid = NULL, polygon = NULL){
     is_sf <- "sf" %in% class(polygon)
     if(is_sf){
       no_crs <- is.na(sf::st_crs(polygon)$input)
-      if(no_crs) stop(paste0("polygon: no coordinate projection system found - set with `sf::st_crs(polygon) <- 'EPGS:<code>'`"))
+      if(no_crs) stop(paste0("polygon: no coordinate projection system found - set with `sf::st_crs(polygon) <- 'EPGS:<code>'`"), call. = FALSE)
       
       is_4326 <- sf::st_crs(polygon)$input == "EPGS:4326" 
       if(!is_4326){
@@ -113,7 +113,7 @@ build_filter_geo <- function(mrgid = NULL, polygon = NULL){
     
     if(is.character(polygon)){
       is_valid_wkt <- wk::wk_problems(wk::new_wk_wkt(polygon))
-      if(!is.na(is_valid_wkt)) stop(glue::glue("Invalid WKT string: {is_valid_wkt}"))
+      if(!is.na(is_valid_wkt)) stop(glue::glue("Invalid WKT string: {is_valid_wkt}"), call. = FALSE)
       
       polygon <- sf::st_as_sfc(polygon)
     }
@@ -143,7 +143,7 @@ build_filter_geo <- function(mrgid = NULL, polygon = NULL){
     # Assert length polygon
     too_long <- nchar(polygon) > 1500
     if(too_long){
-      stop("Complex geometries are not yet supported. Please reduce the number of vertices.")
+      stop("Complex geometries are not yet supported. Please reduce the number of vertices.", call. = FALSE)
     }
     
     # Perform
@@ -179,11 +179,11 @@ build_filter_time <- function(start_date = NULL, end_date = NULL){
   
   dates_are_null <- unlist(lapply(dates, is.null))
   if(all(dates_are_null)) return(NULL)
-  if(any(dates_are_null)) stop("Both start_date and end_date must be provided or ignored")
+  if(any(dates_are_null)) stop("Both start_date and end_date must be provided or ignored", call. = FALSE)
   
   dates_as_date <- lapply(dates, as.Date) 
   
-  if(dates_as_date[[1]] > dates_as_date[[2]]) stop("start_date cannot be smaller than end_date")
+  if(dates_as_date[[1]] > dates_as_date[[2]]) stop("start_date cannot be smaller than end_date", call. = FALSE)
   
   dates_as_char <- lapply(dates_as_date, as.character)
   
@@ -210,7 +210,7 @@ build_filter_aphia <- function(aphiaid = NULL){
   aphiaid_trunc <- trunc(aphiaid_as_num)
   
   are_double <- any(aphiaid_as_num != aphiaid_trunc)
-  if(are_double) warning("AphiaID provided as double coerced into integer with trunc()")
+  if(are_double) warning("AphiaID provided as double. Coerced into integer with trunc()", call. = FALSE)
   
   aphiaid_as_char <- as.character(aphiaid_trunc)
   aphiaid_collapsed <- paste0(aphiaid_as_char, collapse = "\\,")
@@ -257,7 +257,7 @@ build_filter_traits <- function(functional_groups = NULL, cites = NULL, habitats
       not_accepted <- subset(traits[[i]], !(tolower(traits[[i]]) %in% tolower(accepted)))
       
       if(length(not_accepted) != 0){
-        stop(glue::glue("{paste0(not_accepted, collapse = ', ')} not accepted. Values of {trait_name} must be in: {paste0(accepted, collapse = '; ')}"))
+        stop(glue::glue("{paste0(not_accepted, collapse = ', ')} not accepted. Values of {trait_name} must be in: {paste0(accepted, collapse = '; ')}"), call. = FALSE)
       }
   }
   

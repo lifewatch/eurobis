@@ -37,7 +37,7 @@ eurobis_name2id <- function(taxa){
   if(taxa_are_not_found){
     names_not_found <- subset(taxa_dictionary$taxa, !(taxa_dictionary$taxa_encoded %in% names(aphiaid))) %>%
       paste0(collapse = ", ") 
-    warning(paste0("The following taxa were not found: ", names_not_found))
+    warning(paste0("The following taxa were not found: ", names_not_found), call. = FALSE)
   }
   
   # Format
