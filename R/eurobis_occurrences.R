@@ -183,8 +183,8 @@ eurobis_wfs_find_layer <- function(wfs_client, type){
 
 # Handle sf and data.frame objects
 eurobis_sf_df_handler <- function(sf_df){
-  stopifnot(methods::is(sf_df, c("sf", "data.frame")))
-  
+  stopifnot(any(c("sf", "data.frame") %in% base::class(sf_df)))
+    
   names(sf_df) <- tolower(names(sf_df))
   
   is_not_sf <- !methods::is(sf_df, c("sf"))
