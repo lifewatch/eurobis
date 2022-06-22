@@ -21,6 +21,18 @@ test_that("eurobis_occurrences", {
   
 })
 
+test_that("counts fun works", {
+  skip_if_offline()
+  skip_on_cran()
+  skip_on_ci()
+  
+  count <- eurobis_occurrences_count(dasid = 8045, verbose = FALSE)
+  
+  total_exists <- "total" %in% colnames(count)
+  expect_true(total_exists)
+  
+  expect_true(is.numeric(count$total))
+})
 
 test_that("sf handler works fine", {
   skip_if_offline()

@@ -5,12 +5,13 @@
 #' @return A leaflet map with the regions that retrieves info by clicking
 #'
 #' @details 
-#' To select a specific layer you have to provide the code for the layer. These are:
-#' - Marine Ecoregion of the World (MEOW) = "ecoregions"
-#' - IHO Sea Area = "iho"
-#' - EEZ = "eez"
-#' - Marine Region = "eez_iho"
-#' - EMODnet Biology Reporting Areas = "reportingareas"
+#' To select a specific layer you have to provide the code for the layer. Or alternatively, 
+#' use the helper of each layer:
+#' - \code{eurobis_map_regions_ecoregions()} = Marine Ecoregions of the World (MEOW)
+#' - \code{eurobis_map_regions_eez()} = International Hydrographic Office Sea Areas (IHO)
+#' - \code{eurobis_map_regions_iho()} = Exclusive Economic Zones (EEZ)
+#' - \code{eurobis_map_regions_eez_iho()} = Intersections of IHO and EEZ
+#' - \code{eurobis_map_regions_reportingareas()} = EMODnet Biology Reporting Areas
 #' 
 #' Marine Regions {https://marineregions.org/} is the geographical backbone of EurOBIS. 
 #' All the regions are included in the Marine Regions Gazetteer. You can see the full list of regions 
