@@ -5,7 +5,12 @@ eurobis_url <- list(
   datatypes = list(
     basic = "Dataportal:eurobis-obisenv_basic",
     full = "Dataportal:eurobis-obisenv_full",
-    full_and_parameters = "Dataportal:eurobis-obisenv"
+    full_and_parameters = "Dataportal:eurobis-obisenv",
+    count = "Dataportal:eurobis-obisenv_count",
+    grid1d = "Dataportal:eurobis_grid_1d-obisenv",
+    grid30m = "Dataportal:eurobis_grid_30m-obisenv",
+    grid15m = "Dataportal:eurobis_grid_15m-obisenv",
+    grid6m = "Dataportal:eurobis_grid_6m-obisenv"
   ),
   imis = list(
     base_url = "https://www.vliz.be/imis"

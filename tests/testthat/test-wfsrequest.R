@@ -30,19 +30,17 @@ test_that("sf handler works fine", {
   
   pol_gibraltar <- 'POLYGON ((-6.102905 36.2026, -5.064697 36.21634, -5.039978 35.67239, -6.122131 35.65591, -6.204529 35.98832, -6.102905 36.2026))'
   
-  test_ok <- eurobis_occurrences(
-    "basic", 
+  test_ok <- eurobis_occurrences_basic(
     geometry = pol_gibraltar,
     start_date = "1990-01-01",
     end_date = "1995-12-31",
     functional_groups = "mammals" 
   )
   expect_true(methods::is(test_ok, "sf"))
-  
+
   # Empty = no pisces
   expect_warning(
-    eurobis_occurrences(
-      "basic", 
+    eurobis_occurrences_basic(
       geometry = pol_gibraltar,
       start_date = "1990-01-01",
       end_date = "1995-12-31",
@@ -52,14 +50,3 @@ test_that("sf handler works fine", {
   
   
 })
-
-# 
-# test_that("all filters perform as expected", {
-#   skip_if_offline()
-#   skip_on_cran()
-#   skip_on_ci()
-#   
-#   
-#   
-#   
-# })
