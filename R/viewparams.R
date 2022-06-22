@@ -61,6 +61,12 @@ build_viewparams <- function(mrgid = NULL, geometry = NULL, dasid = NULL,
 build_filter_dataset <- function(dasid = NULL){
   if(is.null(dasid)) return(NULL)
   
+  # Assertion
+  dasid_in_list <- any(5685  %in% eurobis_list_datasets()$id)
+  if(!dasid_in_list){
+    stop(glue::glue("dasid {dasid} is not in `eurobis_list_datasets()`"), call. = FALSE)
+  }
+  
   dasid <- paste0(dasid, collapse = "\\,")
   query <- paste0("datasetid+IN+(", dasid, ")")
   return(query)
