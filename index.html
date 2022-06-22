@@ -99,25 +99,26 @@
 <span class="co">#&gt; Loading ISO 19115 codelists...</span>
 <span class="co">#&gt; Loading IANA mime types...</span>
 <span class="co">#&gt; No encoding supplied: defaulting to UTF-8.</span>
-<span class="co">#&gt; Downloading: 8.2 kB     Downloading: 8.2 kB     Downloading: 8.6 kB     Downloading: 8.6 kB     Downloading: 8.6 kB     Downloading: 8.6 kB     Downloading: 8.6 kB     Downloading: 8.6 kB     Downloading: 8.6 kB     Downloading: 8.6 kB     Downloading: 540 B     Downloading: 540 B     Downloading: 550 B     Downloading: 550 B     Downloading: 550 B     Downloading: 550 B     Downloading: 1.5 kB     Downloading: 1.5 kB     Downloading: 1.5 kB     Downloading: 1.5 kB     Downloading: 1.5 kB     Downloading: 1.5 kB     Downloading: 1.5 kB     Downloading: 1.5 kB</span>
+<span class="co">#&gt; ✓ Downloading layer: EMODnet EurOBIS Basic Occurrence Data</span>
+<span class="co">#&gt; ℹ The Basic Occurrence Data download provides you data for the following 8 essential terms: datasetid, datecollected, decimallongitude, decimallatitude, coordinateuncertaintyinmeters, scientificname, aphiaid, scientificnameaccepted. For more information, please consult: https://www.emodnet-biology.eu/emodnet-data-format.</span>
 <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 52</span>
 <span class="co">#&gt; Columns: 11</span>
-<span class="co">#&gt; $ gml_id                        &lt;fct&gt; eurobis-obisenv_basic.fid--69058bcf_180a…</span>
-<span class="co">#&gt; $ id                            &lt;int&gt; 28965233, 28965282, 28965532, 28965710, …</span>
+<span class="co">#&gt; $ gml_id                        &lt;fct&gt; eurobis-obisenv_basic.fid--7af1e85b_1818…</span>
+<span class="co">#&gt; $ id                            &lt;int&gt; 28821850, 28822197, 28822700, 28822829, …</span>
 <span class="co">#&gt; $ datasetid                     &lt;chr&gt; "http://www.emodnet-biology.eu/data-cata…</span>
-<span class="co">#&gt; $ datecollected                 &lt;dttm&gt; 2020-05-04, 2020-08-09, 2019-12-12, 202…</span>
-<span class="co">#&gt; $ decimallongitude              &lt;dbl&gt; -8.73964, -8.73964, -8.73902, -8.73902, …</span>
-<span class="co">#&gt; $ decimallatitude               &lt;dbl&gt; 40.61847, 40.61847, 40.61773, 40.61773, …</span>
+<span class="co">#&gt; $ datecollected                 &lt;dttm&gt; 2020-05-04, 2020-03-02, 2020-03-02, 202…</span>
+<span class="co">#&gt; $ decimallongitude              &lt;dbl&gt; -8.73902, -8.73902, -8.73902, -8.73902, …</span>
+<span class="co">#&gt; $ decimallatitude               &lt;dbl&gt; 40.61773, 40.61773, 40.61773, 40.61773, …</span>
 <span class="co">#&gt; $ coordinateuncertaintyinmeters &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5…</span>
 <span class="co">#&gt; $ scientificname                &lt;chr&gt; "Zostera marina", "Zostera marina", "Zos…</span>
 <span class="co">#&gt; $ aphiaid                       &lt;chr&gt; "http://marinespecies.org/aphia.php?p=ta…</span>
 <span class="co">#&gt; $ scientificnameaccepted        &lt;chr&gt; "Zostera subg. Zostera marina", "Zostera…</span>
-<span class="co">#&gt; $ geometry                      &lt;POINT [°]&gt; POINT (-8.73964 40.61847), POINT (…</span></code></pre></div>
+<span class="co">#&gt; $ geometry                      &lt;POINT [°]&gt; POINT (-8.73902 40.61773), POINT (…</span></code></pre></div>
 <p>To see the list of datasets, use:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/eurobis_list_datasets.html">eurobis_list_datasets</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1,213 × 2</span>
+<span class="co">#&gt; # A tibble: 1,221 × 2</span>
 <span class="co">#&gt;    id    name                                                                   </span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;                                                                  </span>
 <span class="co">#&gt;  1 5685  1507-1997 Paul F. Clark North East Atlantic Crab Atlas                 </span>
@@ -130,7 +131,7 @@
 <span class="co">#&gt;  8 6691  2012-2013 University of Plymouth Falmouth maerl bed infauna and sedime…</span>
 <span class="co">#&gt;  9 5670  2012-ongoing UK Offshore Marine Conservation Zone (MCZ) Survey Data    </span>
 <span class="co">#&gt; 10 6692  2012 University of Plymouth Falmouth towed underwater video maerl and …</span>
-<span class="co">#&gt; # … with 1,203 more rows</span></code></pre></div>
+<span class="co">#&gt; # … with 1,211 more rows</span></code></pre></div>
 <p>For detailed information run:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="va">eurobis_occurrences</span><span class="op">)</span></code></pre></div>
@@ -142,21 +143,22 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get one single dataset</span>
 <span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_basic</a></span><span class="op">(</span>dasid <span class="op">=</span> <span class="fl">8045</span>, functional_groups <span class="op">=</span> <span class="st">"angiosperms"</span><span class="op">)</span>
-<span class="co">#&gt; Downloading: 8.2 kB     Downloading: 8.2 kB     Downloading: 8.6 kB     Downloading: 8.6 kB     Downloading: 8.6 kB     Downloading: 8.6 kB     Downloading: 8.6 kB     Downloading: 8.6 kB     Downloading: 540 B     Downloading: 540 B     Downloading: 550 B     Downloading: 550 B     Downloading: 550 B     Downloading: 550 B     Downloading: 1.5 kB     Downloading: 1.5 kB     Downloading: 1.5 kB     Downloading: 1.5 kB     Downloading: 1.5 kB     Downloading: 1.5 kB</span>
+<span class="co">#&gt; ✓ Downloading layer: EMODnet EurOBIS Basic Occurrence Data</span>
+<span class="co">#&gt; ℹ The Basic Occurrence Data download provides you data for the following 8 essential terms: datasetid, datecollected, decimallongitude, decimallatitude, coordinateuncertaintyinmeters, scientificname, aphiaid, scientificnameaccepted. For more information, please consult: https://www.emodnet-biology.eu/emodnet-data-format.</span>
 <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span>
 <span class="co">#&gt; Rows: 52</span>
 <span class="co">#&gt; Columns: 11</span>
-<span class="co">#&gt; $ gml_id                        &lt;fct&gt; eurobis-obisenv_basic.fid--69058bcf_180a…</span>
-<span class="co">#&gt; $ id                            &lt;int&gt; 28965233, 28965282, 28965532, 28965710, …</span>
+<span class="co">#&gt; $ gml_id                        &lt;fct&gt; eurobis-obisenv_basic.fid--7af1e85b_1818…</span>
+<span class="co">#&gt; $ id                            &lt;int&gt; 28821850, 28822197, 28822700, 28822829, …</span>
 <span class="co">#&gt; $ datasetid                     &lt;chr&gt; "http://www.emodnet-biology.eu/data-cata…</span>
-<span class="co">#&gt; $ datecollected                 &lt;dttm&gt; 2020-05-04, 2020-08-09, 2019-12-12, 202…</span>
-<span class="co">#&gt; $ decimallongitude              &lt;dbl&gt; -8.73964, -8.73964, -8.73902, -8.73902, …</span>
-<span class="co">#&gt; $ decimallatitude               &lt;dbl&gt; 40.61847, 40.61847, 40.61773, 40.61773, …</span>
+<span class="co">#&gt; $ datecollected                 &lt;dttm&gt; 2020-05-04, 2020-03-02, 2020-03-02, 202…</span>
+<span class="co">#&gt; $ decimallongitude              &lt;dbl&gt; -8.73902, -8.73902, -8.73902, -8.73902, …</span>
+<span class="co">#&gt; $ decimallatitude               &lt;dbl&gt; 40.61773, 40.61773, 40.61773, 40.61773, …</span>
 <span class="co">#&gt; $ coordinateuncertaintyinmeters &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5…</span>
 <span class="co">#&gt; $ scientificname                &lt;chr&gt; "Zostera marina", "Zostera marina", "Zos…</span>
 <span class="co">#&gt; $ aphiaid                       &lt;chr&gt; "http://marinespecies.org/aphia.php?p=ta…</span>
 <span class="co">#&gt; $ scientificnameaccepted        &lt;chr&gt; "Zostera subg. Zostera marina", "Zostera…</span>
-<span class="co">#&gt; $ geometry                      &lt;POINT [°]&gt; POINT (-8.73964 40.61847), POINT (…</span></code></pre></div>
+<span class="co">#&gt; $ geometry                      &lt;POINT [°]&gt; POINT (-8.73902 40.61773), POINT (…</span></code></pre></div>
 <p>See the full list of queriable traits in the exported dataset <code>species_traits</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">species_traits</span><span class="op">)</span>
@@ -284,6 +286,7 @@
 <ul class="list-unstyled">
 <li><a href="http://lifewatch.be" class="external-link"><img src="https://img.shields.io/static/v1?label=powered+by&amp;message=lifewatch.be&amp;labelColor=1a4e8a&amp;color=f15922" alt="Funding"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://github.com/lifewatch/eurobis/actions" class="external-link"><img src="https://github.com/lifewatch/eurobis/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
