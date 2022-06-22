@@ -75,12 +75,13 @@
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>To select a specific layer you have to provide the code for the layer. These are:
-- Marine Ecoregion of the World (MEOW) = "ecoregions"
-- IHO Sea Area = "iho"
-- EEZ = "eez"
-- Marine Region = "eez_iho"
-- EMODnet Biology Reporting Areas = "reportingareas"</p>
+    <p>To select a specific layer you have to provide the code for the layer. Or alternatively, 
+use the helper of each layer:
+- <code>eurobis_map_regions_ecoregions()</code> = Marine Ecoregions of the World (MEOW)
+- <code>eurobis_map_regions_eez()</code> = International Hydrographic Office Sea Areas (IHO)
+- <code>eurobis_map_regions_iho()</code> = Exclusive Economic Zones (EEZ)
+- <code>eurobis_map_regions_eez_iho()</code> = Intersections of IHO and EEZ
+- <code>eurobis_map_regions_reportingareas()</code> = EMODnet Biology Reporting Areas</p>
 <p>Marine Regions https://marineregions.org/ is the geographical backbone of EurOBIS. 
 All the regions are included in the Marine Regions Gazetteer. You can see the full list of regions 
 with eurobis_list_regions().</p>
