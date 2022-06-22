@@ -65,6 +65,7 @@
   msdf_indicators <span class="op">=</span> <span class="cn">NULL</span>,
   paging <span class="op">=</span> <span class="cn">FALSE</span>,
   paging_length <span class="op">=</span> <span class="fl">50000</span>,
+  verbose <span class="op">=</span> <span class="cn">TRUE</span>,
   <span class="va">...</span>
 <span class="op">)</span>
 
@@ -72,60 +73,110 @@
 
 <span class="fu">eurobis_occurrences_full</span><span class="op">(</span><span class="va">...</span><span class="op">)</span>
 
-<span class="fu">eurobis_occurrences_full_and_parameters</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></code></pre></div>
+<span class="fu">eurobis_occurrences_full_and_parameters</span><span class="op">(</span><span class="va">...</span><span class="op">)</span>
+
+<span class="fu">eurobis_occurrences_count</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>type</dt>
-<dd><p>Type of data, one of c('basic', 'full', 'full_and_parameters'). Alternatively you 
+<dd><p>Type of data, one of c('basic', 'full', 'full_and_parameters'). You 
 can use one of the wrappers:</p>
 <p>- <code>eurobis_occurrences_basic</code>
 - <code>eurobis_occurrences_full</code>
 - <code>eurobis_occurrences_full_and_parameters</code></p>
-<p>More info at: <a href="https://www.emodnet-biology.eu/emodnet-data-format" class="external-link">https://www.emodnet-biology.eu/emodnet-data-format</a></p></dd>
+<p>More info at: <a href="https://www.emodnet-biology.eu/emodnet-data-format" class="external-link">https://www.emodnet-biology.eu/emodnet-data-format</a></p>
+<p>You can also see the number of occurrences that a query will return before performing the request with:</p>
+<p>- <code>eurobis_occurrences_count</code></p>
+<p>See details for more information.</p></dd>
+
+
 <dt>url</dt>
 <dd><p>A WFS request copied from the LifeWatch/EMODnet-Biology Download Toolbox. Use <code><a href="eurobis_download_toolbox.html">eurobis_download_toolbox</a></code></p></dd>
+
+
 <dt>mrgid</dt>
 <dd><p>Marine Regions Gazetteer unique identifier. See list of available regions with <code><a href="eurobis_list_regions.html">eurobis_list_regions</a></code> and 
 visualize with <code><a href="eurobis_map_regions.html">eurobis_map_regions</a></code></p></dd>
+
+
 <dt>geometry</dt>
 <dd><p>a WKT geometry string or sf object with the region of interest. You can draw a polygon interactively 
 with <code><a href="eurobis_map_draw.html">eurobis_map_draw</a></code></p></dd>
+
+
 <dt>dasid</dt>
 <dd><p>IMIS dataset unique identifier. See list of available datasets with <code><a href="eurobis_list_datasets.html">eurobis_list_datasets</a></code></p></dd>
+
+
 <dt>start_date</dt>
 <dd><p>Start date of occurrences. Format YYYY-MM-DD.</p></dd>
+
+
 <dt>end_date</dt>
 <dd><p>End date of occurrences. Format YYYY-MM-DD.</p></dd>
+
+
 <dt>aphiaid</dt>
 <dd><p>WoRMS taxon unique identifier. See <a href="https://www.marinespecies.org/" class="external-link">https://www.marinespecies.org/</a> and <a href="https://docs.ropensci.org/worrms/" class="external-link">https://docs.ropensci.org/worrms/</a></p></dd>
+
+
 <dt>scientific_name</dt>
 <dd><p>Taxon name. It is matched with WoRMS on the fly. Ignored if aphiaid is provided.</p></dd>
+
+
 <dt>functional_groups</dt>
 <dd><p>Functional groups available in WoRMS: See <code><a href="species_traits.html">eurobis::species_traits</a></code>.</p></dd>
+
+
 <dt>cites</dt>
 <dd><p>CITES Annex. See <code><a href="species_traits.html">eurobis::species_traits</a></code>.</p></dd>
+
+
 <dt>habitats_directive</dt>
 <dd><p>Habitats Directive Annex. See <code><a href="species_traits.html">eurobis::species_traits</a></code>.</p></dd>
+
+
 <dt>iucn_red_list</dt>
 <dd><p>IUCN Red List Category. See <code><a href="species_traits.html">eurobis::species_traits</a></code>.</p></dd>
+
+
 <dt>msdf_indicators</dt>
 <dd><p>Marine Strategy Directive Framework indicators. See <code><a href="species_traits.html">eurobis::species_traits</a></code>.</p></dd>
+
+
 <dt>paging</dt>
-<dd><p>If TRUE, the data will be requested on chunks. Use for large requests.</p></dd>
+<dd><p>If TRUE, the data will be requested on chunks. Use for large requests. See details.</p></dd>
+
+
 <dt>paging_length</dt>
-<dd><p>Size of chunks in number of rows. Default 50K.</p></dd>
+<dd><p>Size of chunks in number of rows. Default 50K. See details.</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>set to FALSE to hide the info messages</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Any parameters to pass to  <code>ows4R</code> get feature request (e.g. cql_filter or parallel)</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>a tibble or sf object with eurobis data</p>
+    
+
+<p>a tibble or sf object with eurobis data</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Set <code>options(verbose = TRUE)</code> to display more information</p>
+    <p>If you want to perform a very large request, it is likely that this will take a long time to complete or even not 
+work at all. In this case, the best approach is to first check the number of occurrences that will be returned by 
+the query with <code>eurobis_occurrences_count</code>.</p>
+<p>If this number is high (e.g. more than 500K), you can set <code>paging = TRUE</code> to download the data in smaller chunks. 
+This will still take time, but it is less likely to break the service by using several small request than one large one.</p>
+<p>You can set the size of the data chunk with  <code>paging_length</code>. The largest the chunk, the faster you download the 
+data, but also more likely to break the service.</p>
     </div>
 
     <div class="section level2">
@@ -164,7 +215,7 @@ with <code><a href="eurobis_map_draw.html">eurobis_map_draw</a></code></p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>
