@@ -40,18 +40,17 @@ build_viewparams <- function(mrgid = NULL, geometry = NULL, dasid = NULL,
     return(NULL)
   }
   
-  query <- paste0(filters, collapse = "+AND+")
-  query <- paste0("where:", query, ";context:0100", filter_aphia)
-  # message(query)
+  # build query 
+  only_filter_aphia <- is.null(filters) & !is.null(filter_aphia)
+  if(only_filter_aphia){
+    query <- paste0("context:0100", filter_aphia)
+  }else{
+    query <- paste0(filters, collapse = "+AND+")
+    query <- paste0("where:", query, ";context:0100", filter_aphia)
+  }
+    
   query <- build_encode(query)
-  # 
-  # # Assert length
-  # too_long <- nchar(query) < 2000
-  # 
-  # if(too_long){
-  #   stop("Large queries are not yet supported. Please reduce the number of possible values.")
-  # }
-  # 
+
   return(query)
 }
 
