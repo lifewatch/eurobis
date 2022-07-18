@@ -4,7 +4,9 @@ Version: 0.0.0.9000
 Authors@R: c(person("Salvador", "Fernandez", email = "salvador.fernandez@vliz.be", role = c("cre", "ctb")),
              person("Daphnis", "De Pooter", role = "aut"),
              person("Lennert", "Schepers", email = "lennert.schepers@vliz.be", role = "ctb"),
-             person("Ruben", "Perez", email = "ruben.perez@vliz.be", role = "ctb"))
+             person("Ruben", "Perez", email = "ruben.perez@vliz.be", role = "ctb"),
+             person("LifeWatch Belgium", role = "fnd", comment = "https://lifewatch.be")
+           )
 Description: Downloads EurOBIS data using the EMODnet Biology WFS.
 URL: https://github.com/lifewatch/eurobis,
     https://lifewatch.github.io/eurobis/
