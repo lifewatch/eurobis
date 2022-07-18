@@ -8,8 +8,8 @@
 <meta name="description" content="Downloads EurOBIS data using the EMODnet Biology WFS.">
 <title>Download data from EurOBIS using the LifeWatch/EMODnet-Biology Web Feature Services • eurobis</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Download data from EurOBIS using the LifeWatch/EMODnet-Biology Web Feature Services">
 <meta property="og:description" content="Downloads EurOBIS data using the EMODnet Biology WFS.">
@@ -83,7 +83,7 @@
 </h2>
 <p>You can install the development version from GitHub with <code>devtools</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"lifewatch/eurobis"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"lifewatch/eurobis"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="get-occurrences">Get occurrences<a class="anchor" aria-label="anchor" href="#get-occurrences"></a>
@@ -91,140 +91,140 @@
 <p>Use the <code><a href="reference/eurobis_occurrences.html">eurobis_occurrences()</a></code> family of functions to query data.</p>
 <p>A basic example is:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lifewatch/eurobis" class="external-link">eurobis</a></span><span class="op">)</span>
-
-<span class="co"># Get one single dataset</span>
-<span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_basic</a></span><span class="op">(</span>dasid <span class="op">=</span> <span class="fl">8045</span><span class="op">)</span>
-<span class="co">#&gt; Loading ISO 19139 XML schemas...</span>
-<span class="co">#&gt; Loading ISO 19115 codelists...</span>
-<span class="co">#&gt; Loading IANA mime types...</span>
-<span class="co">#&gt; No encoding supplied: defaulting to UTF-8.</span>
-<span class="co">#&gt; ✓ Downloading layer: EMODnet EurOBIS Basic Occurrence Data</span>
-<span class="co">#&gt; ℹ The Basic Occurrence Data download provides you data for the following 8 essential terms: datasetid, datecollected, decimallongitude, decimallatitude, coordinateuncertaintyinmeters, scientificname, aphiaid, scientificnameaccepted. For more information, please consult: https://www.emodnet-biology.eu/emodnet-data-format.</span>
-<span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 52</span>
-<span class="co">#&gt; Columns: 11</span>
-<span class="co">#&gt; $ gml_id                        &lt;fct&gt; eurobis-obisenv_basic.fid--7af1e85b_1818…</span>
-<span class="co">#&gt; $ id                            &lt;int&gt; 28821850, 28822197, 28822700, 28822829, …</span>
-<span class="co">#&gt; $ datasetid                     &lt;chr&gt; "http://www.emodnet-biology.eu/data-cata…</span>
-<span class="co">#&gt; $ datecollected                 &lt;dttm&gt; 2020-05-04, 2020-03-02, 2020-03-02, 202…</span>
-<span class="co">#&gt; $ decimallongitude              &lt;dbl&gt; -8.73902, -8.73902, -8.73902, -8.73902, …</span>
-<span class="co">#&gt; $ decimallatitude               &lt;dbl&gt; 40.61773, 40.61773, 40.61773, 40.61773, …</span>
-<span class="co">#&gt; $ coordinateuncertaintyinmeters &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5…</span>
-<span class="co">#&gt; $ scientificname                &lt;chr&gt; "Zostera marina", "Zostera marina", "Zos…</span>
-<span class="co">#&gt; $ aphiaid                       &lt;chr&gt; "http://marinespecies.org/aphia.php?p=ta…</span>
-<span class="co">#&gt; $ scientificnameaccepted        &lt;chr&gt; "Zostera subg. Zostera marina", "Zostera…</span>
-<span class="co">#&gt; $ geometry                      &lt;POINT [°]&gt; POINT (-8.73902 40.61773), POINT (…</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lifewatch/eurobis" class="external-link">eurobis</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Get one single dataset</span></span>
+<span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_basic</a></span><span class="op">(</span>dasid <span class="op">=</span> <span class="fl">8045</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading ISO 19139 XML schemas...</span></span>
+<span><span class="co">#&gt; Loading ISO 19115 codelists...</span></span>
+<span><span class="co">#&gt; Loading IANA mime types...</span></span>
+<span><span class="co">#&gt; No encoding supplied: defaulting to UTF-8.</span></span>
+<span><span class="co">#&gt; ✓ Downloading layer: EMODnet EurOBIS Basic Occurrence Data</span></span>
+<span><span class="co">#&gt; ℹ The Basic Occurrence Data download provides you data for the following 8 essential terms: datasetid, datecollected, decimallongitude, decimallatitude, coordinateuncertaintyinmeters, scientificname, aphiaid, scientificnameaccepted. For more information, please consult: https://www.emodnet-biology.eu/emodnet-data-format.</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 52</span></span>
+<span><span class="co">#&gt; Columns: 11</span></span>
+<span><span class="co">#&gt; $ gml_id                        &lt;fct&gt; eurobis-obisenv_basic.fid--7af1e85b_1818…</span></span>
+<span><span class="co">#&gt; $ id                            &lt;int&gt; 28821850, 28822197, 28822700, 28822829, …</span></span>
+<span><span class="co">#&gt; $ datasetid                     &lt;chr&gt; "http://www.emodnet-biology.eu/data-cata…</span></span>
+<span><span class="co">#&gt; $ datecollected                 &lt;dttm&gt; 2020-05-04, 2020-03-02, 2020-03-02, 202…</span></span>
+<span><span class="co">#&gt; $ decimallongitude              &lt;dbl&gt; -8.73902, -8.73902, -8.73902, -8.73902, …</span></span>
+<span><span class="co">#&gt; $ decimallatitude               &lt;dbl&gt; 40.61773, 40.61773, 40.61773, 40.61773, …</span></span>
+<span><span class="co">#&gt; $ coordinateuncertaintyinmeters &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5…</span></span>
+<span><span class="co">#&gt; $ scientificname                &lt;chr&gt; "Zostera marina", "Zostera marina", "Zos…</span></span>
+<span><span class="co">#&gt; $ aphiaid                       &lt;chr&gt; "http://marinespecies.org/aphia.php?p=ta…</span></span>
+<span><span class="co">#&gt; $ scientificnameaccepted        &lt;chr&gt; "Zostera subg. Zostera marina", "Zostera…</span></span>
+<span><span class="co">#&gt; $ geometry                      &lt;POINT [°]&gt; POINT (-8.73902 40.61773), POINT (…</span></span></code></pre></div>
 <p>To see the list of datasets, use:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/eurobis_list_datasets.html">eurobis_list_datasets</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1,221 × 2</span>
-<span class="co">#&gt;    id    name                                                                   </span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;                                                                  </span>
-<span class="co">#&gt;  1 5685  1507-1997 Paul F. Clark North East Atlantic Crab Atlas                 </span>
-<span class="co">#&gt;  2 5688  1778-1998 Ivor Rees North Wales Marine Fauna Ad-hoc sightings shore an…</span>
-<span class="co">#&gt;  3 5666  1915-2016 Marine Strategy Framework Directive (MSFD) Collation of inva…</span>
-<span class="co">#&gt;  4 1884  2005-Ongoing UK MarLIN Shore Thing timed search results                </span>
-<span class="co">#&gt;  5 6430  2009 University of Plymouth Wave Hub, Cornwall towed underwater video …</span>
-<span class="co">#&gt;  6 6421  2010 University of Plymouth Guernsey towed underwater video benthic su…</span>
-<span class="co">#&gt;  7 6693  2011 University of Plymouth Falmouth towed underwater video maerl and …</span>
-<span class="co">#&gt;  8 6691  2012-2013 University of Plymouth Falmouth maerl bed infauna and sedime…</span>
-<span class="co">#&gt;  9 5670  2012-ongoing UK Offshore Marine Conservation Zone (MCZ) Survey Data    </span>
-<span class="co">#&gt; 10 6692  2012 University of Plymouth Falmouth towed underwater video maerl and …</span>
-<span class="co">#&gt; # … with 1,211 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/eurobis_list_datasets.html">eurobis_list_datasets</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 1,221 × 2</span></span>
+<span><span class="co">#&gt;    id    name                                                                   </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;                                                                  </span></span>
+<span><span class="co">#&gt;  1 5685  1507-1997 Paul F. Clark North East Atlantic Crab Atlas                 </span></span>
+<span><span class="co">#&gt;  2 5688  1778-1998 Ivor Rees North Wales Marine Fauna Ad-hoc sightings shore an…</span></span>
+<span><span class="co">#&gt;  3 5666  1915-2016 Marine Strategy Framework Directive (MSFD) Collation of inva…</span></span>
+<span><span class="co">#&gt;  4 1884  2005-Ongoing UK MarLIN Shore Thing timed search results                </span></span>
+<span><span class="co">#&gt;  5 6430  2009 University of Plymouth Wave Hub, Cornwall towed underwater video …</span></span>
+<span><span class="co">#&gt;  6 6421  2010 University of Plymouth Guernsey towed underwater video benthic su…</span></span>
+<span><span class="co">#&gt;  7 6693  2011 University of Plymouth Falmouth towed underwater video maerl and …</span></span>
+<span><span class="co">#&gt;  8 6691  2012-2013 University of Plymouth Falmouth maerl bed infauna and sedime…</span></span>
+<span><span class="co">#&gt;  9 5670  2012-ongoing UK Offshore Marine Conservation Zone (MCZ) Survey Data    </span></span>
+<span><span class="co">#&gt; 10 6692  2012 University of Plymouth Falmouth towed underwater video maerl and …</span></span>
+<span><span class="co">#&gt; # … with 1,211 more rows</span></span></code></pre></div>
 <p>For detailed information run:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="va">eurobis_occurrences</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="va">eurobis_occurrences</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="query-by-traits">Query by traits<a class="anchor" aria-label="anchor" href="#query-by-traits"></a>
 </h2>
 <p>Use the <code>functional_group</code> argument:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Get one single dataset</span>
-<span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_basic</a></span><span class="op">(</span>dasid <span class="op">=</span> <span class="fl">8045</span>, functional_groups <span class="op">=</span> <span class="st">"angiosperms"</span><span class="op">)</span>
-<span class="co">#&gt; ✓ Downloading layer: EMODnet EurOBIS Basic Occurrence Data</span>
-<span class="co">#&gt; ℹ The Basic Occurrence Data download provides you data for the following 8 essential terms: datasetid, datecollected, decimallongitude, decimallatitude, coordinateuncertaintyinmeters, scientificname, aphiaid, scientificnameaccepted. For more information, please consult: https://www.emodnet-biology.eu/emodnet-data-format.</span>
-<span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span>
-<span class="co">#&gt; Rows: 52</span>
-<span class="co">#&gt; Columns: 11</span>
-<span class="co">#&gt; $ gml_id                        &lt;fct&gt; eurobis-obisenv_basic.fid--7af1e85b_1818…</span>
-<span class="co">#&gt; $ id                            &lt;int&gt; 28821850, 28822197, 28822700, 28822829, …</span>
-<span class="co">#&gt; $ datasetid                     &lt;chr&gt; "http://www.emodnet-biology.eu/data-cata…</span>
-<span class="co">#&gt; $ datecollected                 &lt;dttm&gt; 2020-05-04, 2020-03-02, 2020-03-02, 202…</span>
-<span class="co">#&gt; $ decimallongitude              &lt;dbl&gt; -8.73902, -8.73902, -8.73902, -8.73902, …</span>
-<span class="co">#&gt; $ decimallatitude               &lt;dbl&gt; 40.61773, 40.61773, 40.61773, 40.61773, …</span>
-<span class="co">#&gt; $ coordinateuncertaintyinmeters &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5…</span>
-<span class="co">#&gt; $ scientificname                &lt;chr&gt; "Zostera marina", "Zostera marina", "Zos…</span>
-<span class="co">#&gt; $ aphiaid                       &lt;chr&gt; "http://marinespecies.org/aphia.php?p=ta…</span>
-<span class="co">#&gt; $ scientificnameaccepted        &lt;chr&gt; "Zostera subg. Zostera marina", "Zostera…</span>
-<span class="co">#&gt; $ geometry                      &lt;POINT [°]&gt; POINT (-8.73902 40.61773), POINT (…</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Get one single dataset</span></span>
+<span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_basic</a></span><span class="op">(</span>dasid <span class="op">=</span> <span class="fl">8045</span>, functional_groups <span class="op">=</span> <span class="st">"angiosperms"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ✓ Downloading layer: EMODnet EurOBIS Basic Occurrence Data</span></span>
+<span><span class="co">#&gt; ℹ The Basic Occurrence Data download provides you data for the following 8 essential terms: datasetid, datecollected, decimallongitude, decimallatitude, coordinateuncertaintyinmeters, scientificname, aphiaid, scientificnameaccepted. For more information, please consult: https://www.emodnet-biology.eu/emodnet-data-format.</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 52</span></span>
+<span><span class="co">#&gt; Columns: 11</span></span>
+<span><span class="co">#&gt; $ gml_id                        &lt;fct&gt; eurobis-obisenv_basic.fid--7af1e85b_1818…</span></span>
+<span><span class="co">#&gt; $ id                            &lt;int&gt; 28821850, 28822197, 28822700, 28822829, …</span></span>
+<span><span class="co">#&gt; $ datasetid                     &lt;chr&gt; "http://www.emodnet-biology.eu/data-cata…</span></span>
+<span><span class="co">#&gt; $ datecollected                 &lt;dttm&gt; 2020-05-04, 2020-03-02, 2020-03-02, 202…</span></span>
+<span><span class="co">#&gt; $ decimallongitude              &lt;dbl&gt; -8.73902, -8.73902, -8.73902, -8.73902, …</span></span>
+<span><span class="co">#&gt; $ decimallatitude               &lt;dbl&gt; 40.61773, 40.61773, 40.61773, 40.61773, …</span></span>
+<span><span class="co">#&gt; $ coordinateuncertaintyinmeters &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5…</span></span>
+<span><span class="co">#&gt; $ scientificname                &lt;chr&gt; "Zostera marina", "Zostera marina", "Zos…</span></span>
+<span><span class="co">#&gt; $ aphiaid                       &lt;chr&gt; "http://marinespecies.org/aphia.php?p=ta…</span></span>
+<span><span class="co">#&gt; $ scientificnameaccepted        &lt;chr&gt; "Zostera subg. Zostera marina", "Zostera…</span></span>
+<span><span class="co">#&gt; $ geometry                      &lt;POINT [°]&gt; POINT (-8.73902 40.61773), POINT (…</span></span></code></pre></div>
 <p>See the full list of queriable traits in the exported dataset <code>species_traits</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">species_traits</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 32 × 4</span>
-<span class="co">#&gt;    category                      group            selection     selectid     </span>
-<span class="co">#&gt;    &lt;chr&gt;                         &lt;chr&gt;            &lt;chr&gt;         &lt;chr&gt;        </span>
-<span class="co">#&gt;  1 Species group                 Functional group algae         Algae        </span>
-<span class="co">#&gt;  2 Species group                 Functional group angiosperms   Angiosperms  </span>
-<span class="co">#&gt;  3 Species group                 Functional group benthos       Benthos      </span>
-<span class="co">#&gt;  4 Species group                 Functional group birds         Birds        </span>
-<span class="co">#&gt;  5 Species group                 Functional group mammals       Mammals      </span>
-<span class="co">#&gt;  6 Species group                 Functional group phytoplankton phytoplankton</span>
-<span class="co">#&gt;  7 Species group                 Functional group pisces        pisces       </span>
-<span class="co">#&gt;  8 Species group                 Functional group reptiles      Reptiles     </span>
-<span class="co">#&gt;  9 Species group                 Functional group zooplankton   zooplankton  </span>
-<span class="co">#&gt; 10 Species importance to society CITES Annex      I             28_280_0     </span>
-<span class="co">#&gt; # … with 22 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">species_traits</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 32 × 4</span></span>
+<span><span class="co">#&gt;    category                      group            selection     selectid     </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                         &lt;chr&gt;            &lt;chr&gt;         &lt;chr&gt;        </span></span>
+<span><span class="co">#&gt;  1 Species group                 Functional group algae         Algae        </span></span>
+<span><span class="co">#&gt;  2 Species group                 Functional group angiosperms   Angiosperms  </span></span>
+<span><span class="co">#&gt;  3 Species group                 Functional group benthos       Benthos      </span></span>
+<span><span class="co">#&gt;  4 Species group                 Functional group birds         Birds        </span></span>
+<span><span class="co">#&gt;  5 Species group                 Functional group mammals       Mammals      </span></span>
+<span><span class="co">#&gt;  6 Species group                 Functional group phytoplankton phytoplankton</span></span>
+<span><span class="co">#&gt;  7 Species group                 Functional group pisces        pisces       </span></span>
+<span><span class="co">#&gt;  8 Species group                 Functional group reptiles      Reptiles     </span></span>
+<span><span class="co">#&gt;  9 Species group                 Functional group zooplankton   zooplankton  </span></span>
+<span><span class="co">#&gt; 10 Species importance to society CITES Annex      I             28_280_0     </span></span>
+<span><span class="co">#&gt; # … with 22 more rows</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="query-by-location">Query by location<a class="anchor" aria-label="anchor" href="#query-by-location"></a>
 </h2>
 <p>You can also filter by location, either using the Marine Regions Gazetteer Identifier (MRGID) or passing any polygon as Well Known Text.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_basic</a></span><span class="op">(</span>mrgid <span class="op">=</span> <span class="fl">5688</span>, geometry <span class="op">=</span> <span class="st">"POLYGON ((-9.099426 40.33016, -9.099426 40.9788, -8.366089 40.9788, -8.366089 40.33016, -9.099426 40.33016))"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_basic</a></span><span class="op">(</span>mrgid <span class="op">=</span> <span class="fl">5688</span>, geometry <span class="op">=</span> <span class="st">"POLYGON ((-9.099426 40.33016, -9.099426 40.9788, -8.366089 40.9788, -8.366089 40.33016, -9.099426 40.33016))"</span><span class="op">)</span></span></code></pre></div>
 <p>To help drawing the area of your interest, you can use <code><a href="reference/eurobis_map_draw.html">eurobis_map_draw()</a></code>. You can draw here a polygon interactively:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">selected_area</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/eurobis_map_draw.html">eurobis_map_draw</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; POLYGON ((-9.099426 40.33016, -9.099426 40.9788, -8.366089 40.9788, -8.366089 40.33016, -9.099426 40.33016))</span>
-
-<span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_full</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">selected_area</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">selected_area</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/eurobis_map_draw.html">eurobis_map_draw</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; POLYGON ((-9.099426 40.33016, -9.099426 40.9788, -8.366089 40.9788, -8.366089 40.33016, -9.099426 40.33016))</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_full</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">selected_area</span><span class="op">)</span></span></code></pre></div>
 <p>To help choosing the MRGID from Marine Regions, see the list of queriable regions with:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/eurobis_list_regions.html">eurobis_list_regions</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 303 × 3</span>
-<span class="co">#&gt;    id    nameEN                            placetype                           </span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;                             &lt;chr&gt;                               </span>
-<span class="co">#&gt;  1 21899 Adriatic Sea                      Marine Ecoregion of the World (MEOW)</span>
-<span class="co">#&gt;  2 3314  Adriatic Sea                      IHO Sea Area                        </span>
-<span class="co">#&gt;  3 3315  Aegean Sea                        IHO Sea Area                        </span>
-<span class="co">#&gt;  4 21900 Aegean Sea                        Marine Ecoregion of the World (MEOW)</span>
-<span class="co">#&gt;  5 5670  Albanian Exclusive Economic Zone  EEZ                                 </span>
-<span class="co">#&gt;  6 25614 Albanian part of the Adriatic Sea Marine Region                       </span>
-<span class="co">#&gt;  7 25622 Albanian part of the Ionian Sea   Marine Region                       </span>
-<span class="co">#&gt;  8 21897 Alboran Sea                       Marine Ecoregion of the World (MEOW)</span>
-<span class="co">#&gt;  9 3324  Alboran Sea                       IHO Sea Area                        </span>
-<span class="co">#&gt; 10 8378  Algerian Exclusive Economic Zone  EEZ                                 </span>
-<span class="co">#&gt; # … with 293 more rows</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/eurobis_list_regions.html">eurobis_list_regions</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 303 × 3</span></span>
+<span><span class="co">#&gt;    id    nameEN                            placetype                           </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;                             &lt;chr&gt;                               </span></span>
+<span><span class="co">#&gt;  1 21899 Adriatic Sea                      Marine Ecoregion of the World (MEOW)</span></span>
+<span><span class="co">#&gt;  2 3314  Adriatic Sea                      IHO Sea Area                        </span></span>
+<span><span class="co">#&gt;  3 3315  Aegean Sea                        IHO Sea Area                        </span></span>
+<span><span class="co">#&gt;  4 21900 Aegean Sea                        Marine Ecoregion of the World (MEOW)</span></span>
+<span><span class="co">#&gt;  5 5670  Albanian Exclusive Economic Zone  EEZ                                 </span></span>
+<span><span class="co">#&gt;  6 25614 Albanian part of the Adriatic Sea Marine Region                       </span></span>
+<span><span class="co">#&gt;  7 25622 Albanian part of the Ionian Sea   Marine Region                       </span></span>
+<span><span class="co">#&gt;  8 21897 Alboran Sea                       Marine Ecoregion of the World (MEOW)</span></span>
+<span><span class="co">#&gt;  9 3324  Alboran Sea                       IHO Sea Area                        </span></span>
+<span><span class="co">#&gt; 10 8378  Algerian Exclusive Economic Zone  EEZ                                 </span></span>
+<span><span class="co">#&gt; # … with 293 more rows</span></span></code></pre></div>
 <p>Or select the MRGIDs of you interest with the family of functions <code>eurobis_map_regions_*</code>: these will open a leaflet map including the layers, read via Web Map Services (WMS).</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># MEOW Ecoregions</span>
-<span class="fu"><a href="reference/eurobis_map_regions.html">eurobis_map_regions_ecoregions</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># Exclusive Economic Zones (EEZ)</span>
-<span class="fu"><a href="reference/eurobis_map_regions.html">eurobis_map_regions_eez</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># International Hydrographic Office areas (IHO)</span>
-<span class="fu"><a href="reference/eurobis_map_regions.html">eurobis_map_regions_iho</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># Marine Regions intersection of EEZ and IHO. Named as Marine Region in eurobis_list_regions()</span>
-<span class="fu"><a href="reference/eurobis_map_regions.html">eurobis_map_regions_eez_iho</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># EMODnet-Biology Reporting Areas</span>
-<span class="fu"><a href="reference/eurobis_map_regions.html">eurobis_map_regions_reportingareas</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># MEOW Ecoregions</span></span>
+<span><span class="fu"><a href="reference/eurobis_map_regions.html">eurobis_map_regions_ecoregions</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Exclusive Economic Zones (EEZ)</span></span>
+<span><span class="fu"><a href="reference/eurobis_map_regions.html">eurobis_map_regions_eez</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># International Hydrographic Office areas (IHO)</span></span>
+<span><span class="fu"><a href="reference/eurobis_map_regions.html">eurobis_map_regions_iho</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Marine Regions intersection of EEZ and IHO. Named as Marine Region in eurobis_list_regions()</span></span>
+<span><span class="fu"><a href="reference/eurobis_map_regions.html">eurobis_map_regions_eez_iho</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># EMODnet-Biology Reporting Areas</span></span>
+<span><span class="fu"><a href="reference/eurobis_map_regions.html">eurobis_map_regions_reportingareas</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>See the manual with:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="va">eurobis_map_regions</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="va">eurobis_map_regions</span><span class="op">)</span></span></code></pre></div>
 <p>Note that passing both an MRGID and a geometry does not restrict to the selected area within the MRGID record, but adds both data fetched from the selected data and the MRGID record.</p>
 </div>
 <div class="section level2">
@@ -277,6 +277,8 @@
 <ul class="list-unstyled">
 <li>Salvador Fernandez <br><small class="roles"> Maintainer, contributor </small>  </li>
 <li>Daphnis De Pooter <br><small class="roles"> Author </small>  </li>
+<li>
+<a href="https://lifewatch.be" class="external-link"><img src="https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png" width="72"></a> <br><small class="roles"> Funder </small>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -296,12 +298,12 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Salvador Fernandez, Daphnis De Pooter.</p>
+<p>Developed by Salvador Fernandez, Daphnis De Pooter, <a href="https://lifewatch.be" class="external-link"><img src="https://www.lifewatch.be/sites/lifewatch.be/themes/lifewatchportal/images/header_lw_logo.png" width="72"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
     </footer>
