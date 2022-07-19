@@ -1,7 +1,7 @@
 Package: eurobis
 Title: Download data from EurOBIS using the LifeWatch/EMODnet-Biology Web Feature Services
 Version: 0.0.0.9000
-Authors@R: c(person("Salvador", "Fernandez", email = "salvador.fernandez@vliz.be", role = c("cre", "ctb")),
+Authors@R: c(person("Salvador", "Fernandez", email = "salvador.fernandez@vliz.be", role = c("cre", "ctb", "aut")),
              person("Daphnis", "De Pooter", role = "aut"),
              person("Lennert", "Schepers", email = "lennert.schepers@vliz.be", role = "ctb"),
              person("Ruben", "Perez", email = "ruben.perez@vliz.be", role = "ctb"),
