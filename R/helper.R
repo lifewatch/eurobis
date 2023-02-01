@@ -47,7 +47,7 @@ eurobis_download_toolbox <- function(){
 #' You can read this easily in R, e.g:
 #' jsonlite::fromJSON("https://www.vliz.be/en/imis?module=dataset&dasid=216&show=json")
 #'
-#' @examples eurobis_list_datasets()
+#' @examples \dontrun{eurobis_list_datasets()}
 eurobis_list_datasets <- function(){
   eurobis_list("datasets")
 }
@@ -85,6 +85,8 @@ eurobis_list_regions <- function(){
 # and queriable marine regions
 # the traits are not really working atm
 eurobis_list <- function(type){
+  .Defunct("", msg = "Service not available.\nMore info: https://github.com/lifewatch/eurobis/issues/24")
+  
   # Sanity check
   checkmate::assertChoice(type, c("datasets", "regions", "traits"))
   
