@@ -19,7 +19,7 @@ options(verbose = FALSE)
 <!-- badges: start -->
 [![Funding](https://img.shields.io/static/v1?label=powered+by&message=lifewatch.be&labelColor=1a4e8a&color=f15922)](http://lifewatch.be)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![R-CMD-check](https://github.com/lifewatch/eurobis/workflows/R-CMD-check/badge.svg)](https://github.com/lifewatch/eurobis/actions)
+[![R-CMD-check](https://github.com/lifewatch/eurobis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/lifewatch/eurobis/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 
@@ -56,12 +56,6 @@ library(eurobis)
 # Get one single dataset
 dataset <- eurobis_occurrences_basic(dasid = 8045)
 dplyr::glimpse(dataset)
-```
-
-To see the list of datasets, use:
-
-```{r datasets}
-eurobis_list_datasets()
 ```
 
 For detailed information run:
@@ -103,13 +97,7 @@ selected_area <- eurobis_map_draw()
 eurobis_occurrences_full(geometry = selected_area)
 ```
 
-To help choosing the MRGID from Marine Regions, see the list of queriable regions with:
-
-```{r map1}
-eurobis_list_regions()
-```
-
-Or select the MRGIDs of you interest with the family of functions `eurobis_map_regions_*`: these will open a leaflet map including the layers, read via Web Map Services (WMS).
+To help choosing the MRGID from Marine Regions, see the list of queriable regions and their MRGIDs with the family of functions `eurobis_map_regions_*`: these will open a leaflet map including the layers, read via Web Map Services (WMS).
 
 ```{r map2, eval = FALSE}
 # MEOW Ecoregions
