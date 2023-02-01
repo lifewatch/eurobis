@@ -40,7 +40,7 @@ Suggests:
     dplyr
 Remotes: 
     eblondel/ows4R
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
 Config/testthat/edition: 3
 Depends: 
     R (>= 2.10)

@@ -207,7 +207,7 @@ eurobis_wfs_client_init <- function(logger = "INFO"){
   stopifnot(curl::has_internet())
   
   httr2::request(service) %>%
-    httr2::req_url_path_append("request=GetCapabilities") %>%
+    httr2::req_url_query(request = "GetCapabilities") %>%
     httr2::req_method("HEAD") %>%
     httr2::req_user_agent(string_user_agent) %>%
     httr2::req_perform() %>%
