@@ -96,16 +96,17 @@ test_that("viewParams are build correctly", {
 test_that("viewParams are correctly extracted from URL", {
   skip_if_offline()
   skip_on_cran()
+  skip_on_ci()
   
   url <- "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aeurobis-obisenv_basic&resultType=results&viewParams=where%3Adatasetid+IN+%288045%29%3Bcontext%3A0100&propertyName=datasetid%2Cdatecollected%2Cdecimallatitude%2Cdecimallongitude%2Ccoordinateuncertaintyinmeters%2Cscientificname%2Caphiaid%2Cscientificnameaccepted&outputFormat=csv"
   
   test <- eurobis_occurrences_basic(url = url, verbose = FALSE)
-  expect_true(methods::is(test, "sf"))
+  expect_s3_class(test, "sf")
   
   test <- eurobis_occurrences_full(url = url, verbose = FALSE)
-  expect_true(methods::is(test, "sf"))
+  expect_s3_class(test, "sf")
   
   test <- eurobis_occurrences_full_and_parameters(url = url, verbose = FALSE)
-  expect_true(methods::is(test, "sf"))
+  expect_s3_class(test, "sf")
   
 })
