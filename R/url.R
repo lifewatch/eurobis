@@ -24,8 +24,8 @@ eurobis_url <- list(
     reportingareas = "Emodnet:reportingareas" 
   ),
   info = list(
-    datatype = "https://www.emodnet-biology.eu/emodnet-data-format",
-    toolbox = "https://www.emodnet-biology.eu/toolbox",
-    toolbox_api_endpoint = "https://www.emodnet-biology.eu/toolbox/en/download/"
+    datatype = "https://emodnet.ec.europa.eu/en/biology#biology-data-and-products-format",
+    toolbox = "https://www.eurobis.org/toolbox",
+    toolbox_api_endpoint = "https://www.eurobis.org/toolbox/en/download/"
   )
 )

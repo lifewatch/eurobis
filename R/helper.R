@@ -27,6 +27,57 @@ eurobis_download_toolbox <- function(){
   }
 }
 
+string_user_agent <- glue::glue("eurobis {packageVersion('eurobis')}; {R.version.string[1]}; {R.version$platform[1]}")
+
+# Helper to get list of emodnet biology datasets
+# and queriable marine regions
+# the traits are not really working atm
+eurobis_list <- function(type){
+  
+  # Sanity check
+  checkmate::assertChoice(type, c("datasets", "regions", "traits"))
+  
+  # Config
+  url <- glue::glue("{eurobis_url$info$toolbox_api_endpoint}{type}")
+  
+  # Request
+  resp <- httr2::request(url) %>%
+    httr2::req_user_agent(string_user_agent) %>%
+    httr2::req_perform() %>%
+    httr2::resp_body_json()
+  
+  out <- resp$data
+  
+  if(is.list(out)){
+    out <- as.data.frame(do.call(rbind, resp$data))
+    
+    # Remove cols that are NULL
+    col_to_rm <- c()
+    for(i in 1:ncol(out)){
+      col_is_null <- all(as.logical(lapply(out[, i], is.null)))
+      if(col_is_null){
+        col_to_rm <- c(col_to_rm, i)
+      } 
+    }
+    out[, col_to_rm] <- NULL
+    
+    # Unlist and turn into df
+    for(i in 1:ncol(out)) out[, i] <- unlist(out[, i])
+    attr(out, "class") <- c("tbl_df", "tbl", "data.frame")
+    
+  }  
+  
+  out
+}
+
+
+
+.eurobis_list_datasets <- function(){
+  out <- eurobis_list("datasets")
+  out$`_id` <- NULL
+  out
+}
+
 #' List EurOBIS datasets
 #'
 #' @return a tibble with the dataset ID and the dataset title that can be queried with the 
@@ -47,11 +98,15 @@ eurobis_download_toolbox <- function(){
 #' You can read this easily in R, e.g:
 #' jsonlite::fromJSON("https://www.vliz.be/en/imis?module=dataset&dasid=216&show=json")
 #'
-#' @examples \dontrun{eurobis_list_datasets()}
-eurobis_list_datasets <- function(){
-  eurobis_list("datasets")
-}
+#' @examples \dontrun{eurobis_list_datasets()}devtool
+eurobis_list_datasets <- memoise::memoise(.eurobis_list_datasets)
 
+
+.eurobis_list_regions <- function(){
+  out <- eurobis_list("regions")
+  out$nameNL <- NULL
+  out
+}
 
 #' List Marine Regions 
 #'
@@ -67,49 +122,15 @@ eurobis_list_datasets <- function(){
 #' You can find more info about each marine region by searching in the Marine Regions website: 
 #' https://marineregions.org/gazetteer.php?p=search
 #' 
-#' Or you can use the mregion2 R package (on development): 
+#' Or you can use the mregion2 R package: 
 #' https://github.com/lifewatch/mregions2
 #' 
 #' E.g.:
-#' mregions2::mr_gaz_record(25600)
+#' library(mregions2)
+#' gaz_search(25600)
 #' 
 #' @examples \dontrun{eurobis_list_regions()}
-eurobis_list_regions <- function(){
-  out <- eurobis_list("regions")
-  out$nameNL <- NULL
-  out
-}
-
-
-# Helper to get list of emodnet biology datasets
-# and queriable marine regions
-# the traits are not really working atm
-eurobis_list <- function(type){
-  .Defunct("", msg = "Service not available.\nMore info: https://github.com/lifewatch/eurobis/issues/24")
-  
-  # Sanity check
-  checkmate::assertChoice(type, c("datasets", "regions", "traits"))
-  
-  # Config
-  url <- glue::glue("{eurobis_url$info$toolbox_api_endpoint}{type}")
-  
-  # Request
-  resp <- httr2::request(url) %>%
-    httr2::req_user_agent(string_user_agent) %>%
-    httr2::req_perform() %>%
-    httr2::resp_body_json()
-  
-  out <- resp$data
-
-  if(is.list(out)){
-    out <- as.data.frame(do.call(rbind, resp$data))
-    out <- apply(out, 2, unlist)
-  }  
-  
-  tibble::as_tibble(out)
-}
-
-string_user_agent <- glue::glue("eurobis {packageVersion('eurobis')}; {R.version.string[1]}; {R.version$platform[1]}")
+eurobis_list_regions <- memoise::memoise(.eurobis_list_regions)
 
 
 

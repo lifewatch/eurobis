@@ -33,11 +33,12 @@ Imports:
     cli,
     checkmate,
     httr2,
-    tibble
+    memoise
 Suggests:
     testthat (>= 3.0.0),
     mapview,
-    dplyr
+    dplyr,
+    tibble
 Remotes: 
     eblondel/ows4R
 RoxygenNote: 7.2.0
