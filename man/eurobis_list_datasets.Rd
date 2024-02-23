@@ -28,5 +28,5 @@ You can read this easily in R, e.g:
 jsonlite::fromJSON("https://www.vliz.be/en/imis?module=dataset&dasid=216&show=json")
 }
 \examples{
-\dontrun{eurobis_list_datasets()}
+\dontrun{eurobis_list_datasets()}devtool
 }

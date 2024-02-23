@@ -259,5 +259,7 @@ eurobis_sf_df_handler <- function(sf_df){
     
   sf::st_crs(sf_df) <- 4326
   
+  try({ attr(sf_df, "class") <- c("sf", "tbl_df", "tbl", "data.frame") })
+  
   return(sf_df)
 }

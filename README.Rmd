@@ -1,5 +1,6 @@
 ---
 output: github_document
+df_print: "tibble"
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -54,8 +55,7 @@ A basic example is:
 library(eurobis)
 
 # Get one single dataset
-dataset <- eurobis_occurrences_basic(dasid = 8045)
-dplyr::glimpse(dataset)
+eurobis_occurrences_basic(dasid = 8045)
 ```
 
 For detailed information run:
@@ -67,16 +67,15 @@ help(eurobis_occurrences)
 ## Query by traits
 Use the `functional_group` argument:
 
-```{r func_groups}
+```{r func_groups, eval = FALSE}
 # Get one single dataset
-dataset <- eurobis_occurrences_basic(dasid = 8045, functional_groups = "angiosperms")
-dplyr::glimpse(dataset)
+eurobis_occurrences_basic(dasid = 8045, functional_groups = "angiosperms")
 ```
 
 See the full list of queriable traits in the exported dataset `species_traits`:
 
 ```{r traits}
-tibble::as_tibble(species_traits)
+species_traits
 ```
 
 

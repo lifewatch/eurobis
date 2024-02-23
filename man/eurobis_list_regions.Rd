@@ -21,11 +21,12 @@ See https://marineregions.org/mrgid.php for further information.
 You can find more info about each marine region by searching in the Marine Regions website: 
 https://marineregions.org/gazetteer.php?p=search
 
-Or you can use the mregion2 R package (on development): 
+Or you can use the mregion2 R package: 
 https://github.com/lifewatch/mregions2
 
 E.g.:
-mregions2::mr_gaz_record(25600)
+library(mregions2)
+gaz_search(25600)
 }
 \examples{
 \dontrun{eurobis_list_regions()}
