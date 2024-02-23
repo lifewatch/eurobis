@@ -2,7 +2,7 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles: {}
-last_built: 2024-02-23T11:26Z
+last_built: 2024-02-23T12:45Z
 urls:
   reference: https://lifewatch.github.io/eurobis/reference
   article: https://lifewatch.github.io/eurobis/articles

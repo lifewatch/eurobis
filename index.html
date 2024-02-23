@@ -95,25 +95,35 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lifewatch/eurobis" class="external-link">eurobis</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Get one single dataset</span></span>
-<span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_basic</a></span><span class="op">(</span>dasid <span class="op">=</span> <span class="fl">8045</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_basic</a></span><span class="op">(</span>dasid <span class="op">=</span> <span class="fl">8045</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading ISO 19139 XML schemas...</span></span>
 <span><span class="co">#&gt; Loading ISO 19115 codelists...</span></span>
+<span><span class="co">#&gt; Loading IANA mime types...</span></span>
+<span><span class="co">#&gt; No encoding supplied: defaulting to UTF-8.</span></span>
 <span><span class="co">#&gt; ✔ Downloading layer: EMODnet EurOBIS Basic Occurrence Data</span></span>
 <span><span class="co">#&gt; ℹ The Basic Occurrence Data download provides you data for the following 8 essential terms: datasetid, datecollected, decimallongitude, decimallatitude, coordinateuncertaintyinmeters, scientificname, aphiaid, scientificnameaccepted. For more information, please consult: https://www.emodnet-biology.eu/emodnet-data-format.</span></span>
-<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 52</span></span>
-<span><span class="co">#&gt; Columns: 11</span></span>
-<span><span class="co">#&gt; $ gml_id                        &lt;chr&gt; "eurobis-obisenv_basic.fid-632d47d4_1860…</span></span>
-<span><span class="co">#&gt; $ id                            &lt;int&gt; 28840495, 28841810, 28837086, 28866685, …</span></span>
-<span><span class="co">#&gt; $ datasetid                     &lt;chr&gt; "http://www.emodnet-biology.eu/data-cata…</span></span>
-<span><span class="co">#&gt; $ datecollected                 &lt;dttm&gt; 2020-03-03 01:00:00, 2020-05-05 02:00:0…</span></span>
-<span><span class="co">#&gt; $ decimallongitude              &lt;dbl&gt; -8.73914, -8.73948, -8.73902, -8.73948, …</span></span>
-<span><span class="co">#&gt; $ decimallatitude               &lt;dbl&gt; 40.61804, 40.61899, 40.61773, 40.61899, …</span></span>
-<span><span class="co">#&gt; $ coordinateuncertaintyinmeters &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5…</span></span>
-<span><span class="co">#&gt; $ scientificname                &lt;chr&gt; "Zostera marina", "Zostera marina", "Zos…</span></span>
-<span><span class="co">#&gt; $ aphiaid                       &lt;chr&gt; "http://marinespecies.org/aphia.php?p=ta…</span></span>
-<span><span class="co">#&gt; $ scientificnameaccepted        &lt;chr&gt; "Zostera subg. Zostera marina", "Zostera…</span></span>
-<span><span class="co">#&gt; $ geometry                      &lt;POINT [°]&gt; POINT (-8.73914 40.61804), POINT (…</span></span></code></pre></div>
+<span><span class="co">#&gt; Simple feature collection with 52 features and 10 fields</span></span>
+<span><span class="co">#&gt; Geometry type: POINT</span></span>
+<span><span class="co">#&gt; Dimension:     XY</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -8.73964 ymin: 40.61773 xmax: -8.73902 ymax: 40.61899</span></span>
+<span><span class="co">#&gt; CRS:           EPSG:4326</span></span>
+<span><span class="co">#&gt; # A tibble: 52 × 11</span></span>
+<span><span class="co">#&gt;    gml_id         id datas…¹ datecollected       decim…² decim…³ coord…⁴ scien…⁵</span></span>
+<span><span class="co">#&gt;  * &lt;fct&gt;       &lt;int&gt; &lt;chr&gt;   &lt;dttm&gt;                &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  </span></span>
+<span><span class="co">#&gt;  1 eurobis-o… 3.68e7 https:… 2020-05-05 00:00:00   -8.74    40.6       5 Zoster…</span></span>
+<span><span class="co">#&gt;  2 eurobis-o… 3.68e7 https:… 2019-12-13 00:00:00   -8.74    40.6       5 Zoster…</span></span>
+<span><span class="co">#&gt;  3 eurobis-o… 3.68e7 https:… 2020-03-03 00:00:00   -8.74    40.6       5 Zoster…</span></span>
+<span><span class="co">#&gt;  4 eurobis-o… 3.68e7 https:… 2019-12-13 00:00:00   -8.74    40.6       5 Zoster…</span></span>
+<span><span class="co">#&gt;  5 eurobis-o… 3.68e7 https:… 2020-08-10 00:00:00   -8.74    40.6       5 Zoster…</span></span>
+<span><span class="co">#&gt;  6 eurobis-o… 3.68e7 https:… 2020-08-10 00:00:00   -8.74    40.6       5 Zoster…</span></span>
+<span><span class="co">#&gt;  7 eurobis-o… 3.68e7 https:… 2020-05-05 00:00:00   -8.74    40.6       5 Zoster…</span></span>
+<span><span class="co">#&gt;  8 eurobis-o… 3.68e7 https:… 2020-05-05 00:00:00   -8.74    40.6       5 Zoster…</span></span>
+<span><span class="co">#&gt;  9 eurobis-o… 3.68e7 https:… 2020-03-03 00:00:00   -8.74    40.6       5 Zoster…</span></span>
+<span><span class="co">#&gt; 10 eurobis-o… 3.68e7 https:… 2020-05-05 00:00:00   -8.74    40.6       5 Zoster…</span></span>
+<span><span class="co">#&gt; # … with 42 more rows, 3 more variables: aphiaid &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   scientificnameaccepted &lt;chr&gt;, geometry &lt;POINT [°]&gt;, and abbreviated</span></span>
+<span><span class="co">#&gt; #   variable names ¹​datasetid, ²​decimallongitude, ³​decimallatitude,</span></span>
+<span><span class="co">#&gt; #   ⁴​coordinateuncertaintyinmeters, ⁵​scientificname</span></span></code></pre></div>
 <p>For detailed information run:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="va">eurobis_occurrences</span><span class="op">)</span></span></code></pre></div>
@@ -124,42 +134,109 @@
 <p>Use the <code>functional_group</code> argument:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get one single dataset</span></span>
-<span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_basic</a></span><span class="op">(</span>dasid <span class="op">=</span> <span class="fl">8045</span>, functional_groups <span class="op">=</span> <span class="st">"angiosperms"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Downloading layer: EMODnet EurOBIS Basic Occurrence Data</span></span>
-<span><span class="co">#&gt; ℹ The Basic Occurrence Data download provides you data for the following 8 essential terms: datasetid, datecollected, decimallongitude, decimallatitude, coordinateuncertaintyinmeters, scientificname, aphiaid, scientificnameaccepted. For more information, please consult: https://www.emodnet-biology.eu/emodnet-data-format.</span></span>
-<span><span class="co">#&gt; Warning in eurobis_occurrences(type = "basic", ...): There are 0 occurrences in</span></span>
-<span><span class="co">#&gt; EurOBIS for this query at the moment</span></span>
-<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 0</span></span>
-<span><span class="co">#&gt; Columns: 11</span></span>
-<span><span class="co">#&gt; $ gml_id                        &lt;chr&gt; </span></span>
-<span><span class="co">#&gt; $ id                            &lt;int&gt; </span></span>
-<span><span class="co">#&gt; $ datasetid                     &lt;chr&gt; </span></span>
-<span><span class="co">#&gt; $ datecollected                 &lt;dttm&gt; </span></span>
-<span><span class="co">#&gt; $ decimallongitude              &lt;dbl&gt; </span></span>
-<span><span class="co">#&gt; $ decimallatitude               &lt;dbl&gt; </span></span>
-<span><span class="co">#&gt; $ coordinateuncertaintyinmeters &lt;dbl&gt; </span></span>
-<span><span class="co">#&gt; $ scientificname                &lt;chr&gt; </span></span>
-<span><span class="co">#&gt; $ aphiaid                       &lt;chr&gt; </span></span>
-<span><span class="co">#&gt; $ scientificnameaccepted        &lt;chr&gt; </span></span>
-<span><span class="co">#&gt; $ geometry                      &lt;GEOMETRY [°]&gt;</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/eurobis_occurrences.html">eurobis_occurrences_basic</a></span><span class="op">(</span>dasid <span class="op">=</span> <span class="fl">8045</span>, functional_groups <span class="op">=</span> <span class="st">"angiosperms"</span><span class="op">)</span></span></code></pre></div>
 <p>See the full list of queriable traits in the exported dataset <code>species_traits</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">species_traits</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 32 × 4</span></span>
-<span><span class="co">#&gt;    category                      group            selection     selectid     </span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;                         &lt;chr&gt;            &lt;chr&gt;         &lt;chr&gt;        </span></span>
-<span><span class="co">#&gt;  1 Species group                 Functional group algae         Algae        </span></span>
-<span><span class="co">#&gt;  2 Species group                 Functional group angiosperms   Angiosperms  </span></span>
-<span><span class="co">#&gt;  3 Species group                 Functional group benthos       Benthos      </span></span>
-<span><span class="co">#&gt;  4 Species group                 Functional group birds         Birds        </span></span>
-<span><span class="co">#&gt;  5 Species group                 Functional group mammals       Mammals      </span></span>
-<span><span class="co">#&gt;  6 Species group                 Functional group phytoplankton phytoplankton</span></span>
-<span><span class="co">#&gt;  7 Species group                 Functional group pisces        pisces       </span></span>
-<span><span class="co">#&gt;  8 Species group                 Functional group reptiles      Reptiles     </span></span>
-<span><span class="co">#&gt;  9 Species group                 Functional group zooplankton   zooplankton  </span></span>
-<span><span class="co">#&gt; 10 Species importance to society CITES Annex      I             28_280_0     </span></span>
-<span><span class="co">#&gt; # … with 22 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">species_traits</span></span>
+<span><span class="co">#&gt;                         category                    group</span></span>
+<span><span class="co">#&gt; 1                  Species group         Functional group</span></span>
+<span><span class="co">#&gt; 2                  Species group         Functional group</span></span>
+<span><span class="co">#&gt; 3                  Species group         Functional group</span></span>
+<span><span class="co">#&gt; 4                  Species group         Functional group</span></span>
+<span><span class="co">#&gt; 5                  Species group         Functional group</span></span>
+<span><span class="co">#&gt; 6                  Species group         Functional group</span></span>
+<span><span class="co">#&gt; 7                  Species group         Functional group</span></span>
+<span><span class="co">#&gt; 8                  Species group         Functional group</span></span>
+<span><span class="co">#&gt; 9                  Species group         Functional group</span></span>
+<span><span class="co">#&gt; 10 Species importance to society              CITES Annex</span></span>
+<span><span class="co">#&gt; 11 Species importance to society              CITES Annex</span></span>
+<span><span class="co">#&gt; 12 Species importance to society              CITES Annex</span></span>
+<span><span class="co">#&gt; 13 Species importance to society Habitats Directive Annex</span></span>
+<span><span class="co">#&gt; 14 Species importance to society Habitats Directive Annex</span></span>
+<span><span class="co">#&gt; 15 Species importance to society   IUCN Red List Category</span></span>
+<span><span class="co">#&gt; 16 Species importance to society   IUCN Red List Category</span></span>
+<span><span class="co">#&gt; 17 Species importance to society   IUCN Red List Category</span></span>
+<span><span class="co">#&gt; 18 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 19 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 20 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 21 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 22 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 23 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 24 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 25 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 26 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 27 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 28 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 29 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 30 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 31 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt; 32 Species importance to society          MSFD indicators</span></span>
+<span><span class="co">#&gt;                                                             selection</span></span>
+<span><span class="co">#&gt; 1                                                               algae</span></span>
+<span><span class="co">#&gt; 2                                                         angiosperms</span></span>
+<span><span class="co">#&gt; 3                                                             benthos</span></span>
+<span><span class="co">#&gt; 4                                                               birds</span></span>
+<span><span class="co">#&gt; 5                                                             mammals</span></span>
+<span><span class="co">#&gt; 6                                                       phytoplankton</span></span>
+<span><span class="co">#&gt; 7                                                              pisces</span></span>
+<span><span class="co">#&gt; 8                                                            reptiles</span></span>
+<span><span class="co">#&gt; 9                                                         zooplankton</span></span>
+<span><span class="co">#&gt; 10                                                                  I</span></span>
+<span><span class="co">#&gt; 11                                                                 II</span></span>
+<span><span class="co">#&gt; 12                                                                III</span></span>
+<span><span class="co">#&gt; 13                                                                 II</span></span>
+<span><span class="co">#&gt; 14                                                                 IV</span></span>
+<span><span class="co">#&gt; 15                                                     data deficient</span></span>
+<span><span class="co">#&gt; 16                                                      least concern</span></span>
+<span><span class="co">#&gt; 17                                                    near threatened</span></span>
+<span><span class="co">#&gt; 18                                      Black Sea proposed indicators</span></span>
+<span><span class="co">#&gt; 19                                HELCOM core biodiversity indicators</span></span>
+<span><span class="co">#&gt; 20                   Mediterranean proposed indicators - Adriatic Sea</span></span>
+<span><span class="co">#&gt; 21           Mediterranean proposed indicators - Aegean-Levantine Sea</span></span>
+<span><span class="co">#&gt; 22                     Mediterranean proposed indicators - Ionian Sea</span></span>
+<span><span class="co">#&gt; 23              Mediterranean proposed indicators - Mediterranean Sea</span></span>
+<span><span class="co">#&gt; 24          Mediterranean proposed indicators - Western Mediterranean</span></span>
+<span><span class="co">#&gt; 25    OSPAR candidate indicators: Bay of Biscay and the Iberian Coast</span></span>
+<span><span class="co">#&gt; 26                            OSPAR candidate indicators: Celtic Seas</span></span>
+<span><span class="co">#&gt; 27 OSPAR candidate indicators: Greater North Sea including outside EU</span></span>
+<span><span class="co">#&gt; 28                              OSPAR candidate indicators: North Sea</span></span>
+<span><span class="co">#&gt; 29           OSPAR common indicators: Bay of Biscay and Iberian Coast</span></span>
+<span><span class="co">#&gt; 30                               OSPAR common indicators: Celtic Seas</span></span>
+<span><span class="co">#&gt; 31                         OSPAR common indicators: Greater North Sea</span></span>
+<span><span class="co">#&gt; 32    OSPAR common indicators: Greater North Sea including outside EU</span></span>
+<span><span class="co">#&gt;         selectid</span></span>
+<span><span class="co">#&gt; 1          Algae</span></span>
+<span><span class="co">#&gt; 2    Angiosperms</span></span>
+<span><span class="co">#&gt; 3        Benthos</span></span>
+<span><span class="co">#&gt; 4          Birds</span></span>
+<span><span class="co">#&gt; 5        Mammals</span></span>
+<span><span class="co">#&gt; 6  phytoplankton</span></span>
+<span><span class="co">#&gt; 7         pisces</span></span>
+<span><span class="co">#&gt; 8       Reptiles</span></span>
+<span><span class="co">#&gt; 9    zooplankton</span></span>
+<span><span class="co">#&gt; 10      28_280_0</span></span>
+<span><span class="co">#&gt; 11      28_281_0</span></span>
+<span><span class="co">#&gt; 12      28_282_0</span></span>
+<span><span class="co">#&gt; 13      26_269_0</span></span>
+<span><span class="co">#&gt; 14      26_271_0</span></span>
+<span><span class="co">#&gt; 15         1_8_3</span></span>
+<span><span class="co">#&gt; 16         1_7_3</span></span>
+<span><span class="co">#&gt; 17         1_6_3</span></span>
+<span><span class="co">#&gt; 18     23_285_41</span></span>
+<span><span class="co">#&gt; 19     23_285_29</span></span>
+<span><span class="co">#&gt; 20     23_285_31</span></span>
+<span><span class="co">#&gt; 21     23_285_32</span></span>
+<span><span class="co">#&gt; 22     23_285_33</span></span>
+<span><span class="co">#&gt; 23     23_285_34</span></span>
+<span><span class="co">#&gt; 24     23_285_30</span></span>
+<span><span class="co">#&gt; 25     23_285_35</span></span>
+<span><span class="co">#&gt; 26     23_285_36</span></span>
+<span><span class="co">#&gt; 27     23_285_37</span></span>
+<span><span class="co">#&gt; 28     23_285_38</span></span>
+<span><span class="co">#&gt; 29     23_285_44</span></span>
+<span><span class="co">#&gt; 30     23_285_45</span></span>
+<span><span class="co">#&gt; 31     23_285_46</span></span>
+<span><span class="co">#&gt; 32     23_285_40</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="query-by-location">Query by location<a class="anchor" aria-label="anchor" href="#query-by-location"></a>
