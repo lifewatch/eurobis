@@ -1,48 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/404.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/index.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/reference/eurobis_download_toolbox.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/reference/eurobis_list_datasets.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/reference/eurobis_list_regions.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/reference/eurobis_map_draw.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/reference/eurobis_map_regions.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/reference/eurobis_name2id.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/reference/eurobis_occurrences.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/reference/eurobis_type_handler.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://lifewatch.github.io/eurobis/reference/species_traits.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://lifewatch.github.io/eurobis/404.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/LICENSE-text.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/authors.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/index.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/reference/eurobis_download_toolbox.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/reference/eurobis_list_datasets.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/reference/eurobis_list_regions.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/reference/eurobis_map_draw.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/reference/eurobis_map_regions.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/reference/eurobis_name2id.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/reference/eurobis_occurrences.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/reference/eurobis_type_handler.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/reference/index.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/reference/pipe.html</loc></url>
+<url><loc>https://lifewatch.github.io/eurobis/reference/species_traits.html</loc></url>
 </urlset>
+
