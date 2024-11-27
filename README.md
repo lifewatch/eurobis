@@ -39,8 +39,8 @@ You can query on:
     Directive](https://ec.europa.eu/environment/nature/conservation/species/habitats_dir_en.htm)
     and [CITES](https://cites.org/eng/app/index.php) Annexes.
 
-Or create your own selection using the [EMODnet Biology
-toolbox](http://www.emodnet-biology.eu/toolbox). Just copy the
+Or create your own selection using the [EurOBIS
+toolbox](https://www.eurobis.org/toolbox/en/download/occurrence/explore). Just copy the
 webservice URL and paste in R.
 
 ## Installation
